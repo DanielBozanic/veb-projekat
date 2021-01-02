@@ -1,5 +1,81 @@
 package beans;
 
-public class Manifestacija {
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
+public class Manifestacija {
+	private String naziv;
+	private TipManifestacije tipManifestacije;
+	private int brojMesta;
+	private LocalDateTime datumIVremeOdrzavanja;
+	private BigDecimal cenaRegularKarte;
+	private boolean aktivan;
+	private Lokacija lokacija;
+	private String posterManifestacije;
+	
+	public Manifestacija() {}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public TipManifestacije getTipManifestacije() {
+		return tipManifestacije;
+	}
+
+	public void setTipManifestacije(TipManifestacije tipManifestacije) {
+		this.tipManifestacije = tipManifestacije;
+	}
+
+	public int getBrojMesta() {
+		return brojMesta;
+	}
+
+	public void setBrojMesta(int brojMesta) {
+		this.brojMesta = brojMesta;
+	}
+
+	public LocalDateTime getDatumIVremeOdrzavanja() {
+		return datumIVremeOdrzavanja;
+	}
+
+	public void setDatumIVremeOdrzavanja(LocalDateTime datumIVremeOdrzavanja) {
+		this.datumIVremeOdrzavanja = datumIVremeOdrzavanja;
+	}
+
+	public BigDecimal getCenaRegularKarte() {
+		return cenaRegularKarte;
+	}
+
+	public void setCenaRegularKarte(BigDecimal cenaRegularKarte) {
+		this.cenaRegularKarte = cenaRegularKarte;
+	}
+
+	public Lokacija getLokacija() {
+		return lokacija;
+	}
+
+	public void setLokacija(Lokacija lokacija) {
+		this.lokacija = lokacija;
+	}
+
+	public String getPosterManifestacije() {
+		return posterManifestacije;
+	}
+
+	public void setPosterManifestacije(String posterManifestacije) {
+		this.posterManifestacije = posterManifestacije;
+	}	
+	
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
+	}
 }

@@ -3,20 +3,40 @@ package beans;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import utils.CustomPolEnumDeserializer;
+import utils.CustomPolEnumSerializer;
+import utils.CustomUlogaEnumDeserializer;
+import utils.CustomUlogaEnumSerializer;
+import utils.LocalDateDeserializer;
+
 public class Korisnik {
 	private String korisnickoIme;
 	private String lozinka;
 	private String ime;
 	private String prezime;
+	@JsonSerialize(using=CustomPolEnumSerializer.class)
+	@JsonDeserialize(using=CustomPolEnumDeserializer.class)
 	private Pol pol;
+	@JsonDeserialize(using=LocalDateDeserializer.class)
 	private LocalDate datumRodjenja;
+	@JsonSerialize(using=CustomUlogaEnumSerializer.class)
+	@JsonDeserialize(using=CustomUlogaEnumDeserializer.class)
 	private Uloga uloga;
 	private ArrayList<Karta> sveKarte;
 	private ArrayList<Manifestacija> manifestacije;
 	private double brojSakupljenihBodova;
-	private TipKupaca tipKupaca;
+	private TipKupca tipKupca;
 	
-	public Korisnik() {}
+	public Korisnik() {
+		uloga = Uloga.KUPAC;
+		brojSakupljenihBodova = 0.0;
+		sveKarte = new ArrayList<Karta>();
+		manifestacije = new ArrayList<Manifestacija>();
+		tipKupca = null;
+	}
 	
 	
 	public String getKorisnickoIme() {
@@ -99,11 +119,11 @@ public class Korisnik {
 		this.brojSakupljenihBodova = brojSakupljenihBodova;
 	}
 	
-	public TipKupaca getTipKupaca() {
-		return tipKupaca;
+	public TipKupca getTipKupca() {
+		return tipKupca;
 	}
 	
-	public void setTipKupaca(TipKupaca tipKupaca) {
-		this.tipKupaca = tipKupaca;
+	public void setTipKupaca(TipKupca tipKupca) {
+		this.tipKupca = tipKupca;
 	}
 }
