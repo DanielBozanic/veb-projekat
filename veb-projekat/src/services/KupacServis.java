@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import DAO.KupacDAO;
 import beans.Korisnik;
+import utils.PomocneFunkcije;
 
 @Path("/kupci")
 public class KupacServis {
@@ -27,8 +28,9 @@ public class KupacServis {
 	}
 	
 	@PostConstruct
-	public void init() throws JsonParseException, JsonMappingException, IOException {
+	public void init() throws JsonParseException, JsonMappingException, IOException, ClassNotFoundException {
 		if(ctx.getAttribute("kupacDAO") == null) {
+			PomocneFunkcije.kreirajBaseFolder();
 			ctx.setAttribute("kupacDAO", new KupacDAO());
 		}
 	}
@@ -38,6 +40,7 @@ public class KupacServis {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean registrujKupca(Korisnik korisnik) throws IOException {
+		Korisnik.InitKupac(korisnik);
 		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
 		return dao.registrujKupca(korisnik);
 	}

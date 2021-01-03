@@ -4,16 +4,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import beans.Korisnik;
+import utils.Konstante;
+import utils.PomocneFunkcije;
 
 public class KupacDAO {
 	
 	private ArrayList<Korisnik> kupci = new ArrayList<Korisnik>();
 	
-	public KupacDAO() {}
+	public KupacDAO()  {
+		kupci = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KUPCI),
+                new TypeReference<ArrayList<Korisnik>>() {});
+		if (kupci == null) {
+			kupci = new ArrayList<Korisnik>();
+		}
+	}
 	
 	public boolean registrujKupca(Korisnik kupac) throws IOException {
 		boolean valid = true;
@@ -26,14 +33,8 @@ public class KupacDAO {
 		
 		if (valid) {
 			kupci.add(kupac);
-			upisiUJSONFajl();
+			PomocneFunkcije.upisi(kupci, Konstante.FAJL_KUPCI);
 		}
 		return valid;
-	}
-	
-	private void upisiUJSONFajl() throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		mapper.writeValue(new File(System.getProperty("user.home") + "/podaciWeb/kupci.json"), kupci);
 	}
 }

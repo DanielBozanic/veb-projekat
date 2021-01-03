@@ -11,6 +11,7 @@ import utils.CustomPolEnumSerializer;
 import utils.CustomUlogaEnumDeserializer;
 import utils.CustomUlogaEnumSerializer;
 import utils.LocalDateDeserializer;
+import utils.LocalDateSerializer;
 
 public class Korisnik {
 	private String korisnickoIme;
@@ -20,6 +21,7 @@ public class Korisnik {
 	@JsonSerialize(using=CustomPolEnumSerializer.class)
 	@JsonDeserialize(using=CustomPolEnumDeserializer.class)
 	private Pol pol;
+	@JsonSerialize(using=LocalDateSerializer.class)
 	@JsonDeserialize(using=LocalDateDeserializer.class)
 	private LocalDate datumRodjenja;
 	@JsonSerialize(using=CustomUlogaEnumSerializer.class)
@@ -31,13 +33,19 @@ public class Korisnik {
 	private TipKupca tipKupca;
 	
 	public Korisnik() {
-		uloga = Uloga.KUPAC;
-		brojSakupljenihBodova = 0.0;
-		sveKarte = new ArrayList<Karta>();
-		manifestacije = new ArrayList<Manifestacija>();
-		tipKupca = null;
+		
 	}
 	
+	public static void InitKupac(Korisnik kupac)	{
+		kupac.uloga = Uloga.KUPAC;
+		kupac.brojSakupljenihBodova = 0.0;
+		kupac.sveKarte = new ArrayList<Karta>();
+		kupac.manifestacije = new ArrayList<Manifestacija>();
+		kupac.tipKupca = new TipKupca();
+		kupac.tipKupca.setImeTipa(ImeTipa.BRONZANI);
+		kupac.tipKupca.setPopust(0.0);
+		kupac.tipKupca.setTrazeniBrojBodova(0.0);
+	}
 	
 	public String getKorisnickoIme() {
 		return korisnickoIme;

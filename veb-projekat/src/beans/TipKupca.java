@@ -1,6 +1,14 @@
 package beans;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import utils.CustomImeTipaEnumDeserializer;
+import utils.CustomImeTipaEnumSerializer;
+
 public class TipKupca {
+	@JsonSerialize(using=CustomImeTipaEnumSerializer.class)
+	@JsonDeserialize(using=CustomImeTipaEnumDeserializer.class)
 	private ImeTipa imeTipa;
 	private double popust;
 	private double trazeniBrojBodova;
