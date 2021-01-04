@@ -7,7 +7,6 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -37,12 +36,10 @@ public class KupacServis {
 	
 	@POST
 	@Path("/registrujKupca")
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean registrujKupca(Korisnik korisnik) throws IOException {
 		Korisnik.InitKupac(korisnik);
 		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
 		return dao.registrujKupca(korisnik);
 	}
-
 }

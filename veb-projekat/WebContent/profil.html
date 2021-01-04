@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Profil</title>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/profil.js"></script>
+	<style type="text/css">
+				label {
+	 			   display: inline-block;
+	  			   width: 200px;
+	  			   text-align: left;
+				}
+    </style>
+</head>
+<body>
+	<form>
+		<div>
+			<h1>Profil</h1>
+			
+			<label>Korisnicko ime:</label>
+			<input type = "text" name = "korisnickoIme" readonly/> <br>
+			
+			<label>Lozinka:</label>
+			<input type = "password" name = "lozinka"/> <br>
+					
+			<label>Ime:</label>
+			<input type = "text" name = "ime"/> <br>
+			
+			<label>Prezime:</label>
+			<input type = "text" name = "prezime"/> <br>
+			
+			<label>Pol:</label>
+			<select name = "pol">
+				<option value = "muski" selected="selected">muski</option>
+				<option value = "zenski">zenski</option>
+			</select> <br>
+			
+			<label>Datum rodjenja:</label>
+			<input type = "date" name = "datumRodjenja"/> <br>
+			
+			<label>Izmeni:</label>
+			<input id = "btnIzmeni" type = "button" value="Izmeni"></input><br>
+			
+		</div>
+	</form>
+</body>
+</html>
