@@ -3,10 +3,22 @@ package beans;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import utils.CustomTipManifestacijeEnumDeserializer;
+import utils.CustomTipManifestacijeEnumSerializer;
+import utils.LocalDateTimeDeserializer;
+import utils.LocalDateTimeSerializer;
+
 public class Manifestacija {
 	private String naziv;
+	@JsonSerialize(using=CustomTipManifestacijeEnumSerializer.class)
+	@JsonDeserialize(using=CustomTipManifestacijeEnumDeserializer.class)
 	private TipManifestacije tipManifestacije;
 	private int brojMesta;
+	@JsonSerialize(using=LocalDateTimeSerializer.class)
+	@JsonDeserialize(using=LocalDateTimeDeserializer.class)
 	private LocalDateTime datumIVremeOdrzavanja;
 	private BigDecimal cenaRegularKarte;
 	private boolean aktivan;
@@ -14,6 +26,10 @@ public class Manifestacija {
 	private String posterManifestacije;
 	
 	public Manifestacija() {}
+	
+	public static void InitManifestacija(Manifestacija manifestacija)	{
+		manifestacija.aktivan = false;
+	}
 
 	public String getNaziv() {
 		return naziv;

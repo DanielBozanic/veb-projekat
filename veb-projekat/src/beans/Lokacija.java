@@ -2,7 +2,7 @@ package beans;
 
 public class Lokacija {
 	private double geografskaDuzina;
-	private double goegrafskaSirina;
+	private double geografskaSirina;
 	private String ulicaIBroj;
 	private String mesto;
 	private String postanskiBroj;
@@ -17,12 +17,12 @@ public class Lokacija {
 		this.geografskaDuzina = geografskaDuzina;
 	}
 
-	public double getGoegrafskaSirina() {
-		return goegrafskaSirina;
+	public double getGeografskaSirina() {
+		return geografskaSirina;
 	}
 
-	public void setGoegrafskaSirina(double goegrafskaSirina) {
-		this.goegrafskaSirina = goegrafskaSirina;
+	public void setGeografskaSirina(double geografskaSirina) {
+		this.geografskaSirina = geografskaSirina;
 	}
 
 	public String getUlicaIBroj() {

@@ -2,6 +2,7 @@ package utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,9 +17,10 @@ public class PomocneFunkcije {
 		mapper.writeValue(new File(putanja), lista);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T>T ucitaj(File fajl, TypeReference<T> typeRef) {
     	ObjectMapper mapper = new ObjectMapper();
-        T t = null;
+        T t = (T) new ArrayList<T>();
         if (!fajl.exists())
         	return t;
         try {

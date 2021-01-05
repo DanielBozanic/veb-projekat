@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('#btnRegistruj').on("click", function() {
+    $('#btnDodaj').on("click", function() {
     	var korisnickoIme = $('input[name="korisnickoIme"]').val();
 		var lozinka = $('input[name="lozinka"]').val();
 		var lozinka2 = $('input[name="lozinka2"]').val();
@@ -8,6 +8,7 @@ $(document).ready(function() {
     	var prezime = $('input[name="prezime"]').val();
 		var pol = $('select[name="pol"]').val();
     	var datumRodjenja = $('input[name="datumRodjenja"]').val();
+
         if (validacija()) {
         	let data = {
             "korisnickoIme": korisnickoIme,
@@ -19,16 +20,15 @@ $(document).ready(function() {
             };
     
 	        $.post({
-	            url: 'rest/kupci/registrujKupca',
+	            url: 'rest/prodavci/dodajProdavca',
 	            data: JSON.stringify(data),
 	            contentType: 'application/json',
 	            success: function(valid) {
 	            	if (valid === "true") {
-	            		alert("Registracija je uspesna.");
-	            		window.location.href = "login.html";
+	            		alert("Prodavac je uspesno dodat.");
 	            	}
 	            	else {
-	            		alert("Ovo korisnicko ime nije dostupno!");
+	            		alert("Prodavac sa ovim korisnickim imenom vec postoji!");
 	            	}
 	            }
 	        });

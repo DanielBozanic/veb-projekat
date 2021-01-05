@@ -3,8 +3,48 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Dodavanje novog prodavca</title>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/dodavanjeNovogProdavca.js"></script>
+	<style type="text/css">
+				label {
+	 			   display: inline-block;
+	  			   width: 200px;
+	  			   text-align: left;
+				}
+    </style>
 </head>
 <body>
-	<h1>Dodavanje novog prodavca</h1>
+	<form>
+		<div>
+			<h1>Dodavanje novog prodavca</h1>
+			
+			<label>Korisnicko ime:</label>
+			<input type = "text" name = "korisnickoIme"/> <br>
+			
+			<label>Lozinka:</label>
+			<input type = "password" name = "lozinka"/> <br>
+			
+			<label>Unesite ponovo lozinku:</label>
+			<input type = "password" name = "lozinka2"/> <br>
+			
+			<label>Ime:</label>
+			<input type = "text" name = "ime"/> <br>
+			
+			<label>Prezime:</label>
+			<input type = "text" name = "prezime"/> <br>
+			
+			<label>Pol:</label>
+			<select name = "pol">
+				<option value = "muski" selected="selected">muski</option>
+				<option value = "zenski">zenski</option>
+			</select> <br>
+			
+			<label>Datum rodjenja:</label>
+			<input type = "date" name = "datumRodjenja"/> <br>
+			
+			<label>Dodaj:</label>
+			<input id = "btnDodaj" type = "button" value="Dodaj"></input>	
+		</div>
+	</form>
 </body>
 </html>

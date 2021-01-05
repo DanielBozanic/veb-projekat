@@ -47,6 +47,14 @@ public class Korisnik {
 		kupac.tipKupca.setTrazeniBrojBodova(0.0);
 	}
 	
+	public static void InitProdavac(Korisnik prodavac)	{
+		prodavac.uloga = Uloga.PRODAVAC;
+		prodavac.brojSakupljenihBodova = 0.0;
+		prodavac.sveKarte = new ArrayList<Karta>();
+		prodavac.manifestacije = new ArrayList<Manifestacija>();
+		prodavac.tipKupca = null;
+	}
+	
 	public String getKorisnickoIme() {
 		return korisnickoIme;
 	}

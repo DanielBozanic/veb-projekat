@@ -10,25 +10,26 @@ import beans.Korisnik;
 import utils.Konstante;
 import utils.PomocneFunkcije;
 
-public class KupacDAO {
+public class ProdavacDAO {
 	
-	public KupacDAO()  {
+	
+	public ProdavacDAO()  {
 		
 	}
 	
-	public boolean registrujKupca(Korisnik kupac) throws IOException {
+	public boolean dodajProdavca(Korisnik prodavac) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije
 				.ucitaj(new File(Konstante.FAJL_KORISNICI), new TypeReference<ArrayList<Korisnik>>(){});
 		boolean valid = true;
 		for (Korisnik k : korisnici) {
-    		if (k.getKorisnickoIme().equals(kupac.getKorisnickoIme())) {
+    		if (k.getKorisnickoIme().equals(prodavac.getKorisnickoIme())) {
     			valid = false;
     			break;
     		}
     	}
 		
 		if (valid) {
-			korisnici.add(kupac);
+			korisnici.add(prodavac);
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
 		return valid;

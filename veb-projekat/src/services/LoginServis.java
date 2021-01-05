@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 import DAO.LoginDAO;
 import beans.Korisnik;
+import utils.PomocneFunkcije;
 
 @Path("/loginServis")
 public class LoginServis {
@@ -28,9 +29,10 @@ public class LoginServis {
 		
 	}
 	
-	@PostConstruct
+	@PostConstruct 
 	public void init() {
 		if (ctx.getAttribute("loginDAO") == null) {
+			PomocneFunkcije.kreirajBaseFolder();
 			ctx.setAttribute("loginDAO", new LoginDAO());
 		}
 	}
@@ -40,6 +42,7 @@ public class LoginServis {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(Korisnik korisnik, @Context HttpServletRequest request) {
+		ctx.setAttribute("loginDAO", new LoginDAO());
 		LoginDAO loginDAO = (LoginDAO) ctx.getAttribute("loginDAO");
 		Korisnik ulogovaniKorisnik = loginDAO.pronadjiKorisnika(korisnik.getKorisnickoIme(), korisnik.getLozinka());
 		if (ulogovaniKorisnik == null) {
@@ -67,8 +70,18 @@ public class LoginServis {
 	@Path("/trenutniKorisnik")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Korisnik getTrenutniKorisnik(@Context HttpServletRequest request) {
-		return (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+	public Korisnik getPodaciTrenutniKorisnik(@Context HttpServletRequest request) {
+		Korisnik korisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		LoginDAO loginDAO = (LoginDAO) ctx.getAttribute("loginDAO");
+		return loginDAO.getPodaciTrenutniKorisnik(korisnik.getKorisnickoIme());
+	}
+	
+	@GET
+	@Path("/getKorisnici")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> getKorisnici() {
+		LoginDAO loginDAO = (LoginDAO) ctx.getAttribute("loginDAO");
+		return loginDAO.getKorisnici();
 	}
 	
 	@GET

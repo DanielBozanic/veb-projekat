@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Dodavanje manifestacije</title>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/dodajManifestacije.js"></script>
+	<style type="text/css">
+				label {
+	 			   display: inline-block;
+	  			   width: 200px;
+	  			   text-align: left;
+				}
+    </style>
+</head>
+<body>
+	<form>
+		<div>
+			<h1>Dodavanje manifestacije</h1>
+			
+			<label>Naziv:</label>
+			<input type = "text" name = "naziv"/> <br>
+			
+			<label>Tip manifestacije:</label>
+			<select name = "tipManifestacije">
+				<option value = "koncert" selected="selected">koncert</option>
+				<option value = "festival">festival</option>
+				<option value = "pozoriste">pozoriste</option>
+				<option value = "ostalo">ostalo</option>
+			</select> <br>
+			
+			<label>Broj mesta:</label>
+			<input type = "number" name = "brojMesta" min="0"/> <br>
+			
+			<label>Datum i vreme odrzavanja:</label>
+			<input type = "datetime-local" name = "datumIVremeOdrzavanja"/> <br>
+			
+			<label>Cena regular karte:</label>
+			<input type = "number" name = "cenaRegularKarte" min = "0" step="0.01"/> <br>
+			
+			<label>Geografska duzina:</label>
+			<input type = "number" name = "geografskaDuzina" min = "0" step="0.01"/> <br>
+			
+			<label>Geografska sirina:</label>
+			<input type = "number" name = "geografskaSirina" min = "0" step="0.01"/> <br>
+			
+			<label>Ulica i broj:</label>
+			<input type = "text" name="ulicaIBroj"></input><br>
+			
+			<label>Mesto:</label>
+			<input type = "text" name="mesto"></input><br>
+			
+			<label>Postanski broj:</label>
+			<input type = "text" name="postanskiBroj"></input><br>
+			
+			<label>Dodaj:</label>
+			<input id = "btnDodaj" type = "button" value="Dodaj"></input>
+		</div>
+	</form>
+</body>
+</html>
