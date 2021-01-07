@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 
@@ -74,6 +75,15 @@ public class LoginServis {
 		Korisnik korisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		LoginDAO loginDAO = (LoginDAO) ctx.getAttribute("loginDAO");
 		return loginDAO.getPodaciTrenutniKorisnik(korisnik.getKorisnickoIme());
+	}
+	
+	@POST
+	@Path("/izmenaPodatakaTrenutnogKorisnika")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Korisnik getPodaciTrenutniKorisnik(Korisnik korisnik) throws IOException {
+		LoginDAO loginDAO = (LoginDAO) ctx.getAttribute("loginDAO");
+		return loginDAO.izmenaPodatakaTrenutnogKorisnika(korisnik);
 	}
 	
 	@GET

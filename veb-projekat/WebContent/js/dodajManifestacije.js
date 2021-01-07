@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	var posterManifestacije;
+
     $('#btnDodaj').on("click", function() {
     	var naziv = $('input[name="naziv"]').val();
 		var tipManifestacije = $('select[name="tipManifestacije"]').val();
@@ -28,7 +30,8 @@ $(document).ready(function() {
             "brojMesta": brojMesta,
             "datumIVremeOdrzavanja": datumIVremeOdrzavanja,
             "cenaRegularKarte": cenaRegularKarte,
-            "lokacija": lokacija
+            "lokacija": lokacija,
+            "posterManifestacije": posterManifestacije
             };
     
 	        $.post({
@@ -60,6 +63,9 @@ $(document).ready(function() {
 	    	} else if (brojMesta === '') {
 	    		alert("Broj mesta je obavezno polje!");
 	    		valid = false;
+	    	} else if (brojMesta < 0) {
+	    		alert("Broj mesta ne sme biti negativna vrednost!");
+	    		valid = false;
 	    	} else if (datumIVremeOdrzavanja === '') {
 	    		alert("Datum i vreme odrzavanja je obavezno polje!");
 	    		valid = false;
@@ -71,6 +77,9 @@ $(document).ready(function() {
 	    		valid = false;
 	    	} else if (geografskaSirina === '') {
 	    		alert("Geografska sirina je obavezno polje!");
+	    		valid = false;
+	    	} else if (cenaRegularKarte < 0) {
+	    		alert("Cena regular karte ne sme biti negativna vrednost!");
 	    		valid = false;
 	    	} else if (ulicaIBroj === '') {
 	    		alert("Ulica i broj je obavezno polje!");
@@ -87,5 +96,15 @@ $(document).ready(function() {
     		}
     		return valid;
     	}
-  });  
+  	});
+  
+  	$('input[name="posterManifestacije"]').on('change', function() {
+  		var image = this.files[0];
+	    var reader = new FileReader();
+	    reader.onloadend = function() {
+	 		posterManifestacije = reader.result;
+	      }
+	    reader.readAsDataURL(image);
+  	});
+  	
 });

@@ -22,7 +22,8 @@ public class ManifestacijaDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
 		for (Manifestacija m : manifestacije) {
-			if (m.getNaziv().equals(manifestacija.getNaziv())) {
+			if (m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
+					m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj())) {
 				valid = false;
 				break;
 			}
@@ -31,14 +32,14 @@ public class ManifestacijaDAO {
 		if (valid) {
 			manifestacije.add(manifestacija);
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
-			if (!azurirajPodatke(korisnickoIme, manifestacija))
+			if (!dodajManifestacijuProdavcu(korisnickoIme, manifestacija))
 				valid = false;
 		}
 		
 		return valid;
 	}
 	
-	private boolean azurirajPodatke(String korisnickoIme, Manifestacija manifestacija) throws IOException {
+	private boolean dodajManifestacijuProdavcu(String korisnickoIme, Manifestacija manifestacija) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		boolean valid = false;
@@ -55,6 +56,50 @@ public class ManifestacijaDAO {
 		}
 		
 		return valid;
+	}
+	
+	public ArrayList<Manifestacija> getManifestacije() {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		return manifestacije;
+	}
+	
+	public boolean promeniStatusManifestacije(String naziv) throws IOException {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		boolean valid = false;
+		
+		for (Manifestacija manifestacija : manifestacije) {
+			if (manifestacija.getNaziv().equals(naziv)) {
+				manifestacija.setAktivan(true);
+				valid = true;
+				azurirajManifestacijeZaProdavca(manifestacija);
+				break;
+			}
+		}
+		
+		if (valid) {
+			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
+		}
+		
+		return valid;
+	}
+	
+	private void azurirajManifestacijeZaProdavca(Manifestacija manifestacija) throws IOException {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		
+		for (Korisnik k : korisnici) {
+			if (!k.getManifestacije().isEmpty()) {
+				for (Manifestacija m : k.getManifestacije()) {
+					if (m.getNaziv().equals(manifestacija.getNaziv())) {
+						m.setAktivan(manifestacija.isAktivan());
+						PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+						return;
+					}
+				}
+			}
+		}
 	}
 	
 }

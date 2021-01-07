@@ -1,13 +1,17 @@
 package services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -44,5 +48,21 @@ public class ManifestacijaServis {
 		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
 		return dao.dodajManifestaciju(manifestacija, ulogovaniKorisnik.getKorisnickoIme());		
+	}
+	
+	@GET
+	@Path("/getManifestacije")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> getManifestacije() {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		return dao.getManifestacije();
+	}
+	
+	@GET
+	@Path("/odobriManifestaciju")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean promeniStatusManifestacije(@QueryParam("naziv") String naziv) throws IOException {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		return dao.promeniStatusManifestacije(naziv);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.AbstractMap.SimpleEntry;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import beans.Korisnik;
@@ -72,5 +73,29 @@ public class LoginDAO {
 			}
 		}
 		return korisnik;
+	}
+	
+	public Korisnik izmenaPodatakaTrenutnogKorisnika(Korisnik korisnik) throws IOException {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		Korisnik izmenjenKorisnik = null;
+		
+		for (Korisnik k : korisnici) {
+			if (k.getKorisnickoIme().equals(korisnik.getKorisnickoIme())) {
+				k.setLozinka(korisnik.getLozinka());
+				k.setIme(korisnik.getIme());
+				k.setPrezime(korisnik.getPrezime());
+				k.setDatumRodjenja(korisnik.getDatumRodjenja());
+				k.setPol(korisnik.getPol());
+				izmenjenKorisnik = k;
+				break;
+			}
+		}
+		
+		if (izmenjenKorisnik != null) {
+			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+		}
+		
+		return izmenjenKorisnik;
 	}
 }
