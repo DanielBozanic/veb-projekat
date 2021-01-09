@@ -65,6 +65,22 @@ public class ManifestacijaDAO {
 		return manifestacije;
 	}
 	
+	public ArrayList<Manifestacija> getManfestacijeZaProdavca(String korisnickoIme){
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		
+		ArrayList<Manifestacija> manifestacijeProdavac = new ArrayList<Manifestacija>();
+		
+		for (Korisnik k : korisnici) {
+			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+				manifestacijeProdavac = k.getManifestacije();
+				break;
+			}
+		}
+		
+		return manifestacijeProdavac;
+	}
+	
 	public ArrayList<Manifestacija> getAktivneManifestacije() {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});

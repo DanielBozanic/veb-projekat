@@ -10,6 +10,7 @@ import utils.CustomPolEnumDeserializer;
 import utils.CustomPolEnumSerializer;
 import utils.CustomUlogaEnumDeserializer;
 import utils.CustomUlogaEnumSerializer;
+import utils.Konstante;
 import utils.LocalDateDeserializer;
 import utils.LocalDateSerializer;
 
@@ -44,7 +45,7 @@ public class Korisnik {
 		kupac.tipKupca = new TipKupca();
 		kupac.tipKupca.setImeTipa(ImeTipa.BRONZANI);
 		kupac.tipKupca.setPopust(0.0);
-		kupac.tipKupca.setTrazeniBrojBodova(0.0);
+		kupac.tipKupca.setTrazeniBrojBodova(Konstante.SREBRNI_TRAZENI_PRAG);
 	}
 	
 	public static void InitProdavac(Korisnik prodavac)	{

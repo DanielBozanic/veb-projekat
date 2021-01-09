@@ -50,6 +50,15 @@ public class ManifestacijaServis {
 	}
 	
 	@GET
+	@Path("/getManfestacijeZaProdavca")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> getManfestacijeZaProdavca(@Context HttpServletRequest request) {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		return dao.getManfestacijeZaProdavca(ulogovaniKorisnik.getKorisnickoIme());
+	}
+	
+	@GET
 	@Path("/getManifestacije")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Manifestacija> getManifestacije() {
