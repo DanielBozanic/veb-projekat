@@ -37,8 +37,10 @@ $(document).ready(function(){
 			var row = $(tdHref).parent();
 			var naziv = $(row).find("td:first").text();
 			
-			$.get({
-				url: 'rest/manifestacije/odobriManifestaciju?naziv=' + naziv,
+			$.post({
+				url: 'rest/manifestacije/odobriManifestaciju',
+				data: naziv,
+	            contentType: 'text/plain',
 				success: function(odobreno) {
 					if (odobreno === "true")
 						$(tdHref).prev().text("Odobrena");

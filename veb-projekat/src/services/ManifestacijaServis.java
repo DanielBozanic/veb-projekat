@@ -11,7 +11,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -59,9 +58,17 @@ public class ManifestacijaServis {
 	}
 	
 	@GET
+	@Path("/getAktivneManifestacije")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> getAktivneManifestacije() {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		return dao.getAktivneManifestacije();
+	}
+	
+	@POST
 	@Path("/odobriManifestaciju")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean promeniStatusManifestacije(@QueryParam("naziv") String naziv) throws IOException {
+	@Consumes(MediaType.TEXT_PLAIN)
+	public boolean promeniStatusManifestacije(String naziv) throws IOException {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
 		return dao.promeniStatusManifestacije(naziv);
 	}

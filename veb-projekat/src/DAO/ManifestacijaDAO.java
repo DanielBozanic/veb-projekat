@@ -22,8 +22,9 @@ public class ManifestacijaDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
 		for (Manifestacija m : manifestacije) {
-			if (m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
-					m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj())) {
+			if (m.getNaziv().equals(manifestacija.getNaziv()) || 
+					(m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
+					m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj()))) {
 				valid = false;
 				break;
 			}
@@ -62,6 +63,18 @@ public class ManifestacijaDAO {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		return manifestacije;
+	}
+	
+	public ArrayList<Manifestacija> getAktivneManifestacije() {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		ArrayList<Manifestacija> aktivneManifestacije = new ArrayList<Manifestacija>();
+		for (Manifestacija m : manifestacije) {
+			if (m.isAktivan()) {
+				aktivneManifestacije.add(m);
+			}
+		}
+		return aktivneManifestacije;
 	}
 	
 	public boolean promeniStatusManifestacije(String naziv) throws IOException {

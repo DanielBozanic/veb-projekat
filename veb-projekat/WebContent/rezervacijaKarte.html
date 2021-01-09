@@ -2,9 +2,43 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Rezervacija karte</title>
+	<title>Rezervacija karti</title>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="js/rezervacijaKarte.js"></script>
+	<style type="text/css">
+				label {
+	 			   display: inline-block;
+	  			   width: 200px;
+	  			   text-align: left;
+				}
+    </style>
 </head>
 <body>
-	<h1>Rezervacija karte</h1>
+	<form>
+		<div>
+			<h1>Rezervacija karti</h1>
+			
+			<label>Manifestacija:</label>
+			<select name = "manifestacije">
+				
+			</select> <br>
+			
+			<label>Broj karata:</label>
+			<input type = "number" name = "brojKarata" min = "1"/> <br>
+		
+			<label>Tip karte:</label>
+			<select name = "tipKarte">
+				<option value = "regular" selected="selected">regular</option>
+				<option value = "vip">vip</option>
+				<option value = "fanPit">fanPit</option>
+			</select> <br>
+			
+			<p id = "ukupnaCena"></p> <br>
+			
+			<label></label>
+			<input id = "btnRezervacija" type = "button" value="Rezervisi"></input>
+			
+		</div>
+	</form>
 </body>
 </html>
