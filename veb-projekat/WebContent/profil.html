@@ -3,45 +3,60 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Profil</title>
-	<script src="jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
+	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
 	<script src="js/profil.js"></script>
-	<style type="text/css">
-				label {
-	 			   display: inline-block;
-	  			   width: 200px;
-	  			   text-align: left;
-				}
-    </style>
 </head>
-<body>
+<body style = "padding: 15px;">
 	<form>
-		<div>
+		<div class="form-group">
 			<h1>Profil</h1>
-			
-			<label>Korisnicko ime:</label>
-			<input type = "text" name = "korisnickoIme" readonly/> <br>
-			
-			<label>Lozinka:</label>
-			<input type = "password" name = "lozinka"/> <br>
+		</div>
+		
+		<div class = "row">
+			<div class = "col-md-3">
+				<div class="form-group">
+					<label>Korisnicko ime:</label>
+					<input class="form-control" type = "text" name = "korisnickoIme" readonly/>
+				</div>
+
+				<div class="form-group">
+					<label>Lozinka:</label>
+					<input class="form-control" type = "password" name = "lozinka"/>
+				</div>
+		
+				<div class="form-group">			
+					<label>Ime:</label>
+					<input class="form-control" type = "text" name = "ime"/>
+				</div>
+
+				<div class="form-group">	
+					<label>Prezime:</label>
+					<input class="form-control" type = "text" name = "prezime"/>
+				</div>
+				
+				<div class="form-group">	
+					<label>Pol:</label>
+					<select class="form-control" name = "pol">
+						<option value = "muski" selected="selected">muski</option>
+						<option value = "zenski">zenski</option>
+					</select>
+				</div>
+				
+				
+				<div class="form-group">	
+					<label>Datum rodjenja:</label>
+					<input class="form-control" type = "date" name = "datumRodjenja"/>
+				</div>
 					
-			<label>Ime:</label>
-			<input type = "text" name = "ime"/> <br>
-			
-			<label>Prezime:</label>
-			<input type = "text" name = "prezime"/> <br>
-			
-			<label>Pol:</label>
-			<select name = "pol">
-				<option value = "muski" selected="selected">muski</option>
-				<option value = "zenski">zenski</option>
-			</select> <br>
-			
-			<label>Datum rodjenja:</label>
-			<input type = "date" name = "datumRodjenja"/> <br>
-			
-			<label></label>
-			<input id = "btnIzmeni" type = "button" value="Izmeni"></input><br>
-			
+				<div class="form-group">
+					<label></label>
+					<input class="btn btn-primary" id = "btnIzmeni" type = "button" value="Izmeni"></input>
+				</div>
+			</div>
 		</div>
 	</form>
 </body>

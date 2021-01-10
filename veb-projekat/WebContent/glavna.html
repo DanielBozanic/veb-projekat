@@ -3,31 +3,27 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Glavna</title>
-	<style type="text/css">
-		.menu {
-  			width: 200px;
-  			height: 150px;
-  			overflow-y: auto;
-		}
-		
-		.menu a {
-		  background-color: #eee; 
-		  color: black; 
-		  display: block; 
-		  padding: 12px; 
-		  text-decoration: none; 
-		}
-
-		.menu a:hover {
-		  background-color: #ccc; 
-		}
-	</style>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
 	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
 	<script src = "js/glavna.js"></script>
 </head>
 <body>
-	<div class="menu">
-		<a id = "logout" href="login.html">Logout</a>
-	</div>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+		<div class="row">
+			<div class="col-md-11">
+	 			<ul id = "menu" class="nav navbar-nav"></ul>
+			</div>
+			<div class="col-md-1">
+				<ul class="nav navbar-nav navbar-right">
+	  				<li class="nav-item">
+	  					<a id = "logout" class="nav-link" href="login.html">Logout</a>
+	  				</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 </body>
 </html>

@@ -1,18 +1,17 @@
 <html>
 <head>
 	<title>Pregled svih korisnika</title>
-	<style type="text/css">
-		table, th, td {
-			border: 3px solid black;
-		}
-    </style>
-    <script src="jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
+	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
     <script src="js/pregledSvihKorisnika.js"></script>
 </head>
 <body>
 	<h1>Pregled svih korisnika</h1>
 	
-	<table id = "tabela">
+	<table id = "tabela" class="table table-bordered">
 		<thead>
 			<th>Korisnicko ime</th>
 			<th>Ime</th>
@@ -21,8 +20,7 @@
 			<th>Pol</th>
 			<th>Uloga</th>
 		</thead>
-		<tbody>
-				
+		<tbody>	
 		</tbody>
     </table> 
 </body>

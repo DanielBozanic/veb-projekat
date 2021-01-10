@@ -3,32 +3,44 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Login</title>
-	<style type="text/css">
-				label {
-	 			   display: inline-block;
-	  			   width: 200px;
-	  			   text-align: left;
-				}
-	</style>
-	<script src="jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
+	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
 	<script src = "js/login.js"></script>
 </head>
-<body>
+<body style = "padding: 15px;">
 	<form>
-		<div>
+		<div class="form-group">
 			<h1>Login</h1>
-			
-			<label>Korisnicko ime:</label>
-			<input type = "text" name = "korisnickoIme"/> <br>
-			
-			<label>Lozinka:</label>
-			<input type = "password" name = "lozinka"/> <br>
-			
-			<label></label>
-			<input id = "btnLogin" type = "button" value="Login"/><br>
-			
-			<a href = "index.html">Pocetna stranica</a><br>
-			<a href = "registracija.html">Registracija</a>
+		</div>
+		
+		<div class = "row">
+			<div class = "col-md-3">
+				<div class="form-group">
+					<label>Korisnicko ime:</label>
+					<input class="form-control" type = "text" name = "korisnickoIme"/>
+				</div>
+				
+				<div class="form-group">
+					<label>Lozinka:</label>
+					<input class="form-control" type = "password" name = "lozinka"/>
+				</div>
+				
+				<div class="form-group">
+					<label></label>
+					<input class="btn btn-primary" id = "btnLogin" type = "button" value="Login"/>
+				</div>
+				
+				<div class="form-group">
+					<a href = "index.html">Pocetna stranica</a>
+				</div>
+				
+				<div class="form-group">
+					<a href = "registracija.html">Registracija</a>
+				</div>
+			</div>
 		</div>
 	</form>
 </body>

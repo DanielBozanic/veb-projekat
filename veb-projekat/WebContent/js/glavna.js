@@ -21,7 +21,9 @@ $(document).ready(function() {
 	
 	
 	function addLink(link) {
-		let a = $('<a href='+ Object.keys(link)[0] +'></a>').text(Object.values(link)[0]);
-		$('.menu').append(a);
+		let a = $('<a class="nav-link" href='+ Object.keys(link)[0] +'></a>').text(Object.values(link)[0]);
+		let li = $('<li class="nav-item"></li>');
+		li.append(a);
+		$('#menu').append(li);
 	};
 });

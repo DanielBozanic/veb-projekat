@@ -3,41 +3,49 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Rezervacija karti</title>
-	<script src="jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
+	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
 	<script src="js/rezervacijaKarte.js"></script>
-	<style type="text/css">
-				label {
-	 			   display: inline-block;
-	  			   width: 200px;
-	  			   text-align: left;
-				}
-    </style>
 </head>
-<body>
+<body style = "padding: 15px;">
 	<form>
-		<div>
+		<div class="form-group">
 			<h1>Rezervacija karti</h1>
-			
-			<label>Manifestacija:</label>
-			<select name = "manifestacije">
-				
-			</select> <br>
-			
-			<label>Broj karata:</label>
-			<input type = "number" name = "brojKarata" min = "1"/> <br>
+		</div>
 		
-			<label>Tip karte:</label>
-			<select name = "tipKarte">
-				<option value = "regular" selected="selected">regular</option>
-				<option value = "vip">vip</option>
-				<option value = "fanPit">fanPit</option>
-			</select> <br>
+		<div class = "row">
+			<div class = "col-md-3">
+				<div class="form-group">
+					<label>Manifestacija:</label>
+					<select class="form-control" name = "manifestacije"></select>
+				</div>
+				
+				<div class="form-group">
+					<label>Broj karata:</label>
+					<input class="form-control" type = "number" name = "brojKarata" min = "1"/>
+				</div>
 			
-			<p id = "ukupnaCena"></p> <br>
-			
-			<label></label>
-			<input id = "btnRezervacija" type = "button" value="Rezervisi"></input>
-			
+				<div class="form-group">
+					<label>Tip karte:</label>
+					<select class="form-control" name = "tipKarte">
+						<option value = "regular" selected="selected">regular</option>
+						<option value = "vip">vip</option>
+						<option value = "fanPit">fanPit</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<p id = "ukupnaCena"></p>
+				</div>
+				
+				<div class="form-group">
+					<label></label>
+					<input class="btn btn-primary" id = "btnRezervacija" type = "button" value="Rezervisi"></input>
+				</div>
+			</div>
 		</div>
 	</form>
 </body>
