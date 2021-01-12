@@ -14,9 +14,9 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-
 import DAO.ProdavacDAO;
 import beans.Korisnik;
+import beans.Manifestacija;
 import utils.PomocneFunkcije;
 
 @Path("/prodavci")
@@ -37,11 +37,21 @@ public class ProdavacServis {
 	}
 
 	@POST
-	@Path("/dodajProdavca")
+	@Path("/dodajManifestaciju")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean dodajProdavca(Korisnik korisnik, @Context HttpServletRequest request) throws IOException {
-		Korisnik.InitProdavac(korisnik);
+	public boolean dodajManifestaciju(Manifestacija manifestacija, @Context HttpServletRequest request) throws IOException {
+		Manifestacija.InitManifestacija(manifestacija);
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("prodavacDAO");
-		return dao.dodajProdavca(korisnik);
+		return dao.dodajManifestaciju(manifestacija, ulogovaniKorisnik.getKorisnickoIme());		
+	}
+	
+	@POST
+	@Path("/izmeniManifestaciju")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean izmeniManifestaciju(Manifestacija manifestacija, @Context HttpServletRequest request) throws IOException {
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("prodavacDAO");
+		return dao.izmeniManifestaciju(manifestacija, ulogovaniKorisnik.getKorisnickoIme());		
 	}
 }

@@ -2,13 +2,12 @@ package services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -39,16 +38,6 @@ public class KartaServis {
 		}
 	}
 	
-	@POST
-	@Path("/rezervacijaKarte")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean rezervacijaKarte(Karta karta, @Context HttpServletRequest request) 
-			throws IOException, InterruptedException {
-		KartaDAO dao = (KartaDAO) ctx.getAttribute("kartaDAO");
-		Korisnik trenutniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
-		return dao.rezervacijaKarte(karta, trenutniKorisnik.getKorisnickoIme());
-	}
-	
 	@GET
 	@Path("/getKarte")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +52,24 @@ public class KartaServis {
 	public ArrayList<Karta> getRezervisaneKarte() {
 		KartaDAO dao = (KartaDAO) ctx.getAttribute("kartaDAO");
 		return dao.getRezervisaneKarte();
+	}
+	
+	@GET
+	@Path("/getKarteKupca")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Karta> getKarteKupca(@Context HttpServletRequest request) {
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		KartaDAO dao = (KartaDAO) ctx.getAttribute("kartaDAO");
+		return dao.getKarteKupca(ulogovaniKorisnik.getKorisnickoIme());
+	}
+	
+	@GET
+	@Path("/getKupciKojiSuRezervisaliKarte")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Korisnik> getKupciKojiSuRezervisaliKarte(@Context HttpServletRequest request) {
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		KartaDAO dao = (KartaDAO) ctx.getAttribute("kartaDAO");
+		return dao.getKupciKojiSuRezervisaliKarte(ulogovaniKorisnik.getKorisnickoIme());
 	}
 }
 

@@ -23,6 +23,4 @@ $(document).ready(function(){
 			append(cena).append(kupac).append(statusKarte).append(tipKarte);
 		$('#tabelaSvihKarti tbody').append(tr);
 	};
-});/**
- * 
- */
+});

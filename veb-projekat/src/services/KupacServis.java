@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import DAO.KupacDAO;
+import beans.Karta;
 import beans.Korisnik;
 import utils.PomocneFunkcije;
 
@@ -42,5 +44,15 @@ public class KupacServis {
 		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
 		return dao.registrujKupca(korisnik);
 		
+	}
+	
+	@POST
+	@Path("/rezervacijaKarte")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean rezervacijaKarte(Karta karta, @Context HttpServletRequest request) 
+			throws IOException, InterruptedException {
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
+		Korisnik trenutniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		return dao.rezervacijaKarte(karta, trenutniKorisnik.getKorisnickoIme());
 	}
 }

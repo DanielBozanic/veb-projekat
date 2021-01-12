@@ -16,11 +16,17 @@ $(document).ready(function() {
 	});
 	
 	$('input[name="brojKarata"]').on('change', function(){
-		 racunajIznos();
+		let brojKarata = $('input[name="brojKarata"]').val();
+		if (brojKarata > 0) {
+			racunajIznos();
+		} 
 	});
 	
 	$('select[name="tipKarte"]').on('change', function(){
-		 racunajIznos();
+		let brojKarata = $('input[name="brojKarata"]').val();
+		if (brojKarata > 0) {
+			racunajIznos();
+		} 
 	});
 	
 	function racunajIznos() {	
@@ -42,31 +48,49 @@ $(document).ready(function() {
 	
 	
 	$('#btnRezervacija').on('click', function(){
-		let brojKarata = $('input[name="brojKarata"]').val();
-		let manifestacija = JSON.parse($('select[name="manifestacije"] option:selected').attr("data-val"));
-		let tipKarte = $('select[name="tipKarte"] option:selected').val();
+		var brojKarata = $('input[name="brojKarata"]').val();
+		var manifestacija = JSON.parse($('select[name="manifestacije"] option:selected').attr("data-val"));
+		var tipKarte = $('select[name="tipKarte"] option:selected').val();
 		
-		let karta = {
+		if (vaidacija()) {
+		
+			let karta = {
 			"manifestacija": manifestacija,
 			"datumIVremeManifestacije": manifestacija.datumIVremeOdrzavanja,
 			"cena": cenaKarte,
 			"statusKarte": "rezervisana",
 			"tipKarte": tipKarte,
 			"brojKarata": brojKarata
-		};
+			};
 		
-		$.post({
-			url: 'rest/karte/rezervacijaKarte',
-	            data: JSON.stringify(karta),
-	            contentType: 'application/json',
-	            success: function(valid) {
-	            	 if (valid === "true") {
-						alert("Uspesna rezervacija.");
-					 } else {
-						alert("Rezervacija nije prosla.");	
-					 }
-	            }
-		});
+			$.post({
+				url: 'rest/kupci/rezervacijaKarte',
+		            data: JSON.stringify(karta),
+		            contentType: 'application/json',
+		            success: function(valid) {
+		            	 if (valid === "true") {
+							alert("Uspesna rezervacija.");
+						 } else {
+							alert("Rezervacija nije prosla.");	
+						 }
+		            }
+				});
+		} else {
+			return;
+		}
+		
+		function vaidacija() {
+			let valid = true;
+			if (brojKarata === '') {
+				alert("Broj karti je obavezno polje.")
+				valid = false;
+			} else if (brojKarata < 1) {
+				alert("Broj karti ne moze biti manji od 1.");
+				valid = false;
+			}
+			return valid;
+		}
+		
 	});
 	
 	

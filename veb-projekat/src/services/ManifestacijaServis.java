@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -39,16 +37,6 @@ public class ManifestacijaServis {
 		}
 	}
 	
-	@POST
-	@Path("/dodajManifestaciju")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean dodajManifestaciju(Manifestacija manifestacija, @Context HttpServletRequest request) throws IOException {
-		Manifestacija.InitManifestacija(manifestacija);
-		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
-		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
-		return dao.dodajManifestaciju(manifestacija, ulogovaniKorisnik.getKorisnickoIme());		
-	}
-	
 	@GET
 	@Path("/getManfestacijeZaProdavca")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -72,13 +60,5 @@ public class ManifestacijaServis {
 	public ArrayList<Manifestacija> getAktivneManifestacije() {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
 		return dao.getAktivneManifestacije();
-	}
-	
-	@POST
-	@Path("/odobriManifestaciju")
-	@Consumes(MediaType.TEXT_PLAIN)
-	public boolean promeniStatusManifestacije(String naziv) throws IOException {
-		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
-		return dao.promeniStatusManifestacije(naziv);
 	}
 }

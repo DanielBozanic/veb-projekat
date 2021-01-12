@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $.get({
-		url: 'rest/loginServis/getKorisnici',
+		url: 'rest/korisnici/getKorisnici',
 		success: function(korisnici) {
 			for (let k of korisnici) {
 				 dodajKorisnikRed(k);

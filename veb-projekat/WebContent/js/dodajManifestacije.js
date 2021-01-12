@@ -35,7 +35,7 @@ $(document).ready(function() {
             };
     
 	        $.post({
-	            url: 'rest/manifestacije/dodajManifestaciju',
+	            url: 'rest/prodavci/dodajManifestaciju',
 	            data: JSON.stringify(data),
 	            contentType: 'application/json',
 	            success: function(valid) {

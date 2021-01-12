@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	$.get({
-		url: 'rest/loginServis/linkovi',
+		url: 'rest/korisnici/linkovi',
 		success: function(linkovi) {
 			for (let l of linkovi) {
 				 addLink(l);

@@ -3,8 +3,93 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Izmena manifestacije</title>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
+	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
+	<script src="js/izmenaManifestacije.js"></script>
 </head>
-<body>
-	<h1>Izmena manifestacije</h1>
+<body style = "padding: 15px;">
+	<form>
+			<div class="form-group">
+				<h1>Izmena manifestacije</h1>
+			</div>
+			
+			<div class = "row">
+				<div class = "col-md-3">
+				
+					<div class="form-group">
+						<label>Manifestacije:</label>
+						<select class="form-control" name = "manifestacije"></select>
+					</div>
+				
+					<div class="form-group">
+						<label>Naziv:</label>
+						<input class="form-control" type = "text" name = "naziv" readonly/>
+					</div>
+					
+					<div class="form-group">
+						<label>Tip manifestacije:</label>
+						<select class="form-control" name = "tipManifestacije">
+							<option value = "koncert" selected="selected">koncert</option>
+							<option value = "festival">festival</option>
+							<option value = "pozoriste">pozoriste</option>
+							<option value = "ostalo">ostalo</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label>Broj mesta:</label>
+						<input class="form-control" type = "number" name = "brojMesta" min="0"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Datum i vreme odrzavanja:</label>
+						<input class="form-control" type = "datetime-local" name = "datumIVremeOdrzavanja"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Cena regular karte:</label>
+						<input class="form-control" type = "number" name = "cenaRegularKarte" min = "0" step="0.01"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Geografska duzina:</label>
+						<input class="form-control" type = "number" name = "geografskaDuzina" step="0.01"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Geografska sirina:</label>
+						<input class="form-control" type = "number" name = "geografskaSirina" step="0.01"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Ulica i broj:</label>
+						<input class="form-control" type = "text" name="ulicaIBroj"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Mesto:</label>
+						<input class="form-control" type = "text" name="mesto"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Postanski broj:</label>
+						<input class="form-control" type = "text" name="postanskiBroj"/>
+					</div>
+					
+					<div class="form-group">
+						<label>Odaberi poster manifestacije:</label>
+						<input type="file" name="posterManifestacije" accept="image/*"/>
+					</div>
+					
+					<div class="form-group">
+						<label></label>
+						<input class="btn btn-primary" id = "btnIzmeni" type = "button" value="Izmeni"/>
+					</div>
+				</div>
+			</div>
+	</form>
 </body>
 </html>

@@ -20,7 +20,7 @@ $(document).ready(function() {
             };
     
 	        $.post({
-	            url: 'rest/prodavci/dodajProdavca',
+	            url: 'rest/administratori/dodajProdavca',
 	            data: JSON.stringify(data),
 	            contentType: 'application/json',
 	            success: function(valid) {

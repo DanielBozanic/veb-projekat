@@ -4,14 +4,14 @@ $(document).ready(function(){
 		url: 'rest/manifestacije/getManifestacije',
 		success: function(manifestacije) {
 			for (let m of manifestacije) {
-				 addManifestacijaTr(m);
+				 dodajManifestacijaRed(m);
 			}
 			promenaStatusa();
 		}
 	
 	});
 	
-	function addManifestacijaTr(manifestacija) {
+	function dodajManifestacijaRed(manifestacija) {
 		let tr = $('<tr></tr>');
 		let naziv = $('<td>' + manifestacija.naziv + '</td>');
 		let tipManifestacije = $('<td>' + manifestacija.tipManifestacije + '</td>');
@@ -20,10 +20,10 @@ $(document).ready(function(){
 		let cenaRegularKarte = $('<td>' + manifestacija.cenaRegularKarte + '</td>');
 		let status;
 		if (manifestacija.aktivan)
-			status = $('<td>Odobrena</td>');
+			status = $('<td>Aktivna</td>');
 		else
-			status = $('<td>Nije odobrena</td>');
-        let link = $('<td><a class="odobreno" href="#">Odobri manifestaciju</a></td>');
+			status = $('<td>Nije aktivna</td>');
+        let link = $('<td><a class="aktivan" href="#">Aktiviraj manifestaciju</a></td>');
 		tr.append(naziv).append(tipManifestacije).append(brojMesta).append(datumIVremeOdrzavanja).
 			append(cenaRegularKarte).append(status).append(link);
 		$('#manifestacije tbody').append(tr);
@@ -31,19 +31,19 @@ $(document).ready(function(){
 	
 	function promenaStatusa(){
 		
-		$(".odobreno").on("click", function() {
+		$(".aktivan").on("click", function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
 			var naziv = $(row).find("td:first").text();
 			
 			$.post({
-				url: 'rest/manifestacije/odobriManifestaciju',
+				url: 'rest/administratori/odobriManifestaciju',
 				data: naziv,
 	            contentType: 'text/plain',
 				success: function(odobreno) {
 					if (odobreno === "true")
-						$(tdHref).prev().text("Odobrena");
+						$(tdHref).prev().text("Aktivna");
 				}
 			});
 		});

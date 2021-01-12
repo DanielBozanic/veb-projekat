@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var trenutniKorisnik;
 
 	$.get({
-            url: 'rest/loginServis/trenutniKorisnik',
+            url: 'rest/korisnici/trenutniKorisnik',
             dataType: 'json',
            	success: function(korisnik) {
 	            	if (korisnik !== null) {
@@ -42,7 +42,7 @@ $(document).ready(function() {
 		}
 		
 		$.post({
-            url: 'rest/loginServis/izmenaPodatakaTrenutnogKorisnika',
+            url: 'rest/korisnici/izmenaPodatakaTrenutnogKorisnika',
             data: JSON.stringify(data),
 	        contentType: 'application/json',
            	success: function(korisnik) {
