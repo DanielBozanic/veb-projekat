@@ -19,9 +19,59 @@
 			<th>Datum rodjenja</th>
 			<th>Pol</th>
 			<th>Uloga</th>
+			<th>Broj sakupljenih bodova</th>
 		</thead>
 		<tbody>	
 		</tbody>
-    </table> 
+    </table>
+    
+    <div class = "row" style = "padding: 15px;">
+		<div class = "col-md-3">
+			<div class="form-group">
+	    		<label>Kriterijum filtera</label>
+	    		<select id = "kriterijumFilter" class="form-control">
+	    			<option value = "uloga" selected="selected">Uloga</option>
+	    		</select>
+	  		</div>
+	  		<div class="form-group">
+	    		<label>Filter</label>
+	    		<input id = "filter" type= "text" class="form-control"/>
+	  		</div>
+	  		<div class="form-group">
+	    		<label>Kriterijum pretrage</label>
+	    		<select id = "kriterijumPretrage" class="form-control">
+	    			<option value = "korisnickoIme" selected="selected">Korisnicko ime</option>
+	    			<option value = "ime">Ime</option>
+	    			<option value = "prezime">Prezime</option>
+	    		</select>
+	  		</div>
+	  		<div class="form-group">
+	    		<label>Pretraga</label>
+	    		<input id = "pretraga" type="text" class="form-control"/>
+	  		</div>
+	  		<div class="form-group">
+	 			<input id = "btnPretraga" type="button" class="btn btn-primary" value = "Pretrazi"/>
+	 		</div>
+	  		<div class="form-group">
+	    		<label>Kriterijum sortiranja</label>
+	    		<select id = "kriterijumSortiranja" class="form-control">
+	    			<option value = "korisnickoIme" selected="selected">Korisnicko ime</option>
+	    			<option value = "ime">Ime</option>
+	    			<option value = "prezime">Prezime</option>
+	    			<option value = "brojSakupljenihBodova">Broj sakupljenih bodova</option>
+	    		</select>
+	  		</div>
+	  		<div class="form-group">
+	    		<label>Kriterijum sortiranja</label>
+	    		<select id = "kriterijumSortiranja2" class="form-control">
+	    			<option value = "opadajuce" selected="selected">Opadajuce</option>
+	    			<option value = "rastuce">Rastuce</option>
+	    		</select>
+	  		</div>
+	  		<div class="form-group">
+	 			<input id = "btnSortiraj" type="button" class="btn btn-primary" value = "Sortiraj"/>
+	 		</div>
+		</div>
+	</div>
 </body>
 </html>

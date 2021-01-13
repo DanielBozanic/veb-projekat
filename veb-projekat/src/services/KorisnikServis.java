@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -60,6 +61,15 @@ public class KorisnikServis {
 	public ArrayList<Korisnik> getKorisnici() {
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
 		return korisnikDAO.getKorisnici();
+	}
+	
+	@GET
+	@Path("/getSortiraneKorisnike")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> getSortiraneKorisnike(@QueryParam("kriterijumSortiranja") String kriterijumSortiranja, 
+			@QueryParam("kriterijumSortiranja2") String kriterijumSortiranja2) {
+		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
+		return korisnikDAO.getSortiraneKorisnike(kriterijumSortiranja, kriterijumSortiranja2);
 	}
 	
 	@GET

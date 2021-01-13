@@ -3,7 +3,10 @@ package DAO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.AbstractMap.SimpleEntry;
+
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -43,6 +46,73 @@ public class KorisnikDAO {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		return korisnici;
+	}
+	
+	public ArrayList<Korisnik> getSortiraneKorisnike(String kriterijumSortiranja, String kriterijumSortiranja2) {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		if (kriterijumSortiranja2.equals("opadajuce")) {
+			sortOpadajuce(korisnici, kriterijumSortiranja);
+		} else if (kriterijumSortiranja2.equals("rastuce")) {
+			sortRastuce(korisnici, kriterijumSortiranja);
+		}
+		return korisnici;
+	}
+	
+	private static void sortRastuce(ArrayList<Korisnik> korisnici, String kriterijumSortiranja) {
+		if (kriterijumSortiranja.equals("korisnickoIme")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return k1.getKorisnickoIme().compareTo(k2.getKorisnickoIme());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("ime")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return k1.getIme().compareTo(k2.getIme());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("prezime")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return k1.getPrezime().compareTo(k2.getPrezime());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("brojSakupljenihBodova")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return (int) (k1.getBrojSakupljenihBodova() - k2.getBrojSakupljenihBodova());
+				}
+			});
+		}
+	}
+	
+	private void sortOpadajuce(ArrayList<Korisnik> korisnici, String kriterijumSortiranja) {
+		if (kriterijumSortiranja.equals("korisnickoIme")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return k2.getKorisnickoIme().compareTo(k1.getKorisnickoIme());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("ime")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return k2.getIme().compareTo(k1.getIme());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("prezime")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return k2.getPrezime().compareTo(k1.getPrezime());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("brojSakupljenihBodova")) {
+			Collections.sort(korisnici, new Comparator<Korisnik>() {
+				public int compare(Korisnik k1, Korisnik k2) {
+					return (int) (k2.getBrojSakupljenihBodova() - k1.getBrojSakupljenihBodova());
+				}
+			});
+		}
 	}
 	
 	public Korisnik getPodaciTrenutniKorisnik(String korisnickoIme) {

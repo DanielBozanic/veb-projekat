@@ -5,8 +5,21 @@ $(document).ready(function() {
 	$.get({
 		url: 'rest/manifestacije/getManfestacijeZaProdavca',
 		success: function(manifestacije) {
-			var selected = false;
-			for (let m of manifestacije) {
+			azurirajManifestacije(manifestacije, true);
+		}
+	});
+	
+	$('select[name="manifestacije"]').on('change', function() {
+		let manifestacija = JSON.parse($('select[name="manifestacije"] option:selected').attr("data-val"));
+		popuniFormu(manifestacija);
+	});
+	
+	function azurirajManifestacije(manifestacije, prviPut) {
+		if (!prviPut) {
+			$('select[name="manifestacije"]').empty();
+		}
+		var selected = false;
+		for (let m of manifestacije) {
 				 var optionManfestacija = $('<option value = "' + m.naziv + '"' + "data-val='" + JSON.stringify(m) + 
 					(selected ? "'>" : "' selected='selected'>") + m.naziv +  '</option>' );
 				$('select[name="manifestacije"]').append(optionManfestacija);
@@ -15,13 +28,7 @@ $(document).ready(function() {
 				}
 				selected = true;
 			}
-		}
-	});
-	
-	$('select[name="manifestacije"]').on('change', function() {
-		let manifestacija = $('select[name="manifestacije"]').val();
-		popuniFormu(manifestacija);
-	});
+	}
 	
 	function popuniFormu(manifestacija) {
 		$("input[name=naziv]").val(manifestacija.naziv);
@@ -73,9 +80,10 @@ $(document).ready(function() {
 	            url: 'rest/prodavci/izmeniManifestaciju',
 	            data: JSON.stringify(manifestacija),
 	            contentType: 'application/json',
-	            success: function(valid) {
-	            	if (valid === "true") {
+	            success: function(manifestacije) {
+	            	if (manifestacije !== null) {
 	            		alert("Manifestacija je uspesno izmenjena.");
+	            		azurirajManifestacije(manifestacije, false);
 	            	}
 	            	else {
 	            		alert("Neuspena izmena manifestacije!");

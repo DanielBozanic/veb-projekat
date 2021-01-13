@@ -60,12 +60,13 @@ public class ProdavacDAO {
 		return valid;
 	}
 	
-	public boolean izmeniManifestaciju(Manifestacija manifestacija, String korisnickoIme) throws IOException {
+	public ArrayList<Manifestacija> izmeniManifestaciju(Manifestacija manifestacija, String korisnickoIme) throws IOException {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
 		for (Manifestacija m : manifestacije) {
-			if (m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
+			if (!m.getNaziv().equals(manifestacija.getNaziv()) && 
+				m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
 				m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj())) {
 				valid = false;
 				break;
@@ -85,18 +86,15 @@ public class ProdavacDAO {
 				}
 			}
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
-			if (!azurirajProdavca(korisnickoIme, manifestacija)) {
-				valid = false;
-			}
 		}
 		
-		return valid;
+		return azurirajProdavca(korisnickoIme, manifestacija);
 	}
 	
-	private boolean azurirajProdavca(String korisnickoIme, Manifestacija manifestacija) throws IOException {
+	private ArrayList<Manifestacija> azurirajProdavca(String korisnickoIme, Manifestacija manifestacija) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
-		boolean valid = false;
+		ArrayList<Manifestacija> manifestacijeProdavac = new ArrayList<Manifestacija>();
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
 				for (Manifestacija m : k.getManifestacije()) {
@@ -107,17 +105,17 @@ public class ProdavacDAO {
 						m.setLokacija(manifestacija.getLokacija());
 						m.setDatumIVremeOdrzavanja(manifestacija.getDatumIVremeOdrzavanja());
 						m.setPosterManifestacije(manifestacija.getPosterManifestacije());
-						valid = true;
+						manifestacijeProdavac = k.getManifestacije();
 						break;
 					}
 				}
 			}
 		}
 		
-		if (valid) {
+		if (manifestacijeProdavac != null) {
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
 		
-		return valid;
+		return manifestacijeProdavac;
 	}
 }

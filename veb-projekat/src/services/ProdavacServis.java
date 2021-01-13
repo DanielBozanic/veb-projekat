@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -48,8 +50,9 @@ public class ProdavacServis {
 	
 	@POST
 	@Path("/izmeniManifestaciju")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean izmeniManifestaciju(Manifestacija manifestacija, @Context HttpServletRequest request) throws IOException {
+	public ArrayList<Manifestacija> izmeniManifestaciju(Manifestacija manifestacija, @Context HttpServletRequest request) throws IOException {
 		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		ProdavacDAO dao = (ProdavacDAO) ctx.getAttribute("prodavacDAO");
 		return dao.izmeniManifestaciju(manifestacija, ulogovaniKorisnik.getKorisnickoIme());		

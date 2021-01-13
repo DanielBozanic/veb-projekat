@@ -81,8 +81,7 @@ public class KupacDAO {
 		 BigDecimal cena = karta.getCena();
 		 if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.SREBRNI)) {
 			 cena = cena.multiply(new BigDecimal((100.0 - Konstante.SREBRNI_POPUST) / 100.0));
-		 }
-		 else if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
+		 } else if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
 			 cena = cena.multiply(new BigDecimal((100.0 - Konstante.ZLATNI_POPUST) / 100.0));
 		 }
 		 
