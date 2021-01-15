@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import beans.ImeTipa;
 import beans.Karta;
 import beans.Korisnik;
 import beans.Manifestacija;
+import beans.StatusKarte;
 import utils.Konstante;
 import utils.PomocneFunkcije;
 
@@ -79,25 +81,47 @@ public class KupacDAO {
 	
 	private void azurirajKupca(Korisnik kupac, Karta karta) {
 		 BigDecimal cena = karta.getCena();
-		 if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.SREBRNI)) {
-			 cena = cena.multiply(new BigDecimal((100.0 - Konstante.SREBRNI_POPUST) / 100.0));
-		 } else if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
-			 cena = cena.multiply(new BigDecimal((100.0 - Konstante.ZLATNI_POPUST) / 100.0));
-		 }
-		 
-		 double bodovi = kupac.getBrojSakupljenihBodova() + (cena
-				.multiply(new BigDecimal(karta.getBrojKarata()))
-				.divide(new BigDecimal(1000))
-				.multiply(new BigDecimal(133))).doubleValue();
-		 
-		 if (bodovi >= Konstante.SREBRNI_TRAZENI_PRAG) {
-			 kupac.getTipKupca().setImeTipa(ImeTipa.SREBRNI);
-			 kupac.getTipKupca().setPopust(Konstante.SREBRNI_POPUST);
-			 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.ZLATNI_TRAZENI_PRAG);
-		 }
-		 if (bodovi >= Konstante.ZLATNI_TRAZENI_PRAG) {
-			 kupac.getTipKupca().setImeTipa(ImeTipa.ZLATNI);
-			 kupac.getTipKupca().setPopust(Konstante.ZLATNI_POPUST);
+		 double bodovi = 0;
+		 if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA)) {
+			 if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.SREBRNI)) {
+				 cena = cena.multiply(new BigDecimal((100.0 - Konstante.SREBRNI_POPUST) / 100.0));
+			 } else if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
+				 cena = cena.multiply(new BigDecimal((100.0 - Konstante.ZLATNI_POPUST) / 100.0));
+			 }
+			 
+			 bodovi = kupac.getBrojSakupljenihBodova() + (cena
+						.multiply(new BigDecimal(karta.getBrojKarata()))
+						.divide(new BigDecimal(1000))
+						.multiply(new BigDecimal(133))).doubleValue();
+			 
+			 if (bodovi >= Konstante.SREBRNI_TRAZENI_PRAG) {
+				 kupac.getTipKupca().setImeTipa(ImeTipa.SREBRNI);
+				 kupac.getTipKupca().setPopust(Konstante.SREBRNI_POPUST);
+				 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.ZLATNI_TRAZENI_PRAG);
+			 }
+			 
+			 if (bodovi >= Konstante.ZLATNI_TRAZENI_PRAG) {
+				 kupac.getTipKupca().setImeTipa(ImeTipa.ZLATNI);
+				 kupac.getTipKupca().setPopust(Konstante.ZLATNI_POPUST);
+			 }
+			 
+		 } else {
+			 bodovi = Math.abs(kupac.getBrojSakupljenihBodova() - (karta.getCena()
+						.divide(new BigDecimal(1000))
+						.multiply(new BigDecimal(133))
+						.multiply(new BigDecimal(4))).doubleValue());
+			 
+			 if (bodovi < Konstante.SREBRNI_TRAZENI_PRAG && kupac.getTipKupca().getImeTipa().equals(ImeTipa.SREBRNI)) {
+				 kupac.getTipKupca().setImeTipa(ImeTipa.BRONZANI);
+				 kupac.getTipKupca().setPopust(0.0);
+				 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.SREBRNI_TRAZENI_PRAG);
+			 }
+			 
+			 if (bodovi < Konstante.ZLATNI_TRAZENI_PRAG && kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
+				 kupac.getTipKupca().setImeTipa(ImeTipa.SREBRNI);
+				 kupac.getTipKupca().setPopust(Konstante.SREBRNI_POPUST);
+				 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.ZLATNI_TRAZENI_PRAG);
+			 }
 		 }
 		 
 		 kupac.setBrojSakupljenihBodova(bodovi);
@@ -110,11 +134,18 @@ public class KupacDAO {
 		
 		for (Manifestacija m : manifestacije) {
 			if (karta.getManifestacija().getNaziv().equals(m.getNaziv())) {
-				if (karta.getBrojKarata() < m.getBrojMesta()) {
-					m.setBrojMesta(m.getBrojMesta() - karta.getBrojKarata());
+				if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA)) {
+					if (karta.getBrojKarata() < m.getBrojMesta()) {
+						m.setBrojMesta(m.getBrojMesta() - karta.getBrojKarata());
+						valid = true;
+						break;
+					}
+				} else if (karta.getStatusKarte().equals(StatusKarte.ODUSTANAK)) {
+					m.setBrojMesta(m.getBrojMesta() + 1);
 					valid = true;
 					break;
 				}
+				
 			}
 		}
 		if (valid) {
@@ -134,5 +165,60 @@ public class KupacDAO {
 			value += 1;
 		}
 		return ids;
+	}
+	
+	public ArrayList<Karta> getKarteValidneZaOdustanak(String korisnickoIme) {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		ArrayList<Karta> karteKupca = new ArrayList<Karta>();
+		ArrayList<Karta> validneZaOdustanak = new ArrayList<Karta>();
+		
+		for (Korisnik k : korisnici) {
+			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+				karteKupca = k.getSveKarte();
+				break;
+			}
+		}
+		
+		for (Karta karta : karteKupca) {
+			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
+			Duration razlika = Duration.between(trenutniDatumIVreme, karta.getDatumIVremeManifestacije());
+			if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA) && razlika.toDays() <= 7) {
+				validneZaOdustanak.add(karta);
+			}
+		}
+		
+		return validneZaOdustanak;
+	}
+	
+	public ArrayList<Karta> odustanakRezervacije(String idKarte, String korisnickoIme) throws IOException {
+		ArrayList<Karta> karte = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KARTE),
+                new TypeReference<ArrayList<Karta>>(){});
+		ArrayList<Korisnik> korisnici = PomocneFunkcije
+				.ucitaj(new File(Konstante.FAJL_KORISNICI), new TypeReference<ArrayList<Korisnik>>(){});
+		
+		for (Karta karta : karte) {
+			if (karta.getIdentifikatorKarte().equals(idKarte)) {
+				karta.setStatusKarte(StatusKarte.ODUSTANAK);
+				break;
+			}
+		}
+		
+		for (Korisnik korisnik : korisnici) {
+			if (korisnik.getKorisnickoIme().equals(korisnickoIme)) {
+				for (Karta kartaKorisnika : korisnik.getSveKarte()) {
+					if (kartaKorisnika.getIdentifikatorKarte().equals(idKarte)) {
+						kartaKorisnika.setStatusKarte(StatusKarte.ODUSTANAK);
+						if (azurirajManifestaciju(kartaKorisnika)) {
+							azurirajKupca(korisnik, kartaKorisnika);
+							PomocneFunkcije.upisi(karte, Konstante.FAJL_KARTE);
+							PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+							return getKarteValidneZaOdustanak(korisnik.getKorisnickoIme());
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

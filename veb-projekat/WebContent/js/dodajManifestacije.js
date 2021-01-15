@@ -43,7 +43,7 @@ $(document).ready(function() {
 	            		alert("Manifestacija je uspesno dodata.");
 	            	}
 	            	else {
-	            		alert("Manifestacija sa ovim nazivom vec postoji!");
+	            		alert("Manifestacija je neuspesno dodata!");
 	            	}
 	            }
 	        });

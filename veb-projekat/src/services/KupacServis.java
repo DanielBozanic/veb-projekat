@@ -1,13 +1,16 @@
 package services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -54,5 +57,25 @@ public class KupacServis {
 		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
 		Korisnik trenutniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		return dao.rezervacijaKarte(karta, trenutniKorisnik.getKorisnickoIme());
+	}
+	
+	@POST
+	@Path("/odustanakRezervacije")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Karta> odustanakRezervacije(String idKarte, @Context HttpServletRequest request) 
+			throws IOException, InterruptedException {
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
+		Korisnik trenutniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		return dao.odustanakRezervacije(idKarte, trenutniKorisnik.getKorisnickoIme());
+	}
+	
+	@GET
+	@Path("/getKarteValidneZaOdustanak")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Karta> getKarteValidneZaOdustanak(@Context HttpServletRequest request) {
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		KupacDAO dao = (KupacDAO) ctx.getAttribute("kupacDAO");
+		return dao.getKarteValidneZaOdustanak(ulogovaniKorisnik.getKorisnickoIme());
 	}
 }

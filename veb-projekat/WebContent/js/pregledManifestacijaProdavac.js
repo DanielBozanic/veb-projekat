@@ -15,14 +15,15 @@ $(document).ready(function(){
 		let naziv = $('<td>' + manifestacija.naziv + '</td>');
 		let tipManifestacije = $('<td>' + manifestacija.tipManifestacije + '</td>');
 		let brojMesta = $('<td>' + manifestacija.brojMesta + '</td>');
+		let datumIVremeOdrzavanja = $('<td>' + manifestacija.datumIVremeOdrzavanja + '</td>');
 		let cenaRegularKarte = $('<td>' + manifestacija.cenaRegularKarte + '</td>');
 		let status;
 		if (manifestacija.aktivan)
 			status = $('<td>Odobrena</td>');
 		else
 			status = $('<td>Nije odobrena</td>');
-		tr.append(naziv).append(tipManifestacije).append(brojMesta).append(cenaRegularKarte).
-			append(status)
+		tr.append(naziv).append(tipManifestacije).append(brojMesta).append(datumIVremeOdrzavanja).
+			append(cenaRegularKarte).append(status);
 		$('#tabelaManifestacija tbody').append(tr);
 	};
 });

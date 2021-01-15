@@ -47,11 +47,11 @@ public class ManifestacijaServis {
 	}
 	
 	@GET
-	@Path("/getManifestacije")
+	@Path("/getManifestacijeAdmin")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Manifestacija> getManifestacije() {
+	public ArrayList<Manifestacija> getManifestacijeAdmin() {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
-		return dao.getManifestacije();
+		return dao.getManifestacijeAdmin();
 	}
 	
 	@GET

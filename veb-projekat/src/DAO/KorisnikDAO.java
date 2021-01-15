@@ -36,6 +36,7 @@ public class KorisnikDAO {
 				linkovi.add(new SimpleEntry<String, String>("pregledKupacaKojiSuRezervisaliKarte.html", "Kupci sa rezervisanim kartama"));
 			} else {
 				linkovi.add(new SimpleEntry<String, String>("rezervacijaKarte.html", "Rezervacija karti"));
+				linkovi.add(new SimpleEntry<String, String>("odustanakRezervacije.html", "Odustanak rezervacije"));
 				linkovi.add(new SimpleEntry<String, String>("pregledKartiKupca.html", "Pregled karti"));
 			}
 		}

@@ -2,6 +2,7 @@ package DAO;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,6 +23,12 @@ public class ProdavacDAO {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
+		
+		LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
+		if (manifestacija.getDatumIVremeOdrzavanja().isBefore(trenutniDatumIVreme)) {
+			return false;
+		}
+		
 		for (Manifestacija m : manifestacije) {
 			if (m.getNaziv().equals(manifestacija.getNaziv()) || 
 					(m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&

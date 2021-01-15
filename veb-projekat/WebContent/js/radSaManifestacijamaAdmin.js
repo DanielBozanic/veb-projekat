@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $.get({
-		url: 'rest/manifestacije/getManifestacije',
+		url: 'rest/manifestacije/getManifestacijeAdmin',
 		success: function(manifestacije) {
 			for (let m of manifestacije) {
 				 dodajManifestacijaRed(m);
