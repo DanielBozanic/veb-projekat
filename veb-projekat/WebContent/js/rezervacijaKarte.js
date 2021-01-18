@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var cenaKarte;
 	
 	$.get({
-		url: 'rest/manifestacije/getAktivneManifestacije',
+		url: 'rest/manifestacije/getAktuelneManifestacije',
 		success: function(aktivneManifestacije) {
 			var selected = false;
 			for (let m of aktivneManifestacije) {

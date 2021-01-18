@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var posterManifestacije;
 	
 	$.get({
-		url: 'rest/manifestacije/getManfestacijeZaProdavca',
+		url: 'rest/manifestacije/getManifestacijeZaProdavca',
 		success: function(manifestacije) {
 			azurirajManifestacije(manifestacije, true);
 		}

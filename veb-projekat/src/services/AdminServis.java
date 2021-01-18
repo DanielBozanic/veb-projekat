@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -51,6 +53,15 @@ public class AdminServis {
 	public boolean promeniStatusManifestacije(String naziv) throws IOException {
 		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
 		return dao.promeniStatusManifestacije(naziv);
+	}
+	
+	@POST
+	@Path("/obrisiKorisnika")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> obrisiKorisnika(String korisnickoIme) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.obrisiKorisnika(korisnickoIme);
 	}
 
 }

@@ -17,6 +17,12 @@ public class ManifestacijaDAO {
 	public ManifestacijaDAO()  {
 	}
 	
+	public ArrayList<Manifestacija> getManifestacije() {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		return manifestacije;
+	}
+	
 	public ArrayList<Manifestacija> getManifestacijeAdmin() {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
@@ -31,7 +37,7 @@ public class ManifestacijaDAO {
 		return validne;
 	}
 	
-	public ArrayList<Manifestacija> getManfestacijeZaProdavca(String korisnickoIme){
+	public ArrayList<Manifestacija> getManifestacijeZaProdavca(String korisnickoIme){
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		
@@ -52,11 +58,35 @@ public class ManifestacijaDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		ArrayList<Manifestacija> aktivneManifestacije = new ArrayList<Manifestacija>();
 		for (Manifestacija m : manifestacije) {
-			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
-			if (m.isAktivan() && trenutniDatumIVreme.isBefore(m.getDatumIVremeOdrzavanja())) {
+			if (m.isAktivan()) {
 				aktivneManifestacije.add(m);
 			}
 		}
 		return aktivneManifestacije;
+	}
+	
+	public ArrayList<Manifestacija> getAktuelneManifestacije() {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		ArrayList<Manifestacija> aktuelneManifestacije = new ArrayList<Manifestacija>();
+		for (Manifestacija m : manifestacije) {
+			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
+			if (m.isAktivan() && trenutniDatumIVreme.isBefore(m.getDatumIVremeOdrzavanja())) {
+				aktuelneManifestacije.add(m);
+			}
+		}
+		return aktuelneManifestacije;
+	}
+	
+	public Manifestacija getOdabranaManifestacija(String nazivManifestacije) {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		for (Manifestacija m : manifestacije) {
+			if (m.getNaziv().equals(nazivManifestacije)) {
+				return m;
+			}
+		}
+		
+		return null;
 	}
 }

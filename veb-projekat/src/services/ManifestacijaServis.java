@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -38,12 +40,20 @@ public class ManifestacijaServis {
 	}
 	
 	@GET
-	@Path("/getManfestacijeZaProdavca")
+	@Path("/getManifestacije")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Manifestacija> getManfestacijeZaProdavca(@Context HttpServletRequest request) {
+	public ArrayList<Manifestacija> getManifestacije() {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		return dao.getManifestacije();
+	}
+	
+	@GET
+	@Path("/getManifestacijeZaProdavca")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> getManifestacijeZaProdavca(@Context HttpServletRequest request) {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
 		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
-		return dao.getManfestacijeZaProdavca(ulogovaniKorisnik.getKorisnickoIme());
+		return dao.getManifestacijeZaProdavca(ulogovaniKorisnik.getKorisnickoIme());
 	}
 	
 	@GET
@@ -60,5 +70,29 @@ public class ManifestacijaServis {
 	public ArrayList<Manifestacija> getAktivneManifestacije() {
 		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
 		return dao.getAktivneManifestacije();
+	}
+	
+	@GET
+	@Path("/getAktuelneManifestacije")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> getAktuelneManifestacije() {
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		return dao.getAktuelneManifestacije();
+	}
+	
+	@POST
+	@Path("/setOdabranaManifestacija")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void setOdabranaManifestacija(String naziv, @Context HttpServletRequest request) {
+		request.getSession().setAttribute("odabranaManifestacija", naziv);
+	}
+	
+	@GET
+	@Path("/getOdabranaManifestacija")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manifestacija getOdabranaManifestacija(@Context HttpServletRequest request) {
+		String nazivManifestacije = (String) request.getSession().getAttribute("odabranaManifestacija");
+		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
+		return dao.getOdabranaManifestacija(nazivManifestacije);
 	}
 }

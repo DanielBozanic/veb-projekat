@@ -1,13 +1,23 @@
 package beans;
 
 public class Komentar {
+	private String idKomentara;
 	private Korisnik kupacKarte;
 	private Manifestacija manifestacija;
 	private String tekstKomentara;
 	private int ocena;
+	private boolean odobren;
 	
 	public Komentar() {}
-
+	
+	public String getIdKomentara() {
+		return idKomentara;
+	}
+	
+	public void setIdKomentara(String idKomentara) {
+		this.idKomentara = idKomentara;
+	}
+	
 	public Korisnik getKupacKarte() {
 		return kupacKarte;
 	}
@@ -38,5 +48,13 @@ public class Komentar {
 
 	public void setOcena(int ocena) {
 		this.ocena = ocena;
+	}
+
+	public boolean isOdobren() {
+		return odobren;
+	}
+
+	public void setOdobren(boolean odobren) {
+		this.odobren = odobren;
 	}
 }

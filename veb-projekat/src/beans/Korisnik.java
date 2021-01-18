@@ -32,6 +32,7 @@ public class Korisnik {
 	private ArrayList<Manifestacija> manifestacije;
 	private double brojSakupljenihBodova;
 	private TipKupca tipKupca;
+	private boolean obrisan;
 	
 	public Korisnik() {
 		
@@ -46,6 +47,7 @@ public class Korisnik {
 		kupac.tipKupca.setImeTipa(ImeTipa.BRONZANI);
 		kupac.tipKupca.setPopust(0.0);
 		kupac.tipKupca.setTrazeniBrojBodova(Konstante.SREBRNI_TRAZENI_PRAG);
+		kupac.obrisan = false;
 	}
 	
 	public static void InitProdavac(Korisnik prodavac)	{
@@ -54,6 +56,7 @@ public class Korisnik {
 		prodavac.sveKarte = new ArrayList<Karta>();
 		prodavac.manifestacije = new ArrayList<Manifestacija>();
 		prodavac.tipKupca = null;
+		prodavac.obrisan = false;
 	}
 	
 	public String getKorisnickoIme() {
@@ -142,5 +145,13 @@ public class Korisnik {
 	
 	public void setTipKupaca(TipKupca tipKupca) {
 		this.tipKupca = tipKupca;
+	}
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
 	}
 }

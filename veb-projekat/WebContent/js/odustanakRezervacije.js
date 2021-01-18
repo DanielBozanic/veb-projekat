@@ -43,6 +43,7 @@ $(document).ready(function(){
 				 			dodajKartaRed(k);
 						}
 						alert("Uspesan odustanak rezervacije.");
+						odustanakRezervacije();
 					} else {
 						alert("Neuspesan odustanak rezervacije.");
 					}

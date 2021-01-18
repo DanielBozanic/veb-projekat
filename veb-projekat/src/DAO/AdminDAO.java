@@ -70,5 +70,20 @@ public class AdminDAO {
 			}
 		}
 	}
+	
+	public ArrayList<Korisnik> obrisiKorisnika(String korisnickoIme) throws IOException {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		
+		for (Korisnik k : korisnici) {
+			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+				k.setObrisan(true);
+				PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+				return korisnici;
+			}
+		}
+		
+		return null;
+	}
 
 }

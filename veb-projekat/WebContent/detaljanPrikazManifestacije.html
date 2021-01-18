@@ -1,0 +1,74 @@
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Detaljan prikaz manifestacije</title>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="bootstrap.css.map">
+	<script src = "jquery-3.3.1.min.js"></script>
+	<script src="bootstrap.js"></script>
+	<script src="bootstrap.js.map"></script>
+	<script src="js/detaljanPrikazManifestacije.js"></script>
+</head>
+<body style = "padding: 15px; background-color:#FFFFD5">
+
+	<div class = "row">
+		<div class = "col-md-3">
+		
+			<div class="form-group">
+				<label>Naziv:</label>
+				<input class="form-control" type = "text" name = "naziv" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Tip manifestacije:</label>
+				<input class="form-control" type = "text" name = "tipManifestacije" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Broj mesta:</label>
+				<input class="form-control" type = "number" name = "brojMesta" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Datum i vreme odrzavanja:</label>
+				<input class="form-control" type = "datetime-local" name = "datumIVremeOdrzavanja" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Cena regular karte:</label>
+				<input class="form-control" type = "number" name = "cenaRegularKarte" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Geografska duzina:</label>
+				<input class="form-control" type = "number" name = "geografskaDuzina" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Geografska sirina:</label>
+				<input class="form-control" type = "number" name = "geografskaSirina" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Ulica i broj:</label>
+				<input class="form-control" type = "text" name="ulicaIBroj" readonly/>
+			</div>
+
+			<div class="form-group">
+				<label>Mesto:</label>
+				<input class="form-control" type = "text" name="mesto" readonly/>
+			</div>
+			
+			<div class="form-group">
+				<label>Postanski broj:</label>
+				<input class="form-control" type = "text" name="postanskiBroj" readonly/>
+			</div>
+		</div>
+		
+		<span>
+			<img style = "padding: 15px;" name="posterManifestacije"/>
+		</span>
+		
+	</div>
+</body>
+</html>
