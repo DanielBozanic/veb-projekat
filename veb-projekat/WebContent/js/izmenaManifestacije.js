@@ -81,7 +81,7 @@ $(document).ready(function() {
 	            data: JSON.stringify(manifestacija),
 	            contentType: 'application/json',
 	            success: function(manifestacije) {
-	            	if (manifestacije !== null) {
+	            	if (manifestacije !== undefined) {
 	            		alert("Manifestacija je uspesno izmenjena.");
 	            		azurirajManifestacije(manifestacije, false);
 	            	}

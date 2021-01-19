@@ -35,17 +35,22 @@ public class KomentarDAO {
 		return id;
 	}
 	
-	public void odobriKomentar(String idKomentara) throws IOException {
+	public boolean odobriKomentar(String idKomentara) throws IOException {
 		ArrayList<Komentar> komentari = PomocneFunkcije
 				.ucitaj(new File(Konstante.FAJL_KOMENTARI), new TypeReference<ArrayList<Komentar>>(){});
-		
+		boolean valid = false;
 		for (Komentar k : komentari) {
 			if (k.getIdKomentara().equals(idKomentara)) {
 				k.setOdobren(true);
+				valid = true;
 				break;
 			}
 		}
-		PomocneFunkcije.upisi(komentari, Konstante.FAJL_KOMENTARI);
+		if (valid) {
+			PomocneFunkcije.upisi(komentari, Konstante.FAJL_KOMENTARI);
+		}
+		
+		return valid;
 	}
 	
 	public ArrayList<Komentar> getOdobreniKomentariZaManifestaciju(String nazivManifestacije) {

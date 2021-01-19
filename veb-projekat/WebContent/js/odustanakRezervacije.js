@@ -37,7 +37,7 @@ $(document).ready(function(){
 				data: id,
 	            contentType: 'text/plain',
 				success: function(karte) {
-					if (karte !== null) {
+					if (karte !== undefined) {
 						$('#tabelaKarti tbody').empty();
 						for (let k of karte) {
 				 			dodajKartaRed(k);

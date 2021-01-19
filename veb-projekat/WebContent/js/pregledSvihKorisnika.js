@@ -52,7 +52,7 @@ $(document).ready(function(){
 				data: korisnickoIme,
 	            contentType: 'text/plain',
 				success: function(korisnici) {
-					if (korisnici !== null) {
+					if (korisnici !== undefined) {
 						$('#tabela tbody').empty();
 						for (let k of korisnici) {
 							dodajKorisnikRed(k);

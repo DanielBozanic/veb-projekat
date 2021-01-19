@@ -38,12 +38,16 @@ public class KorisnikServis {
 	
 	@GET
 	@Path("/trenutniKorisnik")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Korisnik getPodaciTrenutniKorisnik(@Context HttpServletRequest request) {
 		Korisnik korisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		KorisnikDAO korisnikDAO = (KorisnikDAO) ctx.getAttribute("korisnikDAO");
-		return korisnikDAO.getPodaciTrenutniKorisnik(korisnik.getKorisnickoIme());
+		if (korisnik != null) {
+			return korisnikDAO.getPodaciTrenutniKorisnik(korisnik.getKorisnickoIme());
+		} else {
+			return null;
+		}
+			
 	}
 	
 	@POST

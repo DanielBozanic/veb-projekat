@@ -9,8 +9,8 @@
 	<script src="bootstrap.js.map"></script>
 	<script src="js/index.js"></script>
 </head>
-<body style="background-color: #FFFFD5">
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<body style="background-color: #DEEDE6">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="display: inherit !important;">
 		<div class="row">
 			<div class="col-md-11">
 	 			<ul id = "menu" class="nav navbar-nav">
@@ -20,14 +20,111 @@
 			</div>
 		</div>
 	</nav>
-	<h1>Manifestacije</h1>
-	<table id = "manifestacije" class="table table-bordered">
-		<thead>
-			<th>Manifestacija</th>
-			<th>Datum i vreme manifestacije</th>
-		</thead>
-		<tbody>	
-		</tbody>
-    </table> 
+	<div style="padding-left: 15px;">
+		<div class="row" style="margin-right: 5px;">
+			<div class="col-md-12">
+				<h1>Manifestacije</h1>
+			</div>
+		</div>
+		<div class="row" style="margin-left: 0; margin-right: 15px; border: ridge;">
+			<div class = "row" style="margin-left: 15px;">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Manifestacija:</label>
+						<input class="form-control" type = "text" name = "naziv"/>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Datum od:</label>
+						<input class="form-control" type = "datetime-local" name = "datumOd"/>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Datum do:</label>
+						<input class="form-control" type = "datetime-local" name = "datumDo"/>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Grad ili drzava:</label>
+						<input class="form-control" type = "text" name = "gradDrzava"/>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<div class="form-group">
+						<label>Cena od:</label>
+						<input class="form-control" type = "number" name = "cenaOd" min = "0"/>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<div class="form-group">
+						<label>Cena do:</label>
+						<input class="form-control" type = "number" name = "cenaDo" min = "0"/>
+					</div>
+				</div>
+				<div class="col-md-1" style="padding-top: 30px;">
+					<input class="btn btn-primary" id = "btnPretraga" type = "button" value="Pretrazi"/>
+				</div>
+			</div>
+			<div class="row" style="margin-left: 15px;">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Kriterijum filtiranja:</label>
+						<select class="form-control" name = "kriterijumFiltriranja">
+							<option value = "tipManifestacije" selected="selected">Tip manifestacije</option>
+		    				<option value = "brojMesta">Neraspodatih manifestacija</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Filter:</label>
+						<input class="form-control" type = "text" name = "filter"/>
+					</div>
+				</div>
+				<div class = "col-md-3">
+			  		<div class="form-group">
+			    		<label>Kriterijum sortiranja:</label>
+			    		<select name = "kriterijumSortiranja" class="form-control">
+			    			<option value = "manifestacija" selected="selected">Manifestacija</option>
+			    			<option value = "datumIVremeOdrzavanja">Datum i vreme odrzavanja</option>
+			    			<option value = "cenaKarte">Cena karte</option>
+			    			<option value = "lokacija">Lokacija</option>
+			    		</select>
+			  		</div>
+		  		</div>
+			  	<div class = "col-md-2">
+			  		<div class="form-group">
+			    		<label>Smer:</label>
+			    		<select name = "kriterijumSortiranja2" class="form-control">
+			    			<option value = "opadajuce" selected="selected">Opadajuce</option>
+			    			<option value = "rastuce">Rastuce</option>
+			    		</select>
+			  		</div>
+			  	</div>
+			  	<div class = "col-md-1" style="padding-top: 30px;">
+		 			<input id = "btnSortiraj" type="button" class="btn btn-primary" value = "Sortiraj"/>
+		 		</div>
+			</div>
+		</div>
+		<div class="row" style="margin-right: 5px;">
+			<div class="col-md-12">
+				<table id = "manifestacije" class="table table-bordered">
+					<thead>
+						<th>Manifestacija</th>
+						<th>Tip manifestacije</th>
+						<th>Broj mesta</th>
+						<th>Datum i vreme manifestacije</th>
+						<th>Cena</th>
+						<th>Mesto</th>
+					</thead>
+					<tbody>	
+					</tbody>
+			    </table> 
+	    	</div>
+		</div>
+	</div>
 </body>
 </html>

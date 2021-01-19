@@ -31,6 +31,7 @@ public class KorisnikDAO {
 			} else if (trenutniKorisnik.getUloga() == Uloga.PRODAVAC) {
 				linkovi.add(new SimpleEntry<String, String>("dodajManifestacije.html", "Dodavanje manifestacije"));
 				linkovi.add(new SimpleEntry<String, String>("izmenaManifestacije.html", "Izmena manifestacije"));
+				linkovi.add(new SimpleEntry<String, String>("odobrenjeKomentara.html", "Odobri komentare"));
 				linkovi.add(new SimpleEntry<String, String>("pregledManifestacijaProdavac.html", "Pregled manifestacija"));
 				linkovi.add(new SimpleEntry<String, String>("pregledRezervisanihKarti.html", "Pregled svih rezervisanih karti"));
 				linkovi.add(new SimpleEntry<String, String>("pregledKupacaKojiSuRezervisaliKarte.html", "Kupci sa rezervisanim kartama"));

@@ -2,7 +2,7 @@ package beans;
 
 public class Komentar {
 	private String idKomentara;
-	private Korisnik kupacKarte;
+	private String kupacKarte;
 	private Manifestacija manifestacija;
 	private String tekstKomentara;
 	private int ocena;
@@ -18,11 +18,11 @@ public class Komentar {
 		this.idKomentara = idKomentara;
 	}
 	
-	public Korisnik getKupacKarte() {
+	public String getKupacKarte() {
 		return kupacKarte;
 	}
 
-	public void setKupacKarte(Korisnik kupacKarte) {
+	public void setKupacKarte(String kupacKarte) {
 		this.kupacKarte = kupacKarte;
 	}
 

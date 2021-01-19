@@ -8,37 +8,28 @@
 	<script src="bootstrap.js.map"></script>
     <script src="js/pregledSvihKorisnika.js"></script>
 </head>
-<body style="background-color: #FFFFD5">
-	<h1>Pregled svih korisnika</h1>
-	
-	<table id = "tabela" class="table table-bordered">
-		<thead>
-			<th>Korisnicko ime</th>
-			<th>Ime</th>
-			<th>Prezime</th>
-			<th>Datum rodjenja</th>
-			<th>Pol</th>
-			<th>Uloga</th>
-			<th>Broj sakupljenih bodova</th>
-			<th>Status</th>
-			<th></th>
-		</thead>
-		<tbody>	
-		</tbody>
-    </table>
-    
-    <div class = "row" style = "padding: 15px;">
-		<div class = "col-md-3">
+<body style="background-color: #DEEDE6;">
+	<div class="row" style="margin-left: 0; margin-right: 5px;">
+		<div class = "col-md-12">
+			<h1>Pregled svih korisnika</h1>
+		</div>
+	</div>
+	<div class = "row" style="margin-left: 15px; margin-right: 15px; border: ridge;">
+		<div class = "col-md-1">
 			<div class="form-group">
 	    		<label>Kriterijum filtera</label>
 	    		<select id = "kriterijumFilter" class="form-control">
 	    			<option value = "uloga" selected="selected">Uloga</option>
 	    		</select>
 	  		</div>
+	  	</div>
+	  	<div class = "col-md-2">
 	  		<div class="form-group">
 	    		<label>Filter</label>
 	    		<input id = "filter" type= "text" class="form-control"/>
 	  		</div>
+	  	</div>
+	  	<div class = "col-md-2">
 	  		<div class="form-group">
 	    		<label>Kriterijum pretrage</label>
 	    		<select id = "kriterijumPretrage" class="form-control">
@@ -47,13 +38,17 @@
 	    			<option value = "prezime">Prezime</option>
 	    		</select>
 	  		</div>
+	  	</div>
+	  	<div class = "col-md-2">
 	  		<div class="form-group">
 	    		<label>Pretraga</label>
 	    		<input id = "pretraga" type="text" class="form-control"/>
 	  		</div>
-	  		<div class="form-group">
-	 			<input id = "btnPretraga" type="button" class="btn btn-primary" value = "Pretrazi"/>
-	 		</div>
+	  	</div>
+	  	<div class = "col-md-1" style="padding-top: 30px;">
+ 			<input id = "btnPretraga" type="button" class="btn btn-primary" value = "Pretrazi"/>
+ 		</div>
+ 		<div class = "col-md-2">
 	  		<div class="form-group">
 	    		<label>Kriterijum sortiranja</label>
 	    		<select id = "kriterijumSortiranja" class="form-control">
@@ -63,17 +58,38 @@
 	    			<option value = "brojSakupljenihBodova">Broj sakupljenih bodova</option>
 	    		</select>
 	  		</div>
+	  	</div>
+	  	<div class = "col-md-1">
 	  		<div class="form-group">
-	    		<label>Kriterijum sortiranja</label>
+	    		<label>Smer</label>
 	    		<select id = "kriterijumSortiranja2" class="form-control">
 	    			<option value = "opadajuce" selected="selected">Opadajuce</option>
 	    			<option value = "rastuce">Rastuce</option>
 	    		</select>
 	  		</div>
-	  		<div class="form-group">
-	 			<input id = "btnSortiraj" type="button" class="btn btn-primary" value = "Sortiraj"/>
-	 		</div>
-		</div>
+	  	</div>
+	  	<div class = "col-md-1" style="padding-top: 30px;">
+ 			<input id = "btnSortiraj" type="button" class="btn btn-primary" value = "Sortiraj"/>
+ 		</div>
 	</div>
+	<div class="row" style="margin-left: 0; margin-right: 5px;">
+		<div class = "col-md-12">
+			<table id = "tabela" class="table table-bordered">
+				<thead>
+					<th>Korisnicko ime</th>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Datum rodjenja</th>
+					<th>Pol</th>
+					<th>Uloga</th>
+					<th>Broj sakupljenih bodova</th>
+					<th>Status</th>
+					<th></th>
+				</thead>
+				<tbody>	
+				</tbody>
+		    </table>
+		 </div>
+	 </div>
 </body>
 </html>

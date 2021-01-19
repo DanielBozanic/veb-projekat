@@ -1,15 +1,16 @@
 <html>
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<title>Detaljan prikaz manifestacije</title>
 	<link rel="stylesheet" href="bootstrap.css">
 	<link rel="stylesheet" href="bootstrap.css.map">
+	<link rel="stylesheet" href="detaljanPrikazManifestacije.css">
 	<script src = "jquery-3.3.1.min.js"></script>
 	<script src="bootstrap.js"></script>
 	<script src="bootstrap.js.map"></script>
 	<script src="js/detaljanPrikazManifestacije.js"></script>
 </head>
-<body style = "padding: 15px; background-color:#FFFFD5">
+<body style = "padding: 15px; background-color:#DEEDE6">
 
 	<div class = "row">
 		<div class = "col-md-3">
@@ -65,9 +66,74 @@
 			</div>
 		</div>
 		
-		<span>
-			<img style = "padding: 15px;" name="posterManifestacije"/>
-		</span>
+		<div class = "col-md-5">
+			<div class = "row">
+				<div class = "col-md-12">
+					<span>
+						<img class="img-fluid" name="posterManifestacije"/>
+					</span>
+				</div>
+			</div>
+			<div id = "objava" class = "row">
+				<div class = "col-md-12">
+					<div class = "row">
+						<div class = "col-md-12">
+							<div class = "form-group">
+								<label>Komentar</label>
+								<textarea class="form-control" id = "komentar" rows="4" cols = "0"></textarea>
+							</div>
+						</div>
+				 	</div>
+					<div class = "row">
+						<div class = "col-md-12">
+							<div class = "rating">
+								<label>
+								    <input type="radio" name="stars" value="1" />
+								    <span class="icon">★</span>
+							  	</label>
+							  	<label>
+								    <input type="radio" name="stars" value="2" />
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+							  	</label>
+							  	<label>
+								    <input type="radio" name="stars" value="3" />
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>   
+							  	</label>
+							  	<label>
+								    <input type="radio" name="stars" value="4" />
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+							  	</label>
+							  	<label>
+							    	<input type="radio" name="stars" value="5" />
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+								    <span class="icon">★</span>
+							 	</label>
+						 	</div>
+						 </div>
+				 	</div>
+				 	<div class = "row">
+				 		<div class = "col-md-12 padding-top10">
+				 			<input class="btn btn-primary" type = "button" id = "btnKomentar" value = "Objavi"/>
+				 		</div>
+				 	</div>
+				</div>
+			</div>			
+		</div>
+		
+		<div class = "col-md-4">
+			<label>Komentari:</label>
+			<ul id = "listaKomentara"></ul>
+		</div>
+	
 		
 	</div>
 </body>

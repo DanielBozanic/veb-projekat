@@ -6,7 +6,7 @@ $(document).ready(function() {
             url: 'rest/korisnici/trenutniKorisnik',
             dataType: 'json',
            	success: function(korisnik) {
-	            	if (korisnik !== null) {
+	            	if (korisnik !== undefined) {
 	            		trenutniKorisnik = korisnik;
 	            		popuniFormu();
 	            	}
@@ -46,7 +46,7 @@ $(document).ready(function() {
             data: JSON.stringify(data),
 	        contentType: 'application/json',
            	success: function(korisnik) {
-	            	if (korisnik !== null) {
+	            	if (korisnik !== undefined) {
 	            		trenutniKorisnik = korisnik;
 	            		popuniFormu();
 	            		alert("Uspesna izmena.");
