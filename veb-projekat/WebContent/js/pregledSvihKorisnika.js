@@ -77,16 +77,7 @@ $(document).ready(function(){
     		});
 	 	}
   	 });
-  	 
-  	$('#pretraga').on('change', function(){
-  		let pretraga = $('#pretraga').val();
-  		if (pretraga === '') {
-  			$('#tabela tbody tr').each(function() {
-  				$(this).show();
-  			});
-  		}
-  	});
-  		
+
   	$('#btnPretraga').on('click', function() {
 		    var vrednost = $('#pretraga').val();
 		
@@ -105,7 +96,7 @@ $(document).ready(function(){
 					opcija = $(row).find('td:nth-child(3)').text();
 				}
 				
-		        if (opcija === vrednost) {
+		        if (opcija.toLowerCase().indexOf(vrednost.toLowerCase()) >= 0) {
 		            $(row).show();
 		        }
 		        else {
@@ -130,5 +121,10 @@ $(document).ready(function(){
 			}
 		});
 		
+	});
+	
+	$('#btnClear').on('click', function() {
+		$('#pretraga').val('');
+		$('#tabela tbody tr').show();
 	});
 });

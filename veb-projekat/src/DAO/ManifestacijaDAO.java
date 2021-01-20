@@ -124,7 +124,8 @@ public class ManifestacijaDAO {
 		} else if (kriterijumSortiranja.equals("cenaKarte")) {
 			Collections.sort(manifestacije, new Comparator<Manifestacija>() {
 				public int compare(Manifestacija m1, Manifestacija m2) {
-					return (int) (m1.getCenaRegularKarte().doubleValue() - m2.getCenaRegularKarte().doubleValue());
+					double diff = m1.getCenaRegularKarte().doubleValue() - m2.getCenaRegularKarte().doubleValue();
+					return diff > 0 ? 1 : (diff == 0 ? 0 : -1);
 				}
 			});
 		}
@@ -152,7 +153,8 @@ public class ManifestacijaDAO {
 		} else if (kriterijumSortiranja.equals("cenaKarte")) {
 			Collections.sort(manifestacije, new Comparator<Manifestacija>() {
 				public int compare(Manifestacija m1, Manifestacija m2) {
-					return (int) (m2.getCenaRegularKarte().doubleValue() - m1.getCenaRegularKarte().doubleValue());
+					double diff = m2.getCenaRegularKarte().doubleValue() - m1.getCenaRegularKarte().doubleValue();
+					return diff > 0 ? 1 : (diff == 0 ? 0 : -1);
 				}
 			});
 		}

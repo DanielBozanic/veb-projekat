@@ -83,7 +83,8 @@ public class KorisnikDAO {
 		} else if (kriterijumSortiranja.equals("brojSakupljenihBodova")) {
 			Collections.sort(korisnici, new Comparator<Korisnik>() {
 				public int compare(Korisnik k1, Korisnik k2) {
-					return (int) (k1.getBrojSakupljenihBodova() - k2.getBrojSakupljenihBodova());
+					double diff = k1.getBrojSakupljenihBodova() - k2.getBrojSakupljenihBodova();
+					return diff > 0 ? 1 : (diff == 0 ? 0 : -1);
 				}
 			});
 		}
@@ -110,8 +111,9 @@ public class KorisnikDAO {
 			});
 		} else if (kriterijumSortiranja.equals("brojSakupljenihBodova")) {
 			Collections.sort(korisnici, new Comparator<Korisnik>() {
-				public int compare(Korisnik k1, Korisnik k2) {
-					return (int) (k2.getBrojSakupljenihBodova() - k1.getBrojSakupljenihBodova());
+				public int compare(Korisnik k1, Korisnik k2) {				
+					double diff = k2.getBrojSakupljenihBodova() - k1.getBrojSakupljenihBodova();
+					return diff > 0 ? 1 : (diff == 0 ? 0 : -1);
 				}
 			});
 		}

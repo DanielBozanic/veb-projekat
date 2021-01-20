@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -70,6 +71,16 @@ public class KartaServis {
 		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
 		KartaDAO dao = (KartaDAO) ctx.getAttribute("kartaDAO");
 		return dao.getKupciKojiSuRezervisaliKarte(ulogovaniKorisnik.getKorisnickoIme());
+	}
+	
+	@GET
+	@Path("/getSortiraneKarte")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Karta> getSortiraneKarte(@QueryParam("kriterijumSortiranja") String kriterijumSortiranja, 
+			@QueryParam("kriterijumSortiranja2") String kriterijumSortiranja2, @Context HttpServletRequest request) {
+		KartaDAO dao = (KartaDAO) ctx.getAttribute("kartaDAO");
+		Korisnik ulogovaniKorisnik = (Korisnik) request.getSession().getAttribute("ulogovaniKorisnik");
+		return dao.getSortiraneKarte(kriterijumSortiranja, kriterijumSortiranja2, ulogovaniKorisnik.getKorisnickoIme());
 	}
 }
 

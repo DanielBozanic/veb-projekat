@@ -87,9 +87,13 @@ $(document).ready(function() {
 				nazivTd = $(row).find('td:first').text();
 				datumTd = Date.parse($(row).find('td:nth-child(4)').text());
 				cenaTd = parseFloat($(row).find('td:nth-child(5)').text());
-				gradDrzavaTd = $(row).find('td:nth-child(5)').text();
-		        if (nazivTd === nazivManifestacije || datumTd >= datumOd || datumTd <= datumDo ||
-		        	gradDrzavaTd === gradDrzava || cenaTd >= cenaOd || cenaTd <= cenaDo) {
+				gradDrzavaTd = $(row).find('td:nth-child(6)').text();
+		        if ((nazivManifestacije === "" || nazivTd.toLowerCase().indexOf(nazivManifestacije.toLowerCase())) >= 0 && 
+		        	(isNaN(datumOd) || datumTd >= datumOd) &&
+		        	(isNaN(datumDo) || datumTd <= datumDo) &&
+		        	(gradDrzava === "" || gradDrzavaTd.toLowerCase().indexOf(gradDrzava.toLowerCase()) >= 0) &&
+		        	(isNaN(cenaOd) || cenaTd >= cenaOd) &&
+		        	(isNaN(cenaDo) || cenaTd <= cenaDo)) {
 		            $(row).show();
 		        }
 		        else {
@@ -114,5 +118,15 @@ $(document).ready(function() {
 			}
 		});
 		
+	});
+	
+	$('#btnClear').on('click', function() {
+		$('input[name=naziv]').val('');
+	    $('input[name=datumOd]').val('');
+	    $('input[name=datumDo]').val('');
+	    $('input[name=gradDrzava]').val('');
+	    $('input[name=cenaOd]').val('');
+	    $('input[name=cenaDo]').val('');
+		$('#manifestacije tbody tr').show();
 	});
 });

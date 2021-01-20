@@ -3,6 +3,8 @@ package DAO;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -97,5 +99,62 @@ public class KartaDAO {
 		}
 		
 		return kupac;
+	}
+	
+	public ArrayList<Karta> getSortiraneKarte(String kriterijumSortiranja, String kriterijumSortiranja2, 
+			String korisnickoIme) {
+		ArrayList<Karta> karteKupca = getKarteKupca(korisnickoIme);
+		if (kriterijumSortiranja2.equals("opadajuce")) {
+			sortOpadajuce(karteKupca, kriterijumSortiranja);
+		} else if (kriterijumSortiranja2.equals("rastuce")) {
+			sortRastuce(karteKupca, kriterijumSortiranja);
+		}
+		return karteKupca;
+	}
+	
+	private static void sortRastuce(ArrayList<Karta> karteKupca, String kriterijumSortiranja) {
+		if (kriterijumSortiranja.equals("manifestacija")) {
+			Collections.sort(karteKupca, new Comparator<Karta>() {
+				public int compare(Karta k1, Karta k2) {
+					return k1.getManifestacija().getNaziv().compareTo(k2.getManifestacija().getNaziv());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("datumIVremeOdrzavanja")) {
+			Collections.sort(karteKupca, new Comparator<Karta>() {
+				public int compare(Karta k1, Karta k2) {
+					return k1.getDatumIVremeManifestacije().compareTo(k2.getDatumIVremeManifestacije());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("cenaKarte")) {
+			Collections.sort(karteKupca, new Comparator<Karta>() {
+				public int compare(Karta k1, Karta k2) {
+					double diff = k1.getCena().doubleValue() - k2.getCena().doubleValue();
+					return diff > 0 ? 1 : (diff == 0 ? 0 : -1);
+				}
+			});
+		}
+	}
+	
+	private void sortOpadajuce(ArrayList<Karta> karteKupca, String kriterijumSortiranja) {
+		if (kriterijumSortiranja.equals("manifestacija")) {
+			Collections.sort(karteKupca, new Comparator<Karta>() {
+				public int compare(Karta k1, Karta k2) {
+					return k2.getManifestacija().getNaziv().compareTo(k1.getManifestacija().getNaziv());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("datumIVremeOdrzavanja")) {
+			Collections.sort(karteKupca, new Comparator<Karta>() {
+				public int compare(Karta k1, Karta k2) {
+					return k2.getDatumIVremeManifestacije().compareTo(k1.getDatumIVremeManifestacije());
+				}
+			});
+		} else if (kriterijumSortiranja.equals("cenaKarte")) {
+			Collections.sort(karteKupca, new Comparator<Karta>() {
+				public int compare(Karta k1, Karta k2) {
+					double diff = k2.getCena().doubleValue() - k1.getCena().doubleValue();
+					return diff > 0 ? 1 : (diff == 0 ? 0 : -1);
+				}
+			});
+		}
 	}
 }

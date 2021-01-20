@@ -89,6 +89,10 @@ $(document).ready(function() {
 	
 	function ucitajListuKomentara(korisnik) {
 		if (korisnik === undefined) {
+			if (trenutnaManifestacija.posterManifestacije === null) {
+				$('#slikaIObjava').hide();
+				$('#listaKomentara').removeClass("col-md-5").addClass("col-md-9");
+			}
 			$.post({
 				url: 'rest/komentari/getOdobreniKomentariZaManifestaciju',
 				data: trenutnaManifestacija.naziv,
@@ -111,6 +115,10 @@ $(document).ready(function() {
 					}
 				});
 		} else {
+			if (trenutnaManifestacija.posterManifestacije === null) {
+				$('#slikaIObjava').hide();
+				$('#listaKomentara').removeClass("col-md-5").addClass("col-md-9");
+			}
 			$.post({
 				url: 'rest/komentari/getKomentariZaManifestaciju',
 				data: trenutnaManifestacija.naziv,
@@ -125,9 +133,9 @@ $(document).ready(function() {
 	}
 	
 	function dodajKomentarUListu(komentar){
-		let li = $('<li>' + komentar.kupacKarte + ': ' + komentar.tekstKomentara +  '<br>Ocena: ' + 
-			komentar.ocena + '/5' + '</li>');
-		$('#listaKomentara').append(li);
+		let p = $('<p>' + komentar.kupacKarte + ': ' + komentar.tekstKomentara +  ' (Ocena: ' + 
+			komentar.ocena + '/5)' + '</p>');
+		$('#listaKomentara').append(p);
 	}
 	
 })

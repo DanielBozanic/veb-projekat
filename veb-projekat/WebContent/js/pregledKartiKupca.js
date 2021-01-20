@@ -23,4 +23,75 @@ $(document).ready(function(){
 			append(cena).append(kupac).append(statusKarte).append(tipKarte);
 		$('#tabelaKarti tbody').append(tr);
 	};
+	
+	$('input[name=filter]').on('keyup', function() {
+	 	var filter = $('input[name=filter]').val();
+	 	var opcija = $('select[name=kriterijumFiltriranja]').val();
+	 	if (opcija === 'tipKarte') {
+	 		$('#tabelaKarti tbody tr td:nth-child(7)').filter(function() {
+	 			var red = $(this).parent();
+      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+    		});
+	 	} else {
+	 		$('#tabelaKarti tbody tr td:nth-child(6)').filter(function() {
+	 			var red = $(this).parent();
+      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+    		});
+	 	}
+  	 });
+  	 
+  	$('#btnPretraga').on('click', function() {
+		    var nazivManifestacije = $('input[name=naziv]').val();
+		    var datumOd = Date.parse($('input[name=datumOd]').val());
+		    var datumDo = Date.parse($('input[name=datumDo]').val());
+		    var cenaOd = parseFloat($('input[name=cenaOd]').val());
+		    var cenaDo = parseFloat($('input[name=cenaDo]').val());
+		
+		    $('#tabelaKarti tbody tr').each(function() { 
+		        var row = $(this);
+				
+				var nazivTd;
+				var datumTd
+				var cenaTd
+
+				nazivTd = $(row).find('td:nth-child(2)').text();
+				datumTd = Date.parse($(row).find('td:nth-child(3)').text());
+				cenaTd = parseFloat($(row).find('td:nth-child(4)').text());
+		        if ((nazivManifestacije === "" || nazivTd.toLowerCase().indexOf(nazivManifestacije.toLowerCase())) >= 0 && 
+		        	(isNaN(datumOd) || datumTd >= datumOd) &&
+		        	(isNaN(datumDo) || datumTd <= datumDo) &&
+		        	(isNaN(cenaOd) || cenaTd >= cenaOd) &&
+		        	(isNaN(cenaDo) || cenaTd <= cenaDo)) {
+		            $(row).show();
+		        }
+		        else {
+		            $(row).hide();
+		        }
+		    });
+		});
+		
+	$('#btnSortiraj').on('click', function() {
+		let kriterijumSortiranja = $('select[name=kriterijumSortiranja]').val();
+		let kriterijumSortiranja2 = $('select[name=kriterijumSortiranja2]').val();
+		$('#tabelaKarti tbody').empty();
+		
+		$.get({
+		url: 'rest/karte/getSortiraneKarte?kriterijumSortiranja=' + kriterijumSortiranja + 
+			'&kriterijumSortiranja2=' + kriterijumSortiranja2,
+		success: function(karte) {
+			for (let k of karte) {
+				 dodajKartaRed(k);
+				}
+			}
+		});
+	});
+	
+	$('#btnClear').on('click', function() {
+		$('input[name=naziv]').val('');
+		$('input[name=datumOd]').val('');
+	    $('input[name=datumDo]').val('');
+	    $('input[name=cenaOd]').val('');
+	    $('input[name=cenaDo]').val('');
+		$('#tabelaKarti tbody tr').show();
+	});
 });

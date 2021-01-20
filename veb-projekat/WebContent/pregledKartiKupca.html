@@ -10,20 +10,109 @@
     <script src="js/pregledKartiKupca.js"></script>
 </head>
 <body style="background-color:#DEEDE6">
-	<h1>Pregled karti</h1>
-	
-	<table id = "tabelaKarti" class="table table-bordered">
-		<thead>
-			<th>ID</th>
-			<th>Manifestacija</th>
-			<th>Datum i vreme manifestacije</th>
-			<th>Cena</th>
-			<th>Kupac</th>
-			<th>Status</th>
-			<th>Tip</th>
-		</thead>
-		<tbody>	
-		</tbody>
-    </table> 
+	<div style="padding-left: 15px;">
+		<div class="row" style="margin-right: 5px;">
+			<div class="col-md-12">
+				<h1>Pregled karti</h1>
+			</div>
+		</div>
+		
+		<div class="row" style="margin-left: 0; margin-right: 15px; border: ridge;">
+			<div class = "row" style="margin-left: 15px;">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Manifestacija:</label>
+						<input class="form-control" type = "text" name = "naziv"/>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Datum od:</label>
+						<input class="form-control" type = "datetime-local" name = "datumOd"/>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Datum do:</label>
+						<input class="form-control" type = "datetime-local" name = "datumDo"/>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<div class="form-group">
+						<label>Cena od:</label>
+						<input class="form-control" type = "number" name = "cenaOd" min = "0"/>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<div class="form-group">
+						<label>Cena do:</label>
+						<input class="form-control" type = "number" name = "cenaDo" min = "0"/>
+					</div>
+				</div>
+				<div class="col-md-1" style="padding-top: 30px;">
+					<input class="btn btn-primary" id = "btnPretraga" type = "button" value="Pretrazi"/>
+				</div>
+				<div class="col-md-1" style="padding-top: 30px;">
+					<input class="btn btn-primary" id = "btnClear" type = "button" value="Clear"/>
+				</div>
+			</div>
+			<div class="row" style="margin-left: 15px;">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Kriterijum filtiranja:</label>
+						<select class="form-control" name = "kriterijumFiltriranja">
+							<option value = "tipKarte" selected="selected">Tip karte</option>
+		    				<option value = "statusKarte">Status karte</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Filter:</label>
+						<input class="form-control" type = "text" name = "filter"/>
+					</div>
+				</div>
+				<div class = "col-md-3">
+			  		<div class="form-group">
+			    		<label>Kriterijum sortiranja:</label>
+			    		<select name = "kriterijumSortiranja" class="form-control">
+			    			<option value = "manifestacija" selected="selected">Manifestacija</option>
+			    			<option value = "datumIVremeOdrzavanja">Datum i vreme odrzavanja</option>
+			    			<option value = "cenaKarte">Cena karte</option>
+			    		</select>
+			  		</div>
+		  		</div>
+			  	<div class = "col-md-2">
+			  		<div class="form-group">
+			    		<label>Smer:</label>
+			    		<select name = "kriterijumSortiranja2" class="form-control">
+			    			<option value = "opadajuce" selected="selected">Opadajuce</option>
+			    			<option value = "rastuce">Rastuce</option>
+			    		</select>
+			  		</div>
+			  	</div>
+			  	<div class = "col-md-1" style="padding-top: 30px;">
+		 			<input id = "btnSortiraj" type="button" class="btn btn-primary" value = "Sortiraj"/>
+		 		</div>
+			</div>
+		</div>
+		<div class="row" style="margin-right: 5px;">
+			<div class="col-md-12">
+				<table id = "tabelaKarti" class="table table-bordered">
+					<thead>
+						<th>ID</th>
+						<th>Manifestacija</th>
+						<th>Datum i vreme manifestacije</th>
+						<th>Cena</th>
+						<th>Kupac</th>
+						<th>Status</th>
+						<th>Tip</th>
+					</thead>
+					<tbody>	
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
