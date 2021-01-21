@@ -2,13 +2,15 @@ package DAO;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import beans.Karta;
+import beans.Komentar;
 import beans.Korisnik;
 import beans.Manifestacija;
+import beans.Uloga;
 import utils.Konstante;
 import utils.PomocneFunkcije;
 
@@ -24,11 +26,6 @@ public class ProdavacDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
 		
-		LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
-		if (manifestacija.getDatumIVremeOdrzavanja().isBefore(trenutniDatumIVreme)) {
-			return false;
-		}
-		
 		for (Manifestacija m : manifestacije) {
 			if (m.getNaziv().equals(manifestacija.getNaziv()) || 
 					(m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
@@ -41,14 +38,12 @@ public class ProdavacDAO {
 		if (valid) {
 			manifestacije.add(manifestacija);
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
-			if (!dodajManifestacijuProdavcu(korisnickoIme, manifestacija))
-				valid = false;
+			dodajManifestacijuProdavcu(korisnickoIme, manifestacija);
 		}
-		
 		return valid;
 	}
 	
-	private boolean dodajManifestacijuProdavcu(String korisnickoIme, Manifestacija manifestacija) throws IOException {
+	private void dodajManifestacijuProdavcu(String korisnickoIme, Manifestacija manifestacija) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		boolean valid = false;
@@ -63,8 +58,6 @@ public class ProdavacDAO {
 		if (valid) {
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
-		
-		return valid;
 	}
 	
 	public ArrayList<Manifestacija> izmeniManifestaciju(Manifestacija manifestacija, String korisnickoIme) throws IOException {
@@ -93,6 +86,9 @@ public class ProdavacDAO {
 				}
 			}
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
+			azurirajKarteKupaca(manifestacija);
+			azurirajKarte(manifestacija);
+			azurirajKomentare(manifestacija);
 		}
 		
 		return azurirajProdavca(korisnickoIme, manifestacija);
@@ -124,5 +120,49 @@ public class ProdavacDAO {
 		}
 		
 		return manifestacijeProdavac;
+	}
+	
+	private void azurirajKarte(Manifestacija manifestacija) throws IOException {
+		ArrayList<Karta> karte = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KARTE),
+                new TypeReference<ArrayList<Karta>>(){});
+		
+		for (Karta karta : karte) {
+			if (karta.getManifestacija().getNaziv().equals(manifestacija.getNaziv())) {
+				karta.setManifestacija(manifestacija);
+				karta.setDatumIVremeManifestacije(manifestacija.getDatumIVremeOdrzavanja());
+				karta.setCena(manifestacija.getCenaRegularKarte());
+			}
+		}
+		PomocneFunkcije.upisi(karte, Konstante.FAJL_KARTE);
+	}
+	
+	private void azurirajKarteKupaca(Manifestacija manifestacija) throws IOException {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		
+		for (Korisnik kupac : korisnici) {
+			if (kupac.getUloga().equals(Uloga.KUPAC)) {
+				for (Karta karta : kupac.getSveKarte()) {
+					if (karta.getManifestacija().getNaziv().equals(manifestacija.getNaziv())) {
+						karta.setManifestacija(manifestacija);
+						karta.setDatumIVremeManifestacije(manifestacija.getDatumIVremeOdrzavanja());
+						karta.setCena(manifestacija.getCenaRegularKarte());
+					}
+				}
+			}
+		}
+		PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+	}
+	
+	private void azurirajKomentare(Manifestacija manifestacija) throws IOException {
+		ArrayList<Komentar> komentari = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KOMENTARI),
+                new TypeReference<ArrayList<Komentar>>(){});
+		
+		for (Komentar komentar : komentari) {
+			if (komentar.getManifestacija().getNaziv().equals(manifestacija.getNaziv())) {
+				komentar.setManifestacija(manifestacija);
+			}
+		}
+		PomocneFunkcije.upisi(komentari, Konstante.FAJL_KOMENTARI);
 	}
 }

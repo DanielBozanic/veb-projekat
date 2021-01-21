@@ -41,6 +41,7 @@ $(document).ready(function() {
 	            success: function(valid) {
 	            	if (valid === "true") {
 	            		alert("Manifestacija je uspesno dodata.");
+	            		ocistiFormu();
 	            	}
 	            	else {
 	            		alert("Manifestacija je neuspesno dodata!");
@@ -49,6 +50,20 @@ $(document).ready(function() {
 	        });
         } else {
         	return;
+        }
+        
+        function ocistiFormu() {
+        	$('input[name="naziv"]').val('');
+			$('input[name="brojMesta"]').val('');
+			$('input[name="datumIVremeOdrzavanja"]').val('');
+			$('input[name="cenaRegularKarte"]').val('');
+	    	$('input[name="geografskaDuzina"]').val('');
+			$('input[name="geografskaSirina"]').val('');
+	    	$('input[name="ulicaIBroj"]').val('');
+			$('input[name="mesto"]').val('');
+			$('input[name="postanskiBroj"]').val('');
+			$('input[name="posterManifestacije"]').val('');
+			posterManifestacije = '';
         }
         
         function validacija() {
@@ -93,6 +108,9 @@ $(document).ready(function() {
 	    	} else if (isNaN(postanskiBroj)) {
 	    		alert("Postanski ne sme da se sadrzi nebrojevne vrednosti!");
 	    		valid = false;
+    		} else if (Date.parse(datumIVremeOdrzavanja) < Date.now()) {
+    			alert("Datum manifestacije ne sme biti pre danasnjeg!");
+    			valid = false;
     		}
     		return valid;
     	}

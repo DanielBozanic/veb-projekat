@@ -33,6 +33,7 @@ public class Korisnik {
 	private double brojSakupljenihBodova;
 	private TipKupca tipKupca;
 	private boolean obrisan;
+	private boolean blokiran;
 	
 	public Korisnik() {
 		
@@ -48,6 +49,7 @@ public class Korisnik {
 		kupac.tipKupca.setPopust(0.0);
 		kupac.tipKupca.setTrazeniBrojBodova(Konstante.SREBRNI_TRAZENI_PRAG);
 		kupac.obrisan = false;
+		kupac.blokiran = false;
 	}
 	
 	public static void InitProdavac(Korisnik prodavac)	{
@@ -57,6 +59,7 @@ public class Korisnik {
 		prodavac.manifestacije = new ArrayList<Manifestacija>();
 		prodavac.tipKupca = null;
 		prodavac.obrisan = false;
+		prodavac.blokiran = false;
 	}
 	
 	public String getKorisnickoIme() {
@@ -153,5 +156,13 @@ public class Korisnik {
 
 	public void setObrisan(boolean obrisan) {
 		this.obrisan = obrisan;
+	}
+
+	public boolean isBlokiran() {
+		return blokiran;
+	}
+
+	public void setBlokiran(boolean blokiran) {
+		this.blokiran = blokiran;
 	}
 }

@@ -23,17 +23,23 @@ $(document).ready(function() {
 	            url: 'rest/administratori/dodajProdavca',
 	            data: JSON.stringify(data),
 	            contentType: 'application/json',
-	            success: function(valid) {
-	            	if (valid === "true") {
-	            		alert("Prodavac je uspesno dodat.");
-	            	}
-	            	else {
-	            		alert("Prodavac sa ovim korisnickim imenom vec postoji!");
-	            	}
+	            success: function(poruka) {
+	            		alert(poruka);
+	            		ocistiFormu();
 	            }
 	        });
         } else {
         	return;
+        }
+        
+        function ocistiFormu() {
+        	$('input[name="korisnickoIme"]').val('');
+			$('input[name="lozinka"]').val('');
+			$('input[name="lozinka2"]').val('');
+			$('input[name="ime"]').val('');
+    		$('input[name="prezime"]').val('');
+			$('select[name="pol"]').val('');
+    		$('input[name="datumRodjenja"]').val('');
         }
         
         function validacija() {

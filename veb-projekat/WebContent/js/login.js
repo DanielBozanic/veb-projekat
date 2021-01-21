@@ -19,6 +19,7 @@ $(document).ready(function() {
 	            statusCode: {
 	            	500: function(message) {
 	            		alert(message.responseText);
+	            		ocistiLoginFormu();
 	            	},
 	            	200: function(message) {
 	            		alert(message);
@@ -28,6 +29,11 @@ $(document).ready(function() {
 	        });
         } else {
         	return;
+        }
+        
+        function ocistiLoginFormu() {
+        	$('input[name="korisnickoIme"]').val('');
+        	$('input[name="lozinka"]').val('');
         }
         
         function validacija() {

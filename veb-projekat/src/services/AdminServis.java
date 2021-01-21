@@ -7,7 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -41,13 +44,14 @@ public class AdminServis {
 	@POST
 	@Path("/dodajProdavca")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean dodajProdavca(Korisnik korisnik, @Context HttpServletRequest request) throws IOException {
+	@Produces(MediaType.TEXT_PLAIN)
+	public String dodajProdavca(Korisnik korisnik, @Context HttpServletRequest request) throws IOException {
 		Korisnik.InitProdavac(korisnik);
 		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
 		return dao.dodajProdavca(korisnik);
 	}
 	
-	@POST
+	@PUT
 	@Path("/odobriManifestaciju")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public boolean promeniStatusManifestacije(String naziv) throws IOException {
@@ -55,7 +59,7 @@ public class AdminServis {
 		return dao.promeniStatusManifestacije(naziv);
 	}
 	
-	@POST
+	@DELETE
 	@Path("/obrisiKorisnika")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,5 +67,48 @@ public class AdminServis {
 		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
 		return dao.obrisiKorisnika(korisnickoIme);
 	}
-
+	
+	@PUT
+	@Path("/blokirajKorisnika")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> blokirajKorisnika(String korisnickoIme) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.blokirajKorisnika(korisnickoIme);
+	}
+	
+	@PUT
+	@Path("/odblokirajKorisnika")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> odblokirajKorisnika(String korisnickoIme) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.odblokirajKorisnika(korisnickoIme);
+	}
+	
+	@GET
+	@Path("/getSumnjiviKupci")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> getSumnjiviKupci() {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.getSumnjiviKupci();
+	}
+	
+	@PUT
+	@Path("/blokirajSumnjivogKupca")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> blokirajSumnjivogKupca(String korisnickoIme) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.blokirajSumnjivogKupca(korisnickoIme);
+	}
+	
+	@PUT
+	@Path("/odblokirajSumnjivogKupca")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Korisnik> odblokirajSumnjivogKupca(String korisnickoIme) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.odblokirajSumnjivogKupca(korisnickoIme);
+	}
 }

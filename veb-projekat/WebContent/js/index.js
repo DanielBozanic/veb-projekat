@@ -41,8 +41,9 @@ $(document).ready(function() {
 			var self = this;
 			var naziv = $(self).text();
 			
-			$.post({
+			$.ajax({
 				url: 'rest/manifestacije/setOdabranaManifestacija',
+				type: 'PUT',
 				data: naziv,
 	            contentType: 'text/plain',
 				success: function() {

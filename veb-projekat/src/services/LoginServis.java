@@ -44,6 +44,16 @@ public class LoginServis {
 					.type(MediaType.TEXT_PLAIN)
 					.entity("Neispravno korisnicko ime i/ili lozinka")
 					.build();
+		} else if (ulogovaniKorisnik.isObrisan()) {
+			return Response.status(500)
+					.type(MediaType.TEXT_PLAIN)
+					.entity("Ovaj korisnik je obrisan!")
+					.build();
+		} else if (ulogovaniKorisnik.isBlokiran()) {
+			return Response.status(500)
+					.type(MediaType.TEXT_PLAIN)
+					.entity("Ovaj korisnik je blokiran!")
+					.build();
 		}
 		request.getSession().setAttribute("ulogovaniKorisnik", ulogovaniKorisnik);
 		return Response.status(200)

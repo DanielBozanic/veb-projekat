@@ -25,20 +25,6 @@ public class ManifestacijaDAO {
 		return manifestacije;
 	}
 	
-	public ArrayList<Manifestacija> getManifestacijeAdmin() {
-		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
-                new TypeReference<ArrayList<Manifestacija>>(){});
-		ArrayList<Manifestacija> validne = new ArrayList<Manifestacija>();
-		
-		for (Manifestacija m : manifestacije) {
-			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
-			if (trenutniDatumIVreme.isBefore(m.getDatumIVremeOdrzavanja())) {
-				validne.add(m);
-			}
-		}
-		return validne;
-	}
-	
 	public ArrayList<Manifestacija> getManifestacijeZaProdavca(String korisnickoIme){
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
@@ -64,7 +50,9 @@ public class ManifestacijaDAO {
 				aktivneManifestacije.add(m);
 			}
 		}
-		return aktivneManifestacije;
+		
+		sortRastuce(manifestacije, "datumIVremeOdrzavanja");
+		return manifestacije;
 	}
 	
 	public ArrayList<Manifestacija> getAktuelneManifestacije() {

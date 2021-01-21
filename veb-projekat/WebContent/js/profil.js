@@ -41,8 +41,9 @@ $(document).ready(function() {
 			"pol": pol
 		}
 		
-		$.post({
+		$.ajax({
             url: 'rest/korisnici/izmenaPodatakaTrenutnogKorisnika',
+            type: 'PUT',
             data: JSON.stringify(data),
 	        contentType: 'application/json',
            	success: function(korisnik) {

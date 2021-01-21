@@ -36,8 +36,9 @@ $(document).ready(function(){
 			var row = $(tdHref).parent();
 			var idKomentara = $(row).find("td:first").text();
 			
-			$.post({
+			$.ajax({
 				url: 'rest/komentari/odobriKomentar',
+				type: 'PUT',
 				data: idKomentara,
 	            contentType: 'text/plain',
 				success: function(odobreno) {

@@ -76,8 +76,9 @@ $(document).ready(function() {
 			"aktivan": aktivan
 		}
 		
-		$.post({
+		$.ajax({
 	            url: 'rest/prodavci/izmeniManifestaciju',
+	            type: 'PUT',
 	            data: JSON.stringify(manifestacija),
 	            contentType: 'application/json',
 	            success: function(manifestacije) {

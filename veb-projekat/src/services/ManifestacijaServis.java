@@ -8,7 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -58,14 +58,6 @@ public class ManifestacijaServis {
 	}
 	
 	@GET
-	@Path("/getManifestacijeAdmin")
-	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Manifestacija> getManifestacijeAdmin() {
-		ManifestacijaDAO dao = (ManifestacijaDAO) ctx.getAttribute("manifestacijaDAO");
-		return dao.getManifestacijeAdmin();
-	}
-	
-	@GET
 	@Path("/getAktivneManifestacije")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Manifestacija> getAktivneManifestacije() {
@@ -81,7 +73,7 @@ public class ManifestacijaServis {
 		return dao.getAktuelneManifestacije();
 	}
 	
-	@POST
+	@PUT
 	@Path("/setOdabranaManifestacija")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public void setOdabranaManifestacija(String naziv, @Context HttpServletRequest request) {

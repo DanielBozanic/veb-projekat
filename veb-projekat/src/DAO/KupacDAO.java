@@ -66,6 +66,7 @@ public class KupacDAO {
 					novaKarta.setKupac(k.getKorisnickoIme());
 					novaKarta.setStatusKarte(karta.getStatusKarte());
 					novaKarta.setTipKarte(karta.getTipKarte());
+					novaKarta.setDatumOtkazivanjaKarte(null);
 					korisnikoveKarte.add(novaKarta);
 					karte.add(novaKarta);
 				}
@@ -197,10 +198,12 @@ public class KupacDAO {
                 new TypeReference<ArrayList<Karta>>(){});
 		ArrayList<Korisnik> korisnici = PomocneFunkcije
 				.ucitaj(new File(Konstante.FAJL_KORISNICI), new TypeReference<ArrayList<Korisnik>>(){});
+		LocalDateTime datumOtkazivanja = LocalDateTime.now();
 		
 		for (Karta karta : karte) {
 			if (karta.getIdentifikatorKarte().equals(idKarte)) {
 				karta.setStatusKarte(StatusKarte.ODUSTANAK);
+				karta.setDatumOtkazivanjaKarte(datumOtkazivanja);
 				break;
 			}
 		}
@@ -210,6 +213,7 @@ public class KupacDAO {
 				for (Karta kartaKorisnika : korisnik.getSveKarte()) {
 					if (kartaKorisnika.getIdentifikatorKarte().equals(idKarte)) {
 						kartaKorisnika.setStatusKarte(StatusKarte.ODUSTANAK);
+						kartaKorisnika.setDatumOtkazivanjaKarte(datumOtkazivanja);
 						if (azurirajManifestaciju(kartaKorisnika)) {
 							azurirajKupca(korisnik, kartaKorisnika);
 							PomocneFunkcije.upisi(karte, Konstante.FAJL_KARTE);

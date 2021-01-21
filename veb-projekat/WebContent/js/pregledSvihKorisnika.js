@@ -7,8 +7,9 @@ $(document).ready(function(){
 				 dodajKorisnikRed(k);
 			}
 			obrisiKorisnika();
+			blokirajKorisnika();
+			odblokirajKorisnika();
 		}
-	
 	});
 	
 	function dodajKorisnikRed(korisnik) {
@@ -22,20 +23,28 @@ $(document).ready(function(){
 		let brojSakupljenihBodova = $('<td>' + korisnik.brojSakupljenihBodova + '</td>');
 		let status;
 		let obrisi;
+		let blokiraj;
 		if (korisnik.uloga === 'kupac' || korisnik.uloga === 'prodavac') {
 			if (korisnik.obrisan) {
 				status = $('<td>Obrisan</td>');
 				obrisi = $('<td></td>');
+				blokiraj = $('<td></td>');
+			} else if (korisnik.blokiran) {
+				status = $('<td>Blokiran</td>');
+				obrisi = $('<td><a class="obrisi" href="#">Obrisi korisnika</a></td>');
+				blokiraj = $('<td><a class="odblokiraj" href="#">Odblokiraj korisnika</a></td>');
 			} else {
 				status = $('<td>Aktivan</td>');
 				obrisi = $('<td><a class="obrisi" href="#">Obrisi korisnika</a></td>');
+				blokiraj = $('<td><a class="blokiraj" href="#">Blokiraj korisnika</a></td>');
 			}
 		} else {
 			status = $('<td>Aktivan</td>');
 			obrisi = $('<td></td>');
+			blokiraj = $('<td></td>');
 		}
 		tr.append(korisnickoIme).append(ime).append(prezime).append(datumRodjenja).
-			append(pol).append(uloga).append(brojSakupljenihBodova).append(status).append(obrisi);
+			append(pol).append(uloga).append(brojSakupljenihBodova).append(status).append(obrisi).append(blokiraj);
 		$('#tabela tbody').append(tr);
 	};
 	
@@ -47,8 +56,9 @@ $(document).ready(function(){
 			var row = $(tdHref).parent();
 			var korisnickoIme = $(row).find("td:first").text();
 			
-			$.post({
+			$.ajax({
 				url: 'rest/administratori/obrisiKorisnika',
+				type: 'DELETE',
 				data: korisnickoIme,
 	            contentType: 'text/plain',
 				success: function(korisnici) {
@@ -58,9 +68,64 @@ $(document).ready(function(){
 							dodajKorisnikRed(k);
 						}
 						obrisiKorisnika();
-						alert("Uspesno brisanje korisnika.");
-					} else {
-						alert("Neuspesno brisanje korisnika.");
+						blokirajKorisnika();
+						odblokirajKorisnika();
+					}
+				}
+			});
+		});
+	}
+	
+	function blokirajKorisnika() {
+		
+		$('.blokiraj').on('click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var korisnickoIme = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/blokirajKorisnika',
+				type: 'PUT',
+				data: korisnickoIme,
+	            contentType: 'text/plain',
+				success: function(korisnici) {
+					if (korisnici !== undefined) {
+						$('#tabela tbody').empty();
+						for (let k of korisnici) {
+							dodajKorisnikRed(k);
+						}
+						obrisiKorisnika();
+						blokirajKorisnika();
+						odblokirajKorisnika();
+					}
+				}
+			});
+		});
+	}
+	
+	function odblokirajKorisnika() {
+		
+		$('.odblokiraj').on('click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var korisnickoIme = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/odblokirajKorisnika',
+				type: 'PUT',
+				data: korisnickoIme,
+	            contentType: 'text/plain',
+				success: function(korisnici) {
+					if (korisnici !== undefined) {
+						$('#tabela tbody').empty();
+						for (let k of korisnici) {
+							dodajKorisnikRed(k);
+						}
+						obrisiKorisnika();
+						blokirajKorisnika();
+						odblokirajKorisnika();
 					}
 				}
 			});
@@ -79,24 +144,24 @@ $(document).ready(function(){
   	 });
 
   	$('#btnPretraga').on('click', function() {
-		    var vrednost = $('#pretraga').val();
+		    var korisnickoIme = $('input[name=korisnickoIme]').val();
+		    var ime = $('input[name=ime]').val();
+		    var prezime = $('input[name=prezime]').val();
 		
 		    $('#tabela tbody tr').each(function() { 
 		        var row = $(this);
 				
-				var kriterijumPretrage = $('#kriterijumPretrage').val();
+				var korisnickoImeTd;
+				var imeTd
+				var prezimeTd;
 				
-				var opcija;
-				
-				if (kriterijumPretrage === 'korisnickoIme'){
-					opcija = $(row).find('td:first').text();
-				} else if (kriterijumPretrage === 'ime'){
-					opcija = $(row).find('td:nth-child(2)').text();
-				} else if (kriterijumPretrage === 'prezime'){
-					opcija = $(row).find('td:nth-child(3)').text();
-				}
-				
-		        if (opcija.toLowerCase().indexOf(vrednost.toLowerCase()) >= 0) {
+
+				korisnickoImeTd = $(row).find('td:first').text();
+				imeTd = $(row).find('td:nth-child(2)').text();
+				prezimeTd = $(row).find('td:nth-child(3)').text();
+		        if ((korisnickoIme === "" || korisnickoImeTd.toLowerCase().indexOf(korisnickoIme.toLowerCase())) >= 0 && 
+		        	(ime === "" || imeTd.toLowerCase().indexOf(ime.toLowerCase()) >= 0) &&
+		        	(prezime === "" || prezimeTd.toLowerCase().indexOf(prezime.toLowerCase()) >= 0)) {
 		            $(row).show();
 		        }
 		        else {
@@ -124,7 +189,9 @@ $(document).ready(function(){
 	});
 	
 	$('#btnClear').on('click', function() {
-		$('#pretraga').val('');
+		$('input[name=korisnickoIme]').val('');
+		$('input[name=ime]').val('');
+		$('input[name=prezime]').val('');
 		$('#tabela tbody tr').show();
 	});
 });

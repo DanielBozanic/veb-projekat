@@ -32,8 +32,9 @@ $(document).ready(function(){
 			var row = $(tdHref).parent();
 			var id = $(row).find("td:first").text();
 			
-			$.post({
+			$.ajax({
 				url: 'rest/kupci/odustanakRezervacije',
+				type: 'PUT',
 				data: id,
 	            contentType: 'text/plain',
 				success: function(karte) {

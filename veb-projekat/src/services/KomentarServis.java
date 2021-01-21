@@ -8,8 +8,10 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -46,7 +48,7 @@ public class KomentarServis {
 		dao.objaviKomentar(komentar);
 	}
 	
-	@POST
+	@PUT
 	@Path("/odobriKomentar")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public boolean odobriKomentar(String idKomentara) throws IOException {
@@ -62,20 +64,22 @@ public class KomentarServis {
 		return dao.getKomentari();
 	}
 	
-	@POST
+	@GET
 	@Path("/getOdobreniKomentariZaManifestaciju")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Komentar> getOdobreniKomentariZaManifestaciju(String nazivManifestacije) throws IOException {
+	public ArrayList<Komentar> getOdobreniKomentariZaManifestaciju(@QueryParam("nazivManifestacije") 
+			String nazivManifestacije) throws IOException {
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("komentarDAO");
 		return dao.getOdobreniKomentariZaManifestaciju(nazivManifestacije);
 	}
 	
-	@POST
+	@GET
 	@Path("/getKomentariZaManifestaciju")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Komentar> getKomentariZaManifestaciju(String nazivManifestacije) throws IOException {
+	public ArrayList<Komentar> getKomentariZaManifestaciju(@QueryParam("nazivManifestacije") 
+			String nazivManifestacije) throws IOException {
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("komentarDAO");
 		return dao.getKomentariZaManifestaciju(nazivManifestacije);
 	}

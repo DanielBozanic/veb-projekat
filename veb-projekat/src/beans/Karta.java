@@ -28,6 +28,9 @@ public class Karta {
 	@JsonDeserialize(using=CustomTipKarteEnumDeserializer.class)
 	private TipKarte tipKarte;
 	private int brojKarata;
+	@JsonSerialize(using=LocalDateTimeSerializer.class)
+	@JsonDeserialize(using=LocalDateTimeDeserializer.class)
+	private LocalDateTime datumOtkazivanjaKarte;
 	
 	public Karta() {}
 	
@@ -93,5 +96,13 @@ public class Karta {
 
 	public void setBrojKarata(int brojKarata) {
 		this.brojKarata = brojKarata;
+	}
+
+	public LocalDateTime getDatumOtkazivanjaKarte() {
+		return datumOtkazivanjaKarte;
+	}
+
+	public void setDatumOtkazivanjaKarte(LocalDateTime datumOtkazivanjaKarte) {
+		this.datumOtkazivanjaKarte = datumOtkazivanjaKarte;
 	}
 }
