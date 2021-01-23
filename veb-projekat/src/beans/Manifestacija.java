@@ -24,6 +24,8 @@ public class Manifestacija {
 	private boolean aktivan;
 	private Lokacija lokacija;
 	private String posterManifestacije;
+	private boolean obrisana;
+	private double prosecnaOcena;
 	
 	public Manifestacija() {}
 	
@@ -93,5 +95,21 @@ public class Manifestacija {
 
 	public void setAktivan(boolean aktivan) {
 		this.aktivan = aktivan;
+	}
+
+	public boolean isObrisana() {
+		return obrisana;
+	}
+
+	public void setObrisana(boolean obrisana) {
+		this.obrisana = obrisana;
+	}
+
+	public double getProsecnaOcena() {
+		return prosecnaOcena;
+	}
+
+	public void setProsecnaOcena(double prosecnaOcena) {
+		this.prosecnaOcena = prosecnaOcena;
 	}
 }

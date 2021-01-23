@@ -63,34 +63,34 @@ $(document).ready(function() {
 			"ulicaIBroj": ulicaIBroj,
 			"mesto": mesto,
 			"postanskiBroj": postanskiBroj
-		}
+			}
 		
-		var manifestacija = {
-			"naziv": naziv,
-			"tipManifestacije": tipManifestacije,
-			"brojMesta": brojMesta,
-			"datumIVremeOdrzavanja": datumIVremeOdrzavanja,
-			"cenaRegularKarte": cenaRegularKarte,
-			"lokacija": lokacija,
-			"posterManifestacije": posterManifestacije,
-			"aktivan": aktivan
-		}
-		
-		$.ajax({
-	            url: 'rest/prodavci/izmeniManifestaciju',
-	            type: 'PUT',
-	            data: JSON.stringify(manifestacija),
-	            contentType: 'application/json',
-	            success: function(manifestacije) {
-	            	if (manifestacije !== undefined) {
-	            		alert("Manifestacija je uspesno izmenjena.");
-	            		azurirajManifestacije(manifestacije, false);
-	            	}
-	            	else {
-	            		alert("Neuspena izmena manifestacije!");
-	            	}
-	            }
-	        });
+			var manifestacija = {
+				"naziv": naziv,
+				"tipManifestacije": tipManifestacije,
+				"brojMesta": brojMesta,
+				"datumIVremeOdrzavanja": datumIVremeOdrzavanja,
+				"cenaRegularKarte": cenaRegularKarte,
+				"lokacija": lokacija,
+				"posterManifestacije": posterManifestacije,
+				"aktivan": aktivan
+			}
+			
+			$.ajax({
+		            url: 'rest/prodavci/izmeniManifestaciju',
+		            type: 'PUT',
+		            data: JSON.stringify(manifestacija),
+		            contentType: 'application/json',
+		            success: function(manifestacije) {
+		            	if (manifestacije !== undefined) {
+		            		alert("Manifestacija je uspesno izmenjena.");
+		            		azurirajManifestacije(manifestacije, false);
+		            	}
+		            	else {
+		            		alert("Neuspena izmena manifestacije!");
+		            	}
+		            }
+		        });
 		} else {
 			return;
 		}
@@ -134,6 +134,9 @@ $(document).ready(function() {
 	    	} else if (isNaN(postanskiBroj)) {
 	    		alert("Postanski ne sme da se sadrzi nebrojevne vrednosti!");
 	    		valid = false;
+    		} else if (Date.parse(datumIVremeOdrzavanja) < Date.now()) {
+    			alert("Datum manifestacije ne sme biti pre danasnjeg!");
+    			valid = false;
     		}
     		return valid;
     	}

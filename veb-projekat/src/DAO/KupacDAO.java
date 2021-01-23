@@ -185,7 +185,7 @@ public class KupacDAO {
 			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
 			Duration razlika = Duration.between(trenutniDatumIVreme, karta.getDatumIVremeManifestacije());
 			if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA) && razlika.toDays() <= 7 && 
-					karta.getDatumIVremeManifestacije().isAfter(trenutniDatumIVreme)) {
+					karta.getDatumIVremeManifestacije().isAfter(trenutniDatumIVreme) && !karta.isObrisana()) {
 				validneZaOdustanak.add(karta);
 			}
 		}

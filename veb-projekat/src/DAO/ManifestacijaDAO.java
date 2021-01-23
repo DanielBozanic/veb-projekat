@@ -33,11 +33,14 @@ public class ManifestacijaDAO {
 		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
-				manifestacijeProdavac = k.getManifestacije();
+				for (Manifestacija m : k.getManifestacije()) {
+					if (!m.isObrisana()) {
+						manifestacijeProdavac.add(m);
+					}
+				}
 				break;
 			}
 		}
-		
 		return manifestacijeProdavac;
 	}
 	
@@ -46,13 +49,12 @@ public class ManifestacijaDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		ArrayList<Manifestacija> aktivneManifestacije = new ArrayList<Manifestacija>();
 		for (Manifestacija m : manifestacije) {
-			if (m.isAktivan()) {
+			if (m.isAktivan() && !m.isObrisana()) {
 				aktivneManifestacije.add(m);
 			}
 		}
-		
-		sortRastuce(manifestacije, "datumIVremeOdrzavanja");
-		return manifestacije;
+		sortRastuce(aktivneManifestacije, "datumIVremeOdrzavanja");
+		return aktivneManifestacije;
 	}
 	
 	public ArrayList<Manifestacija> getAktuelneManifestacije() {
@@ -61,7 +63,7 @@ public class ManifestacijaDAO {
 		ArrayList<Manifestacija> aktuelneManifestacije = new ArrayList<Manifestacija>();
 		for (Manifestacija m : manifestacije) {
 			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
-			if (m.isAktivan() && trenutniDatumIVreme.isBefore(m.getDatumIVremeOdrzavanja())) {
+			if (m.isAktivan() && trenutniDatumIVreme.isBefore(m.getDatumIVremeOdrzavanja()) && !m.isObrisana()) {
 				aktuelneManifestacije.add(m);
 			}
 		}
@@ -76,7 +78,6 @@ public class ManifestacijaDAO {
 				return m;
 			}
 		}
-		
 		return null;
 	}
 	

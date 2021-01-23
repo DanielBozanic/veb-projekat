@@ -118,7 +118,6 @@ public class ProdavacDAO {
 		if (manifestacijeProdavac != null) {
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
-		
 		return manifestacijeProdavac;
 	}
 	

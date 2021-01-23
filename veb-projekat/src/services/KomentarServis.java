@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -43,17 +44,27 @@ public class KomentarServis {
 	@POST
 	@Path("/objaviKomentar")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void objaviKomentar(Komentar komentar) throws IOException {
+	public boolean objaviKomentar(Komentar komentar) throws IOException {
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("komentarDAO");
-		dao.objaviKomentar(komentar);
+		return dao.objaviKomentar(komentar);
 	}
 	
 	@PUT
 	@Path("/odobriKomentar")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public boolean odobriKomentar(String idKomentara) throws IOException {
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Komentar> odobriKomentar(String idKomentara) throws IOException {
 		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("komentarDAO");
 		return dao.odobriKomentar(idKomentara);
+	}
+	
+	@DELETE
+	@Path("/obrisiKomentar")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Komentar> obrisiKomentar(String idKomentara) throws IOException {
+		KomentarDAO dao = (KomentarDAO) ctx.getAttribute("komentarDAO");
+		return dao.obrisiKomentar(idKomentara);
 	}
 	
 	@GET

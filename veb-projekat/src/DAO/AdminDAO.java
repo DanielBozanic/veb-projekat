@@ -42,7 +42,7 @@ public class AdminDAO {
 		return povratnaPoruka;
 	}
 	
-	public boolean promeniStatusManifestacije(String naziv) throws IOException {
+	public ArrayList<Manifestacija> promeniStatusManifestacije(String naziv) throws IOException {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = false;
@@ -60,7 +60,7 @@ public class AdminDAO {
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
 		}
 		
-		return valid;
+		return manifestacije;
 	}
 	
 	private void azurirajManifestacijeZaProdavca(Manifestacija manifestacija) throws IOException {
@@ -201,5 +201,61 @@ public class AdminDAO {
 			}
 		}
 		return sumnjiviKupci;
+	}
+	
+	public ArrayList<Manifestacija> obrisiManifestaciju(String nazivManifestacije) throws IOException {
+		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
+                new TypeReference<ArrayList<Manifestacija>>(){});
+		for (Manifestacija m : manifestacije) {
+			if (m.getNaziv().equals(nazivManifestacije)) {
+				m.setObrisana(true);
+				break;
+			}
+		}
+		PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
+		azurirajManifesacijuProdavca(nazivManifestacije);
+		return manifestacije;
+	}
+	
+	private void azurirajManifesacijuProdavca(String nazivManifestacije) throws IOException {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		for (Korisnik prodavac : korisnici) {
+			for (Manifestacija m : prodavac.getManifestacije()) {
+				if (m.getNaziv().equals(nazivManifestacije)) {
+					m.setObrisana(true);
+					PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+					return;
+				}
+			}
+		}
+	}
+	
+	public ArrayList<Karta> obrisiKartu(String idKarte) throws IOException {
+		ArrayList<Karta> karte = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KARTE),
+                new TypeReference<ArrayList<Karta>>(){});
+		for (Karta k : karte) {
+			if (k.getIdentifikatorKarte().equals(idKarte)) {
+				k.setObrisana(true);
+				break;
+			}
+		}
+		PomocneFunkcije.upisi(karte, Konstante.FAJL_KARTE);
+		azurirajStatusKartaKupca(idKarte);
+		return karte;
+	}
+	
+	private void azurirajStatusKartaKupca(String idKarte) throws IOException {
+		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
+                new TypeReference<ArrayList<Korisnik>>(){});
+		for (Korisnik kupac : korisnici) {
+			for (Karta karta : kupac.getSveKarte()) {
+				if (karta.getIdentifikatorKarte().equals(idKarte)) {
+					karta.setObrisana(true);
+					PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
+					return;
+				}
+			}
+		}
 	}
 }

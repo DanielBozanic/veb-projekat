@@ -20,7 +20,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import DAO.AdminDAO;
+import beans.Karta;
 import beans.Korisnik;
+import beans.Manifestacija;
 import utils.PomocneFunkcije;
 
 @Path("/administratori")
@@ -54,7 +56,8 @@ public class AdminServis {
 	@PUT
 	@Path("/odobriManifestaciju")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public boolean promeniStatusManifestacije(String naziv) throws IOException {
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> promeniStatusManifestacije(String naziv) throws IOException {
 		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
 		return dao.promeniStatusManifestacije(naziv);
 	}
@@ -110,5 +113,23 @@ public class AdminServis {
 	public ArrayList<Korisnik> odblokirajSumnjivogKupca(String korisnickoIme) throws IOException {
 		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
 		return dao.odblokirajSumnjivogKupca(korisnickoIme);
+	}
+	
+	@DELETE
+	@Path("/obrisiManifestaciju")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Manifestacija> obrisiManifestaciju(String nazivManifestacije) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.obrisiManifestaciju(nazivManifestacije);
+	}
+	
+	@DELETE
+	@Path("/obrisiKartu")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Karta> obrisiKartu(String idKarte) throws IOException {
+		AdminDAO dao = (AdminDAO) ctx.getAttribute("adminDAO");
+		return dao.obrisiKartu(idKarte);
 	}
 }

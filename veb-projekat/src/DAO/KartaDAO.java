@@ -32,7 +32,7 @@ public class KartaDAO {
 		ArrayList<Karta> rezervisaneKarte = new ArrayList<Karta>();
 		
 		for (Karta k : karte) {
-			if (k.getStatusKarte().equals(StatusKarte.REZERVISANA)) {
+			if (k.getStatusKarte().equals(StatusKarte.REZERVISANA) && !k.isObrisana()) {
 				rezervisaneKarte.add(k);
 			}
 		}
@@ -47,11 +47,13 @@ public class KartaDAO {
 		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
-				karteKupca = k.getSveKarte();
-				break;
+				for (Karta karta : k.getSveKarte()) {
+					if (!karta.isObrisana()) {
+						karteKupca.add(karta);
+					}
+				}
 			}
 		}
-		
 		return karteKupca;
 	}
 	
@@ -75,7 +77,7 @@ public class KartaDAO {
 		
 		for (Manifestacija m : manifestacijeProdavac) {
 			for (Karta karta : kupciKarte) {
-				if (m.getNaziv().equals(karta.getManifestacija().getNaziv())) {
+				if (m.getNaziv().equals(karta.getManifestacija().getNaziv()) && !karta.isObrisana() && !m.isObrisana()) {
 					Korisnik kupac = getKupacPoKorisnickomImenu(karta.getKupac());
 					if (!kupci.containsKey(kupac.getKorisnickoIme())) {
 						kupci.put(kupac.getKorisnickoIme(), kupac);
@@ -83,7 +85,6 @@ public class KartaDAO {
 				}
 			}
 		}
-		
 		return kupci.values();
 	}
 	
@@ -97,7 +98,6 @@ public class KartaDAO {
 				break;
 			}
 		}
-		
 		return kupac;
 	}
 	

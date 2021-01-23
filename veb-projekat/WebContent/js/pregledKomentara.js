@@ -6,7 +6,7 @@ $(document).ready(function(){
 			for (let k of komentari) {
 				 dodajKomentarRed(k);
 			}
-			promenaStatusa();
+			obrisiKomentar();
 		}
 	});
 	
@@ -18,30 +18,37 @@ $(document).ready(function(){
 		let tekstKomentara = $('<td>' + komentar.tekstKomentara + '</td>');
 		let ocena = $('<td>' + komentar.ocena + '</td>');
 		let odobren;
+		let obrisan;
 		let link;
 		if (komentar.odobren) {
 			odobren = $('<td>Odobren</td>');
-			link = $('<td></td>');
 		} else {
 			odobren = $('<td>Nije odobren</td>');
-			link = $('<td><a class="odobri" href="#">Odobri komentar</a></td>');
+		}
+		if (komentar.obrisan) {
+			obrisan = $('<td>Da</td>');
+			link = $('<td></td>');
+			
+		} else {
+			obrisan = $('<td>Ne</td>');
+			link = $('<td><a class="obrisi" href="#">Obrisi komentar</a></td>');
 		}
 		tr.append(idKomentara).append(kupacKarte).append(manifestacijaNaziv).append(tekstKomentara).
-			append(ocena).append(odobren).append(link);
+			append(ocena).append(odobren).append(obrisan).append(link);
 		$('#komentari tbody').append(tr);
 	};
 	
-	function promenaStatusa(){
+	function obrisiKomentar(){
 		
-		$(".odobri").on("click", function() {
+		$(".obrisi").on("click", function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
 			var idKomentara = $(row).find("td:first").text();
 			
 			$.ajax({
-				url: 'rest/komentari/odobriKomentar',
-				type: 'PUT',
+				url: 'rest/komentari/obrisiKomentar',
+				type: 'DELETE',
 				data: idKomentara,
 	            contentType: 'text/plain',
 				success: function(komentari) {
@@ -49,7 +56,7 @@ $(document).ready(function(){
 					for (let k of komentari) {
 						dodajKomentarRed(k);
 					}
-					promenaStatusa();
+					obrisiKomentar();
 				}
 			});
 		});

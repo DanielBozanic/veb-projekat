@@ -44,6 +44,7 @@ $(document).ready(function() {
 		$("input[name=ulicaIBroj]").val(manifestacija.lokacija.ulicaIBroj);
 		$("input[name=mesto]").val(manifestacija.lokacija.mesto);
 		$("input[name=postanskiBroj]").val(manifestacija.lokacija.postanskiBroj);
+		$("input[name=prosecnaOcena]").val(manifestacija.prosecnaOcena);
 		$("img[name=posterManifestacije]").attr('src', manifestacija.posterManifestacije);
 	}
 	
@@ -88,8 +89,12 @@ $(document).ready(function() {
 			url: 'rest/komentari/objaviKomentar',
 	            data: JSON.stringify(komentar),
 	            contentType: 'application/json',
-	            success: function() {
-	            	alert("Komentar je uspesno objavljen.");
+	            success: function(valid) {
+	            	if (valid === "true") {
+	            		alert("Komentar je uspesno objavljen.");
+	            	} else {
+	            		alert("Ne mozete komentarisati vise!");
+	            	}
 	            }
 		});
 	});

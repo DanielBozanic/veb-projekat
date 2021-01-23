@@ -6,8 +6,8 @@ $(document).ready(function(){
 			for (let k of karte) {
 				 dodajKartaRed(k);
 			}
+			obrisiKartu();
 		}
-	
 	});
 	
 	function dodajKartaRed(karta) {
@@ -19,8 +19,43 @@ $(document).ready(function(){
 		let kupac = $('<td>' + karta.kupac + '</td>');
 		let statusKarte = $('<td>' + karta.statusKarte + '</td>');
 		let tipKarte = $('<td>' + karta.tipKarte + '</td>');
+		let obrisana;
+		let linkObrisana;
+		if (karta.obrisana) {
+			obrisana = $('<td>Da</td>');
+			linkObrisana = $('<td></td>');
+		} else {
+			obrisana = $('<td>Ne</td>');
+			linkObrisana = $('<td><a class="obrisi" href="#">Obrisi kartu</a></td>');
+		}
 		tr.append(identifikatorKarte).append(nazivManifestacije).append(datumIVremeManifestacije).
-			append(cena).append(kupac).append(statusKarte).append(tipKarte);
+			append(cena).append(kupac).append(statusKarte).append(tipKarte).append(obrisana).append(linkObrisana);
 		$('#tabelaSvihKarti tbody').append(tr);
 	};
+	
+	function obrisiKartu() {
+		
+		$('.obrisi').on('click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var idKarte = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/obrisiKartu',
+				type: 'DELETE',
+				data: idKarte,
+	            contentType: 'text/plain',
+				success: function(karte) {
+					if (karte !== undefined) {
+						$('#tabelaSvihKarti tbody').empty();
+						for (let k of karte) {
+							dodajKartaRed(k);
+						}
+						obrisiKartu();
+					}
+				}
+			});
+		});
+	}
 });

@@ -1,32 +1,32 @@
 <html>
 <head>
-	<title>Rad sa manifestacijama</title>
+	<title>Pregled komentara</title>
 	<link rel="stylesheet" href="bootstrap.css">
 	<link rel="stylesheet" href="bootstrap.css.map">
 	<script src = "jquery-3.3.1.min.js"></script>
 	<script src="bootstrap.js"></script>
 	<script src="bootstrap.js.map"></script>
-    <script src="js/radSaManifestacijamaAdmin.js"></script>
+    <script src="js/pregledKomentara.js"></script>
 </head>
 <body style="background-color: #DEEDE6">
 	<div style="padding-left: 15px;">
 		<div class="row" style="margin-right: 5px;">
 			<div class="col-md-12">
-				<h1>Rad sa manifestacijama</h1>
+				<h1>Pregled komentara</h1>
 			</div>
 		</div>
 		
 		<div class="row" style="margin-right: 5px;">
 			<div class="col-md-12">
-				<table id = "manifestacije" class="table table-bordered">
+				<table id = "komentari" class="table table-bordered">
 					<thead>
-						<th>Naziv</th>
-						<th>Tip manifestacije</th>
-						<th>Broj mesta</th>
-						<th>Datum i vreme odrzavanja</th>
-						<th>Cena regular karte</th>
-						<th>Odobrena</th>
-						<th>Obrisana</th>
+						<th>ID komentara</th>
+						<th>Kupac</th>
+						<th>Manifestacija</th>
+						<th>Tekst komentara</th>
+						<th>Ocena</th>
+						<th>Odobren</th>
+						<th>Obrisan</th>
 						<th></th>
 					</thead>
 					<tbody>		
@@ -34,6 +34,6 @@
 			    </table>
 			 </div>
 		</div>
-   	</div>
+	</div>
 </body>
 </html>

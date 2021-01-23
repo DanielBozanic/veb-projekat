@@ -7,6 +7,7 @@ public class Komentar {
 	private String tekstKomentara;
 	private int ocena;
 	private boolean odobren;
+	private boolean obrisan;
 	
 	public Komentar() {}
 	
@@ -56,5 +57,13 @@ public class Komentar {
 
 	public void setOdobren(boolean odobren) {
 		this.odobren = odobren;
+	}
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
 	}
 }

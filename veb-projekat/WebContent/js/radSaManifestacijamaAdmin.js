@@ -7,8 +7,8 @@ $(document).ready(function(){
 				 dodajManifestacijaRed(m);
 			}
 			promenaStatusa();
+			obrisiManifestaciju();
 		}
-	
 	});
 	
 	function dodajManifestacijaRed(manifestacija) {
@@ -19,20 +19,29 @@ $(document).ready(function(){
 		let datumIVremeOdrzavanja = $('<td>' + manifestacija.datumIVremeOdrzavanja + '</td>');
 		let cenaRegularKarte = $('<td>' + manifestacija.cenaRegularKarte + '</td>');
 		let odobrena;
-		let link;
+		let obrisana;
+		let linkOdobrena;
+		let linkObrisana;
 		if (manifestacija.aktivan) {
 			odobrena = $('<td>Da</td>');
-			link = $('<td></td>');
+			linkOdobrena = $('<td></td>');
 		} else {
 			if (Date.now() > Date.parse(manifestacija.datumIVremeOdrzavanja)) {
-				link = $('<td></td>');
+				linkOdobrena = $('<td></td>');
 			} else {
-				link = $('<td><a class="odobri" href="#">Odobri manifestaciju</a></td>');
+				linkOdobrena = $('<td><a class="odobri" href="#">Odobri manifestaciju</a></td>');
 			}
 			odobrena = $('<td>Ne</td>');
 		}
+		if (manifestacija.obrisana) {
+			obrisana = $('<td>Da</td>');
+			linkObrisana = $('<td></td>');
+		} else {
+			obrisana = $('<td>Ne</td>');
+			linkObrisana = $('<td><a class="obrisi" href="#">Obrisi manifestaciju</a></td>');
+		}
 		tr.append(naziv).append(tipManifestacije).append(brojMesta).append(datumIVremeOdrzavanja).
-			append(cenaRegularKarte).append(odobrena).append(link);
+			append(cenaRegularKarte).append(odobrena).append(obrisana).append(linkOdobrena).append(linkObrisana);
 		$('#manifestacije tbody').append(tr);
 	};
 	
@@ -49,9 +58,40 @@ $(document).ready(function(){
 				type: 'PUT',
 				data: naziv,
 	            contentType: 'text/plain',
-				success: function(odobreno) {
-					if (odobreno === "true")
-						$(tdHref).prev().text("Da");
+				success: function(manifestacije) {
+						$('#manifestacije tbody').empty();
+						for (let m of manifestacije) {
+							dodajManifestacijaRed(m);
+						}
+						promenaStatusa();
+						obrisiManifestaciju();				
+				}
+			});
+		});
+	}
+	
+	function obrisiManifestaciju() {
+		
+		$('.obrisi').on('click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var nazivManifestacije = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/obrisiManifestaciju',
+				type: 'DELETE',
+				data: nazivManifestacije,
+	            contentType: 'text/plain',
+				success: function(manifestacije) {
+					if (manifestacije !== undefined) {
+						$('#manifestacije tbody').empty();
+						for (let m of manifestacije) {
+							dodajManifestacijaRed(m);
+						}
+						obrisiManifestaciju();
+						promenaStatusa();
+					}
 				}
 			});
 		});

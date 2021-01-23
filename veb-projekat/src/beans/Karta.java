@@ -31,6 +31,7 @@ public class Karta {
 	@JsonSerialize(using=LocalDateTimeSerializer.class)
 	@JsonDeserialize(using=LocalDateTimeDeserializer.class)
 	private LocalDateTime datumOtkazivanjaKarte;
+	private boolean obrisana;
 	
 	public Karta() {}
 	
@@ -104,5 +105,13 @@ public class Karta {
 
 	public void setDatumOtkazivanjaKarte(LocalDateTime datumOtkazivanjaKarte) {
 		this.datumOtkazivanjaKarte = datumOtkazivanjaKarte;
+	}
+
+	public boolean isObrisana() {
+		return obrisana;
+	}
+
+	public void setObrisana(boolean obrisana) {
+		this.obrisana = obrisana;
 	}
 }
