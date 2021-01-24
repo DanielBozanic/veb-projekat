@@ -3,11 +3,9 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/karte/getKarteKupca',
 		success: function(karte) {
-			for (let k of karte) {
-				 dodajKartaRed(k);
-			}
+			ucitajKarte(karte);
+			initEvents();
 		}
-	
 	});
 	
 	function dodajKartaRed(karta) {
@@ -24,23 +22,30 @@ $(document).ready(function(){
 		$('#tabelaKarti tbody').append(tr);
 	};
 	
-	$('input[name=filter]').on('keyup', function() {
-	 	var filter = $('input[name=filter]').val();
-	 	var opcija = $('select[name=kriterijumFiltriranja]').val();
-	 	if (opcija === 'tipKarte') {
-	 		$('#tabelaKarti tbody tr td:nth-child(7)').filter(function() {
-	 			var red = $(this).parent();
-      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
-    		});
-	 	} else {
-	 		$('#tabelaKarti tbody tr td:nth-child(6)').filter(function() {
-	 			var red = $(this).parent();
-      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
-    		});
-	 	}
-  	 });
-  	 
-  	$('#btnPretraga').on('click', function() {
+	function ucitajKarte(karte) {
+		for (let k of karte) {
+			dodajKartaRed(k);
+		}
+	}
+	
+	function initEvents() {
+		$('input[name=filter]').on('keyup', function() {
+		 	var filter = $('input[name=filter]').val();
+		 	var opcija = $('select[name=kriterijumFiltriranja]').val();
+		 	if (opcija === 'tipKarte') {
+		 		$('#tabelaKarti tbody tr td:nth-child(7)').filter(function() {
+		 			var red = $(this).parent();
+	      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+	    		});
+		 	} else {
+		 		$('#tabelaKarti tbody tr td:nth-child(6)').filter(function() {
+		 			var red = $(this).parent();
+	      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+	    		});
+		 	}
+	  	 });
+	  	 
+	  	$('#btnPretraga').on('click', function() {
 		    var nazivManifestacije = $('input[name=naziv]').val();
 		    var datumOd = Date.parse($('input[name=datumOd]').val());
 		    var datumDo = Date.parse($('input[name=datumDo]').val());
@@ -69,29 +74,28 @@ $(document).ready(function(){
 		        }
 		    });
 		});
-		
-	$('#btnSortiraj').on('click', function() {
-		let kriterijumSortiranja = $('select[name=kriterijumSortiranja]').val();
-		let kriterijumSortiranja2 = $('select[name=kriterijumSortiranja2]').val();
-		$('#tabelaKarti tbody').empty();
-		
-		$.get({
-		url: 'rest/karte/getSortiraneKarte?kriterijumSortiranja=' + kriterijumSortiranja + 
-			'&kriterijumSortiranja2=' + kriterijumSortiranja2,
-		success: function(karte) {
-			for (let k of karte) {
-				 dodajKartaRed(k);
+			
+		$('#btnSortiraj').on('click', function() {
+			let kriterijumSortiranja = $('select[name=kriterijumSortiranja]').val();
+			let kriterijumSortiranja2 = $('select[name=kriterijumSortiranja2]').val();
+			$('#tabelaKarti tbody').empty();
+			
+			$.get({
+				url: 'rest/karte/getSortiraneKarte?kriterijumSortiranja=' + kriterijumSortiranja + 
+					'&kriterijumSortiranja2=' + kriterijumSortiranja2,
+				success: function(karte) {
+					ucitajKarte(karte);
 				}
-			}
+			});
 		});
-	});
-	
-	$('#btnClear').on('click', function() {
-		$('input[name=naziv]').val('');
-		$('input[name=datumOd]').val('');
-	    $('input[name=datumDo]').val('');
-	    $('input[name=cenaOd]').val('');
-	    $('input[name=cenaDo]').val('');
-		$('#tabelaKarti tbody tr').show();
-	});
+		
+		$('#btnClear').on('click', function() {
+			$('input[name=naziv]').val('');
+			$('input[name=datumOd]').val('');
+		    $('input[name=datumDo]').val('');
+		    $('input[name=cenaOd]').val('');
+		    $('input[name=cenaDo]').val('');
+			$('#tabelaKarti tbody tr').show();
+		});
+	}
 });

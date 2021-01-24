@@ -25,16 +25,16 @@ public class ProdavacDAO {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
-		
 		for (Manifestacija m : manifestacije) {
 			if (m.getNaziv().equals(manifestacija.getNaziv()) || 
 					(m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
 					m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj()))) {
-				valid = false;
-				break;
+				if (!m.isObrisana()) {
+					valid = false;
+					break;
+				}
 			}
 		}
-		
 		if (valid) {
 			manifestacije.add(manifestacija);
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
@@ -54,7 +54,6 @@ public class ProdavacDAO {
 				break;
 			}
 		}
-		
 		if (valid) {
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
@@ -72,7 +71,6 @@ public class ProdavacDAO {
 				break;
 			}
 		}
-		
 		if (valid) {
 			for (Manifestacija m : manifestacije) {
 				if (m.getNaziv().equals(manifestacija.getNaziv())) {
@@ -90,7 +88,6 @@ public class ProdavacDAO {
 			azurirajKarte(manifestacija);
 			azurirajKomentare(manifestacija);
 		}
-		
 		return azurirajProdavca(korisnickoIme, manifestacija);
 	}
 	
@@ -114,8 +111,7 @@ public class ProdavacDAO {
 				}
 			}
 		}
-		
-		if (manifestacijeProdavac != null) {
+		if (!manifestacijeProdavac.isEmpty()) {
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
 		return manifestacijeProdavac;
@@ -124,7 +120,6 @@ public class ProdavacDAO {
 	private void azurirajKarte(Manifestacija manifestacija) throws IOException {
 		ArrayList<Karta> karte = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KARTE),
                 new TypeReference<ArrayList<Karta>>(){});
-		
 		for (Karta karta : karte) {
 			if (karta.getManifestacija().getNaziv().equals(manifestacija.getNaziv())) {
 				karta.setManifestacija(manifestacija);
@@ -138,7 +133,6 @@ public class ProdavacDAO {
 	private void azurirajKarteKupaca(Manifestacija manifestacija) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
-		
 		for (Korisnik kupac : korisnici) {
 			if (kupac.getUloga().equals(Uloga.KUPAC)) {
 				for (Karta karta : kupac.getSveKarte()) {
@@ -156,7 +150,6 @@ public class ProdavacDAO {
 	private void azurirajKomentare(Manifestacija manifestacija) throws IOException {
 		ArrayList<Komentar> komentari = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KOMENTARI),
                 new TypeReference<ArrayList<Komentar>>(){});
-		
 		for (Komentar komentar : komentari) {
 			if (komentar.getManifestacija().getNaziv().equals(manifestacija.getNaziv())) {
 				komentar.setManifestacija(manifestacija);

@@ -3,11 +3,7 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/manifestacije/getManifestacije',
 		success: function(manifestacije) {
-			for (let m of manifestacije) {
-				 dodajManifestacijaRed(m);
-			}
-			promenaStatusa();
-			obrisiManifestaciju();
+			ucitajManifestacije(manifestacije);
 		}
 	});
 	
@@ -36,18 +32,23 @@ $(document).ready(function(){
 		if (manifestacija.obrisana) {
 			obrisana = $('<td>Da</td>');
 			linkObrisana = $('<td></td>');
+			linkOdobrena = $('<td></td>');
 		} else {
 			obrisana = $('<td>Ne</td>');
 			linkObrisana = $('<td><a class="obrisi" href="#">Obrisi manifestaciju</a></td>');
+			linkOdobrena = $('<td><a class="odobri" href="#">Odobri manifestaciju</a></td>');
 		}
 		tr.append(naziv).append(tipManifestacije).append(brojMesta).append(datumIVremeOdrzavanja).
 			append(cenaRegularKarte).append(odobrena).append(obrisana).append(linkOdobrena).append(linkObrisana);
 		$('#manifestacije tbody').append(tr);
 	};
 	
-	function promenaStatusa(){
-		
-		$(".odobri").on("click", function() {
+	function ucitajManifestacije(manifestacije) {
+		for (let m of manifestacije) {
+			dodajManifestacijaRed(m);
+		}
+
+		$('#manifestacije').undelegate('.odobri', 'click').delegate('.odobri', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -59,20 +60,15 @@ $(document).ready(function(){
 				data: naziv,
 	            contentType: 'text/plain',
 				success: function(manifestacije) {
+					if (manifestacije !== undefined) {
 						$('#manifestacije tbody').empty();
-						for (let m of manifestacije) {
-							dodajManifestacijaRed(m);
-						}
-						promenaStatusa();
-						obrisiManifestaciju();				
+						ucitajManifestacije(manifestacije);
+					}
 				}
 			});
 		});
-	}
-	
-	function obrisiManifestaciju() {
 		
-		$('.obrisi').on('click', function() {
+		$('#manifestacije').undelegate('.obrisi', 'click').delegate('.obrisi', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -86,11 +82,7 @@ $(document).ready(function(){
 				success: function(manifestacije) {
 					if (manifestacije !== undefined) {
 						$('#manifestacije tbody').empty();
-						for (let m of manifestacije) {
-							dodajManifestacijaRed(m);
-						}
-						obrisiManifestaciju();
-						promenaStatusa();
+						ucitajManifestacije(manifestacije);
 					}
 				}
 			});

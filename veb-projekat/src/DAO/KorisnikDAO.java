@@ -138,7 +138,6 @@ public class KorisnikDAO {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		Korisnik izmenjenKorisnik = null;
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnik.getKorisnickoIme())) {
 				k.setLozinka(korisnik.getLozinka());
@@ -154,7 +153,6 @@ public class KorisnikDAO {
 		if (izmenjenKorisnik != null) {
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 		}
-		
 		return izmenjenKorisnik;
 	}
 

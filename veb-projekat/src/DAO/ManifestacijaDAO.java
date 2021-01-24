@@ -28,9 +28,7 @@ public class ManifestacijaDAO {
 	public ArrayList<Manifestacija> getManifestacijeZaProdavca(String korisnickoIme){
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
-		
 		ArrayList<Manifestacija> manifestacijeProdavac = new ArrayList<Manifestacija>();
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
 				for (Manifestacija m : k.getManifestacije()) {

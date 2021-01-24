@@ -61,14 +61,12 @@ public class KomentarDAO {
 		}
 		if (valid) {
 			PomocneFunkcije.upisi(komentari, Konstante.FAJL_KOMENTARI);
-			racunajProsecnuOcenuManifestacije(komentar);
+			racunajProsecnuOcenuManifestacije(komentar, komentari);
 		}
 		return komentari;
 	}
 	
-	private void racunajProsecnuOcenuManifestacije(Komentar komentar) throws IOException {
-		ArrayList<Komentar> komentari = PomocneFunkcije
-				.ucitaj(new File(Konstante.FAJL_KOMENTARI), new TypeReference<ArrayList<Komentar>>(){});
+	private void racunajProsecnuOcenuManifestacije(Komentar komentar, ArrayList<Komentar> komentari) throws IOException {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije
 				.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE), new TypeReference<ArrayList<Manifestacija>>(){});
 		double brojOcena = 0;
@@ -107,7 +105,7 @@ public class KomentarDAO {
 		}
 		if (valid) {
 			PomocneFunkcije.upisi(komentari, Konstante.FAJL_KOMENTARI);
-			racunajProsecnuOcenuManifestacije(komentar);
+			racunajProsecnuOcenuManifestacije(komentar, komentari);
 		}
 		return komentari;
 	}

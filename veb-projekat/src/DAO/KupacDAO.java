@@ -35,7 +35,6 @@ public class KupacDAO {
     			break;
     		}
     	}
-		
 		if (valid) {
 			korisnici.add(kupac);
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
@@ -50,7 +49,6 @@ public class KupacDAO {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<String> ids = generisiIDKarte(karta.getBrojKarata());
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
 				if (!azurirajManifestaciju(karta)) {
@@ -76,7 +74,6 @@ public class KupacDAO {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
@@ -89,42 +86,35 @@ public class KupacDAO {
 			 } else if (kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
 				 cena = cena.multiply(new BigDecimal((100.0 - Konstante.ZLATNI_POPUST) / 100.0));
 			 }
-			 
 			 bodovi = kupac.getBrojSakupljenihBodova() + (cena
 						.multiply(new BigDecimal(karta.getBrojKarata()))
 						.divide(new BigDecimal(1000))
 						.multiply(new BigDecimal(133))).doubleValue();
-			 
 			 if (bodovi >= Konstante.SREBRNI_TRAZENI_PRAG) {
 				 kupac.getTipKupca().setImeTipa(ImeTipa.SREBRNI);
 				 kupac.getTipKupca().setPopust(Konstante.SREBRNI_POPUST);
 				 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.ZLATNI_TRAZENI_PRAG);
 			 }
-			 
 			 if (bodovi >= Konstante.ZLATNI_TRAZENI_PRAG) {
 				 kupac.getTipKupca().setImeTipa(ImeTipa.ZLATNI);
 				 kupac.getTipKupca().setPopust(Konstante.ZLATNI_POPUST);
 			 }
-			 
 		 } else {
 			 bodovi = Math.abs(kupac.getBrojSakupljenihBodova() - (karta.getCena()
 						.divide(new BigDecimal(1000))
 						.multiply(new BigDecimal(133))
 						.multiply(new BigDecimal(4))).doubleValue());
-			 
 			 if (bodovi < Konstante.SREBRNI_TRAZENI_PRAG && kupac.getTipKupca().getImeTipa().equals(ImeTipa.SREBRNI)) {
 				 kupac.getTipKupca().setImeTipa(ImeTipa.BRONZANI);
 				 kupac.getTipKupca().setPopust(0.0);
 				 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.SREBRNI_TRAZENI_PRAG);
 			 }
-			 
 			 if (bodovi < Konstante.ZLATNI_TRAZENI_PRAG && kupac.getTipKupca().getImeTipa().equals(ImeTipa.ZLATNI)) {
 				 kupac.getTipKupca().setImeTipa(ImeTipa.SREBRNI);
 				 kupac.getTipKupca().setPopust(Konstante.SREBRNI_POPUST);
 				 kupac.getTipKupca().setTrazeniBrojBodova(Konstante.ZLATNI_TRAZENI_PRAG);
 			 }
 		 }
-		 
 		 kupac.setBrojSakupljenihBodova(bodovi);
 	}
 	
@@ -132,7 +122,6 @@ public class KupacDAO {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = false;
-		
 		for (Manifestacija m : manifestacije) {
 			if (karta.getManifestacija().getNaziv().equals(m.getNaziv())) {
 				if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA)) {
@@ -145,8 +134,7 @@ public class KupacDAO {
 					m.setBrojMesta(m.getBrojMesta() + 1);
 					valid = true;
 					break;
-				}
-				
+				}	
 			}
 		}
 		if (valid) {
@@ -173,23 +161,20 @@ public class KupacDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Karta> karteKupca = new ArrayList<Karta>();
 		ArrayList<Karta> validneZaOdustanak = new ArrayList<Karta>();
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
 				karteKupca = k.getSveKarte();
 				break;
 			}
 		}
-		
 		for (Karta karta : karteKupca) {
 			LocalDateTime trenutniDatumIVreme = LocalDateTime.now();
 			Duration razlika = Duration.between(trenutniDatumIVreme, karta.getDatumIVremeManifestacije());
-			if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA) && razlika.toDays() <= 7 && 
+			if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA) && razlika.toDays() >= 7 && 
 					karta.getDatumIVremeManifestacije().isAfter(trenutniDatumIVreme) && !karta.isObrisana()) {
 				validneZaOdustanak.add(karta);
 			}
 		}
-		
 		return validneZaOdustanak;
 	}
 	
@@ -199,7 +184,6 @@ public class KupacDAO {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije
 				.ucitaj(new File(Konstante.FAJL_KORISNICI), new TypeReference<ArrayList<Korisnik>>(){});
 		LocalDateTime datumOtkazivanja = LocalDateTime.now();
-		
 		for (Karta karta : karte) {
 			if (karta.getIdentifikatorKarte().equals(idKarte)) {
 				karta.setStatusKarte(StatusKarte.ODUSTANAK);
@@ -207,7 +191,6 @@ public class KupacDAO {
 				break;
 			}
 		}
-		
 		for (Korisnik korisnik : korisnici) {
 			if (korisnik.getKorisnickoIme().equals(korisnickoIme)) {
 				for (Karta kartaKorisnika : korisnik.getSveKarte()) {

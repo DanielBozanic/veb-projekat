@@ -7,7 +7,6 @@ $(document).ready(function(){
 				 dodajRezervisanaKartaRed(k);
 			}
 		}
-	
 	});
 	
 	function dodajRezervisanaKartaRed(rezervisanaKarta) {

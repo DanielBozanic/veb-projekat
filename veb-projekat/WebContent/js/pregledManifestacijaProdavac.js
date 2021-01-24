@@ -7,7 +7,6 @@ $(document).ready(function(){
 				 dodajManifestacijaRed(m);
 			}
 		}
-	
 	});
 	
 	function dodajManifestacijaRed(manifestacija) {

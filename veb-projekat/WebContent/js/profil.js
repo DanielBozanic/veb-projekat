@@ -3,15 +3,15 @@ $(document).ready(function() {
 	var trenutniKorisnik;
 
 	$.get({
-            url: 'rest/korisnici/trenutniKorisnik',
-            dataType: 'json',
-           	success: function(korisnik) {
-	            	if (korisnik !== undefined) {
-	            		trenutniKorisnik = korisnik;
-	            		popuniFormu();
-	            	}
-	            }
-	     });
+        url: 'rest/korisnici/trenutniKorisnik',
+        dataType: 'json',
+       	success: function(korisnik) {
+        	if (korisnik !== undefined) {
+        		trenutniKorisnik = korisnik;
+        		popuniFormu();
+        	}
+         }
+	 });
 	     
 	     
 	 function popuniFormu() {

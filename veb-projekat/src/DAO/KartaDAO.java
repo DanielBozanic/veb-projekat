@@ -36,7 +36,6 @@ public class KartaDAO {
 				rezervisaneKarte.add(k);
 			}
 		}
-		
 		return rezervisaneKarte;
 	}
 	
@@ -44,7 +43,6 @@ public class KartaDAO {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Karta> karteKupca = new ArrayList<Karta>();
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
 				for (Karta karta : k.getSveKarte()) {
@@ -63,22 +61,19 @@ public class KartaDAO {
 		ArrayList<Manifestacija> manifestacijeProdavac = new ArrayList<Manifestacija>();
 		ArrayList<Karta> kupciKarte = new ArrayList<Karta>();
 		HashMap<String, Korisnik> kupci = new HashMap<String, Korisnik>();
-		
 		for (Korisnik prodavac : korisnici) {
 			if (prodavac.getKorisnickoIme().equals(prodavacKorisnickoIme)) {
 				manifestacijeProdavac = prodavac.getManifestacije();
 				break;
 			}
 		}
-		
 		for (Korisnik kupac : korisnici) {
 			kupciKarte.addAll(kupac.getSveKarte());
 		}
-		
 		for (Manifestacija m : manifestacijeProdavac) {
 			for (Karta karta : kupciKarte) {
 				if (m.getNaziv().equals(karta.getManifestacija().getNaziv()) && !karta.isObrisana() && !m.isObrisana()) {
-					Korisnik kupac = getKupacPoKorisnickomImenu(karta.getKupac());
+					Korisnik kupac = getKupacPoKorisnickomImenu(karta.getKupac(), korisnici);
 					if (!kupci.containsKey(kupac.getKorisnickoIme())) {
 						kupci.put(kupac.getKorisnickoIme(), kupac);
 					}
@@ -88,9 +83,7 @@ public class KartaDAO {
 		return kupci.values();
 	}
 	
-	private Korisnik getKupacPoKorisnickomImenu(String korisnickoIme) {
-		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
-                new TypeReference<ArrayList<Korisnik>>(){});
+	private Korisnik getKupacPoKorisnickomImenu(String korisnickoIme, ArrayList<Korisnik> korisnici) {
 		Korisnik kupac = null;
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {

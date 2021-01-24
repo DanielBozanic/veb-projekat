@@ -91,7 +91,5 @@ $(document).ready(function() {
 			return valid;
 		}
 		
-	});
-	
-	
+	});	
 })

@@ -60,7 +60,12 @@ $(document).ready(function() {
 				} else {
 					if (trenutnaManifestacija.posterManifestacije === null) {
 						$('#slikaIObjava').hide();
-						$('#listaKomentara').removeClass("col-md-5").addClass("col-md-9");
+						if ($('#listaKomentara').hasClass("col-md-5")) {
+							$('#listaKomentara').removeClass("col-md-5");
+						}
+						if (!$('#listaKomentara').hasClass("col-md-9")) {
+							$('#listaKomentara').addClass("col-md-9");
+						}
 					} else {
 						$('#objava').hide();
 					}
@@ -103,7 +108,12 @@ $(document).ready(function() {
 		if (korisnik === undefined) {
 			if (trenutnaManifestacija.posterManifestacije === null) {
 				$('#slikaIObjava').hide();
-				$('#listaKomentara').removeClass("col-md-5").addClass("col-md-9");
+				if ($('#listaKomentara').hasClass("col-md-5")) {
+					$('#listaKomentara').removeClass("col-md-5");
+				}
+				if (!$('#listaKomentara').hasClass("col-md-9")) {
+					$('#listaKomentara').addClass("col-md-9");
+				}
 			}
 			$.get({
 				url: 'rest/komentari/getOdobreniKomentariZaManifestaciju?nazivManifestacije=' + 
@@ -129,7 +139,12 @@ $(document).ready(function() {
 		} else {
 			if (trenutnaManifestacija.posterManifestacije === null) {
 				$('#slikaIObjava').hide();
-				$('#listaKomentara').removeClass("col-md-5").addClass("col-md-9");
+				if ($('#listaKomentara').hasClass("col-md-5")) {
+					$('#listaKomentara').removeClass("col-md-5");
+				}
+				if (!$('#listaKomentara').hasClass("col-md-9")) {
+					$('#listaKomentara').addClass("col-md-9");
+				}
 			} else {
 				$('#objava').hide();
 			}

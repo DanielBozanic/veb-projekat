@@ -3,10 +3,7 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/kupci/getKarteValidneZaOdustanak',
 		success: function(karte) {
-			for (let k of karte) {
-				 dodajKartaRed(k);
-			}
-			odustanakRezervacije();
+			ucitajKarte(karte);
 		}
 	});
 	
@@ -25,8 +22,12 @@ $(document).ready(function(){
 		$('#tabelaKarti tbody').append(tr);
 	};
 		
-	function odustanakRezervacije() {
-		$(".odustanak").on("click", function() {
+	function ucitajKarte(karte) {
+		for (let k of karte) {
+			dodajKartaRed(k);
+		}
+		
+		$('#tabelaKarti').undelegate('.odustanak', 'click').delegate('.odustanak', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -40,11 +41,8 @@ $(document).ready(function(){
 				success: function(karte) {
 					if (karte !== undefined) {
 						$('#tabelaKarti tbody').empty();
-						for (let k of karte) {
-				 			dodajKartaRed(k);
-						}
+						ucitajKarte(karte);
 						alert("Uspesan odustanak rezervacije.");
-						odustanakRezervacije();
 					} else {
 						alert("Neuspesan odustanak rezervacije.");
 					}

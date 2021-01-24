@@ -3,11 +3,7 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/administratori/getSumnjiviKupci',
 		success: function(sumnjiviKupci) {
-			for (let sk of sumnjiviKupci) {
-				 dodajSumnjivKupacRed(sk);
-			}
-			blokirajKorisnika();
-			odblokirajKorisnika();
+			ucitajSumnjiveKupce(sumnjiviKupci);
 		}
 	});
 	
@@ -34,9 +30,13 @@ $(document).ready(function(){
 		$('#tabela tbody').append(tr);
 	};
 	
-	function blokirajKorisnika() {
+	function ucitajSumnjiveKupce(sumnjiviKupci) {
+	
+		for (let k of sumnjiviKupci) {
+			dodajSumnjivKupacRed(k);
+		}
 		
-		$('.blokiraj').on('click', function() {
+		$('#tabela').undelegate('.blokiraj', 'click').delegate('.blokiraj', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -47,23 +47,16 @@ $(document).ready(function(){
 				type: 'PUT',
 				data: korisnickoIme,
 	            contentType: 'text/plain',
-				success: function(korisnici) {
-					if (korisnici !== undefined) {
+				success: function(sumnjiviKupci) {
+					if (sumnjiviKupci !== undefined) {
 						$('#tabela tbody').empty();
-						for (let k of korisnici) {
-							dodajSumnjivKupacRed(k);
-						}
-						blokirajKorisnika();
-						odblokirajKorisnika();
+						ucitajSumnjiveKupce(sumnjiviKupci);
 					}
 				}
 			});
 		});
-	}
-	
-	function odblokirajKorisnika() {
 		
-		$('.odblokiraj').on('click', function() {
+		$('#tabela').undelegate('.odblokiraj', 'click').delegate('.odblokiraj', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -74,14 +67,10 @@ $(document).ready(function(){
 				type: 'PUT',
 				data: korisnickoIme,
 	            contentType: 'text/plain',
-				success: function(korisnici) {
-					if (korisnici !== undefined) {
+				success: function(sumnjiviKupci) {
+					if (sumnjiviKupci !== undefined) {
 						$('#tabela tbody').empty();
-						for (let k of korisnici) {
-							dodajSumnjivKupacRed(k);
-						}
-						blokirajKorisnika();
-						odblokirajKorisnika();
+						ucitajSumnjiveKupce(sumnjiviKupci);
 					}
 				}
 			});

@@ -33,7 +33,6 @@ public class AdminDAO {
     			break;
     		}
     	}
-		
 		if (valid) {
 			korisnici.add(prodavac);
 			PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
@@ -46,7 +45,6 @@ public class AdminDAO {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = false;
-		
 		for (Manifestacija manifestacija : manifestacije) {
 			if (manifestacija.getNaziv().equals(naziv)) {
 				manifestacija.setAktivan(true);
@@ -59,14 +57,12 @@ public class AdminDAO {
 		if (valid) {
 			PomocneFunkcije.upisi(manifestacije, Konstante.FAJL_MANIFESTACIJE);
 		}
-		
 		return manifestacije;
 	}
 	
 	private void azurirajManifestacijeZaProdavca(Manifestacija manifestacija) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
-		
 		for (Korisnik k : korisnici) {
 			if (!k.getManifestacije().isEmpty()) {
 				for (Manifestacija m : k.getManifestacije()) {
@@ -83,7 +79,6 @@ public class AdminDAO {
 	public ArrayList<Korisnik> obrisiKorisnika(String korisnickoIme) throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
 				k.setObrisan(true);
@@ -91,87 +86,55 @@ public class AdminDAO {
 				return korisnici;
 			}
 		}
-		
 		return null;
 	}
 	
 	public ArrayList<Korisnik> blokirajKorisnika(String korisnickoIme) throws IOException {
-		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
-                new TypeReference<ArrayList<Korisnik>>(){});
-		
-		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
-				k.setBlokiran(true);
-				PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
-				return korisnici;
-			}
-		}
-		
-		return null;
+		return blokirajOdblokiraj(korisnickoIme, true);
 	}
 	
 	public ArrayList<Korisnik> odblokirajKorisnika(String korisnickoIme) throws IOException {
+		return blokirajOdblokiraj(korisnickoIme, false);
+	}
+	
+	private ArrayList<Korisnik> blokirajOdblokiraj(String korisnickoIme, boolean blokiraj) 
+			throws IOException {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
-		
 		for (Korisnik k : korisnici) {
 			if (k.getKorisnickoIme().equals(korisnickoIme)) {
-				k.setBlokiran(false);
+				k.setBlokiran(blokiraj);
 				PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
-				return korisnici;
+				break;
 			}
 		}
-		
-		return null;
+		return korisnici;
 	}
 	
 	public ArrayList<Korisnik> blokirajSumnjivogKupca(String korisnickoIme) throws IOException {
-		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
-                new TypeReference<ArrayList<Korisnik>>(){});
-		ArrayList<Korisnik> sumljiviKupci = getSumnjiviKupci();
-		
-		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
-				k.setBlokiran(true);
-				for (Korisnik kupac : sumljiviKupci) {
-					if (kupac.getKorisnickoIme().equals(korisnickoIme)) {
-						kupac.setBlokiran(true);
-						PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
-						return sumljiviKupci;
-					}
-				}
-			}
-		}
-		
-		return null;
+		return blokirajOdblokirajSumnjivogKupca(korisnickoIme, true);
 	}
 	
 	public ArrayList<Korisnik> odblokirajSumnjivogKupca(String korisnickoIme) throws IOException {
-		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
-                new TypeReference<ArrayList<Korisnik>>(){});
-		ArrayList<Korisnik> sumljiviKupci = getSumnjiviKupci();
-		
-		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
-				k.setBlokiran(false);
-				for (Korisnik kupac : sumljiviKupci) {
-					if (kupac.getKorisnickoIme().equals(korisnickoIme)) {
-						kupac.setBlokiran(false);
-						PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
-						return sumljiviKupci;
-					}
-				}
+		return blokirajOdblokirajSumnjivogKupca(korisnickoIme, false);
+	}
+	
+	private ArrayList<Korisnik> blokirajOdblokirajSumnjivogKupca(String korisnickoIme, boolean blokiraj) throws IOException {
+		ArrayList<Korisnik> sumnjiviKupci = getSumnjiviKupci();
+		blokirajOdblokiraj(korisnickoIme, blokiraj);
+		for (Korisnik kupac : sumnjiviKupci) {
+			if (kupac.getKorisnickoIme().equals(korisnickoIme)) {
+				kupac.setBlokiran(blokiraj);
+				break;
 			}
 		}
-		
-		return null;
+		return sumnjiviKupci;
 	}
 	
 	public ArrayList<Korisnik> getSumnjiviKupci() {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Korisnik> sumnjiviKupci = new ArrayList<Korisnik>();
-		
 		for (Korisnik kupac : korisnici) {
 			if (kupac.getUloga().equals(Uloga.KUPAC)) {
 				ArrayList<Karta> otkazaneKarte = new ArrayList<Karta>();

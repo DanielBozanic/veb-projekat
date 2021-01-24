@@ -3,10 +3,7 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/karte/getKarte',
 		success: function(karte) {
-			for (let k of karte) {
-				 dodajKartaRed(k);
-			}
-			obrisiKartu();
+			ucitajKarte(karte);
 		}
 	});
 	
@@ -33,9 +30,12 @@ $(document).ready(function(){
 		$('#tabelaSvihKarti tbody').append(tr);
 	};
 	
-	function obrisiKartu() {
-		
-		$('.obrisi').on('click', function() {
+	function ucitajKarte(karte) {
+		for (let k of karte) {
+			dodajKartaRed(k);
+		}
+
+		$('#tabelaSvihKarti').undelegate('.obrisi', 'click').delegate('.obrisi', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -49,10 +49,7 @@ $(document).ready(function(){
 				success: function(karte) {
 					if (karte !== undefined) {
 						$('#tabelaSvihKarti tbody').empty();
-						for (let k of karte) {
-							dodajKartaRed(k);
-						}
-						obrisiKartu();
+						ucitajKarte(karte);
 					}
 				}
 			});

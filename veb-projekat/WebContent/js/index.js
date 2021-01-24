@@ -1,24 +1,22 @@
 $(document).ready(function() {
 
 	$.get({
-            url: 'rest/korisnici/trenutniKorisnik',
-           	success: function(korisnik) {
-	            	if (korisnik !== undefined) {
-	            		let a = $('<a class="nav-link" href="glavna.html">Glavna stranica</a>');
-						let li = $('<li class="nav-item"></li>');
-						li.append(a);
-						$('#menu').append(li);
-	            	}
-	            }
-	     });
+        url: 'rest/korisnici/trenutniKorisnik',
+       	success: function(korisnik) {
+        	if (korisnik !== undefined) {
+        		let a = $('<a class="nav-link" href="glavna.html">Glavna stranica</a>');
+				let li = $('<li class="nav-item"></li>');
+				li.append(a);
+				$('#menu').append(li);
+        	}
+         }
+	 });
 	
 	$.get({
 		url: 'rest/manifestacije/getAktivneManifestacije',
 		success: function(aktivneManifestacije) {
-			for (let m of aktivneManifestacije) {
-				 dodajManifestacijaRed(m);
-			}
-			selektovanaManifestacija();
+			ucitajManifestacije(aktivneManifestacije);
+			initEvents();
 		}
 	});
 	
@@ -35,9 +33,12 @@ $(document).ready(function() {
 		$('#manifestacije tbody').append(tr);
 	};
 	
-	function selektovanaManifestacija(){
+	function ucitajManifestacije(manifestacije) {
+		for (let m of manifestacije) {
+			dodajManifestacijaRed(m);
+		}
 		
-		$(".selektovana").on("click", function() {
+		$('#manifestacije').undelegate('.selektovana', 'click').delegate('.selektovana', 'click', function() {
 			var self = this;
 			var naziv = $(self).text();
 			
@@ -53,23 +54,24 @@ $(document).ready(function() {
 		});
 	}
 	
-	$('input[name=filter]').on('keyup', function() {
-	 	var filter = $('input[name=filter]').val();
-	 	var opcija = $('select[name=kriterijumFiltriranja]').val();
-	 	if (opcija === 'tipManifestacije') {
-	 		$('#manifestacije tbody tr td:nth-child(2)').filter(function() {
-	 			var red = $(this).parent();
-      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
-    		});
-	 	} else {
-	 		$('#manifestacije tbody tr td:nth-child(3)').filter(function() {
-	 			var red = $(this).parent();
-      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
-    		});
-	 	}
-  	 });
-  	 
-  	$('#btnPretraga').on('click', function() {
+	function initEvents() {
+		$('input[name=filter]').on('keyup', function() {
+		 	var filter = $('input[name=filter]').val();
+		 	var opcija = $('select[name=kriterijumFiltriranja]').val();
+		 	if (opcija === 'tipManifestacije') {
+		 		$('#manifestacije tbody tr td:nth-child(2)').filter(function() {
+		 			var red = $(this).parent();
+	      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+	    		});
+		 	} else {
+		 		$('#manifestacije tbody tr td:nth-child(3)').filter(function() {
+		 			var red = $(this).parent();
+	      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+	    		});
+		 	}
+	  	 });
+	  	 
+	  	$('#btnPretraga').on('click', function() {
 		    var nazivManifestacije = $('input[name=naziv]').val();
 		    var datumOd = Date.parse($('input[name=datumOd]').val());
 		    var datumDo = Date.parse($('input[name=datumDo]').val());
@@ -102,32 +104,29 @@ $(document).ready(function() {
 		        }
 		    });
 		});
-		
-	$('#btnSortiraj').on('click', function() {
-		let kriterijumSortiranja = $('select[name=kriterijumSortiranja]').val();
-		let kriterijumSortiranja2 = $('select[name=kriterijumSortiranja2]').val();
-		$('#manifestacije tbody').empty();
-		
-		$.get({
-		url: 'rest/manifestacije/getSortiraneManifestacije?kriterijumSortiranja=' + kriterijumSortiranja + 
-			'&kriterijumSortiranja2=' + kriterijumSortiranja2,
-		success: function(manifestacije) {
-			for (let m of manifestacije) {
-				 dodajManifestacijaRed(m);
+			
+		$('#btnSortiraj').on('click', function() {
+			let kriterijumSortiranja = $('select[name=kriterijumSortiranja]').val();
+			let kriterijumSortiranja2 = $('select[name=kriterijumSortiranja2]').val();
+			$('#manifestacije tbody').empty();
+			
+			$.get({
+				url: 'rest/manifestacije/getSortiraneManifestacije?kriterijumSortiranja=' + kriterijumSortiranja + 
+					'&kriterijumSortiranja2=' + kriterijumSortiranja2,
+				success: function(manifestacije) {
+					ucitajManifestacije(manifestacije);
 				}
-			selektovanaManifestacija();	
-			}
+			});
 		});
 		
-	});
-	
-	$('#btnClear').on('click', function() {
-		$('input[name=naziv]').val('');
-	    $('input[name=datumOd]').val('');
-	    $('input[name=datumDo]').val('');
-	    $('input[name=gradDrzava]').val('');
-	    $('input[name=cenaOd]').val('');
-	    $('input[name=cenaDo]').val('');
-		$('#manifestacije tbody tr').show();
-	});
+		$('#btnClear').on('click', function() {
+			$('input[name=naziv]').val('');
+		    $('input[name=datumOd]').val('');
+		    $('input[name=datumDo]').val('');
+		    $('input[name=gradDrzava]').val('');
+		    $('input[name=cenaOd]').val('');
+		    $('input[name=cenaDo]').val('');
+			$('#manifestacije tbody tr').show();
+		});
+	}
 });

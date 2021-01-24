@@ -3,12 +3,8 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/korisnici/getKorisnici',
 		success: function(korisnici) {
-			for (let k of korisnici) {
-				 dodajKorisnikRed(k);
-			}
-			obrisiKorisnika();
-			blokirajKorisnika();
-			odblokirajKorisnika();
+			ucitajTabelu(korisnici);
+			initEvents();
 		}
 	});
 	
@@ -48,102 +44,19 @@ $(document).ready(function(){
 		$('#tabela tbody').append(tr);
 	};
 	
-	function obrisiKorisnika() {
-		
-		$('.obrisi').on('click', function() {
-			var self = this;
-			var tdHref = $(self).parent();
-			var row = $(tdHref).parent();
-			var korisnickoIme = $(row).find("td:first").text();
-			
-			$.ajax({
-				url: 'rest/administratori/obrisiKorisnika',
-				type: 'DELETE',
-				data: korisnickoIme,
-	            contentType: 'text/plain',
-				success: function(korisnici) {
-					if (korisnici !== undefined) {
-						$('#tabela tbody').empty();
-						for (let k of korisnici) {
-							dodajKorisnikRed(k);
-						}
-						obrisiKorisnika();
-						blokirajKorisnika();
-						odblokirajKorisnika();
-					}
-				}
-			});
-		});
-	}
-	
-	function blokirajKorisnika() {
-		
-		$('.blokiraj').on('click', function() {
-			var self = this;
-			var tdHref = $(self).parent();
-			var row = $(tdHref).parent();
-			var korisnickoIme = $(row).find("td:first").text();
-			
-			$.ajax({
-				url: 'rest/administratori/blokirajKorisnika',
-				type: 'PUT',
-				data: korisnickoIme,
-	            contentType: 'text/plain',
-				success: function(korisnici) {
-					if (korisnici !== undefined) {
-						$('#tabela tbody').empty();
-						for (let k of korisnici) {
-							dodajKorisnikRed(k);
-						}
-						obrisiKorisnika();
-						blokirajKorisnika();
-						odblokirajKorisnika();
-					}
-				}
-			});
-		});
-	}
-	
-	function odblokirajKorisnika() {
-		
-		$('.odblokiraj').on('click', function() {
-			var self = this;
-			var tdHref = $(self).parent();
-			var row = $(tdHref).parent();
-			var korisnickoIme = $(row).find("td:first").text();
-			
-			$.ajax({
-				url: 'rest/administratori/odblokirajKorisnika',
-				type: 'PUT',
-				data: korisnickoIme,
-	            contentType: 'text/plain',
-				success: function(korisnici) {
-					if (korisnici !== undefined) {
-						$('#tabela tbody').empty();
-						for (let k of korisnici) {
-							dodajKorisnikRed(k);
-						}
-						obrisiKorisnika();
-						blokirajKorisnika();
-						odblokirajKorisnika();
-					}
-				}
-			});
-		});
-	}
-	
-	 $('#filter').on('keyup', function() {
-	 	var filter = $('#filter').val();
-	 	var opcija = $('#kriterijumFilter').val();
-	 	if (opcija === 'uloga') {
-	 		$('#tabela tbody tr td:nth-child(6)').filter(function() {
-	 			var red = $(this).parent();
-      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
-    		});
-	 	}
-  	 });
-
-  	$('#btnPretraga').on('click', function() {
+	function initEvents() {
+	    $('#filter').on('keyup', function() {
+		 	var filter = $('#filter').val();
+		 	var opcija = $('#kriterijumFilter').val();
+		 	if (opcija === 'uloga') {
+		 		$('#tabela tbody tr td:nth-child(6)').filter(function() {
+		 			var red = $(this).parent();
+	      			$(red).toggle($(this).text().toLowerCase().indexOf(filter) > -1)
+	    		});
+		 	}
+  	 	});
+  	 	
+  	 	$('#btnPretraga').on('click', function() {
 		    var korisnickoIme = $('input[name=korisnickoIme]').val();
 		    var ime = $('input[name=ime]').val();
 		    var prezime = $('input[name=prezime]').val();
@@ -169,29 +82,92 @@ $(document).ready(function(){
 		        }
 		    });
 		});
-	
-	
-	$('#btnSortiraj').on('click', function() {
-		let kriterijumSortiranja = $('#kriterijumSortiranja').val();
-		let kriterijumSortiranja2 = $('#kriterijumSortiranja2').val();
-		$('#tabela tbody').empty();
 		
-		$.get({
-		url: 'rest/korisnici/getSortiraneKorisnike?kriterijumSortiranja=' + kriterijumSortiranja + 
-			'&kriterijumSortiranja2=' + kriterijumSortiranja2,
-		success: function(korisnici) {
-			for (let k of korisnici) {
-				 dodajKorisnikRed(k);
+		$('#btnSortiraj').on('click', function() {
+			let kriterijumSortiranja = $('#kriterijumSortiranja').val();
+			let kriterijumSortiranja2 = $('#kriterijumSortiranja2').val();
+			$('#tabela tbody').empty();
+			
+			$.get({
+				url: 'rest/korisnici/getSortiraneKorisnike?kriterijumSortiranja=' + kriterijumSortiranja + 
+					'&kriterijumSortiranja2=' + kriterijumSortiranja2,
+				success: function(korisnici) {
+					ucitajTabelu(korisnici);
 				}
-			}
+			});
 		});
 		
-	});
+		$('#btnClear').on('click', function() {
+			$('input[name=korisnickoIme]').val('');
+			$('input[name=ime]').val('');
+			$('input[name=prezime]').val('');
+			$('#tabela tbody tr').show();
+		});
+	}
 	
-	$('#btnClear').on('click', function() {
-		$('input[name=korisnickoIme]').val('');
-		$('input[name=ime]').val('');
-		$('input[name=prezime]').val('');
-		$('#tabela tbody tr').show();
-	});
+	function ucitajTabelu(korisnici) {
+		for (let k of korisnici) {
+			dodajKorisnikRed(k);
+		}
+		
+		$('#tabela').undelegate('.obrisi', 'click').delegate('.obrisi', 'click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var korisnickoIme = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/obrisiKorisnika',
+				type: 'DELETE',
+				data: korisnickoIme,
+	            contentType: 'text/plain',
+				success: function(korisnici) {
+					if (korisnici !== undefined) {
+						$('#tabela tbody').empty();
+						ucitajTabelu(korisnici);
+					}
+				}
+			});
+		});
+		
+		$('#tabela').undelegate('.blokiraj', 'click').delegate('.blokiraj', 'click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var korisnickoIme = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/blokirajKorisnika',
+				type: 'PUT',
+				data: korisnickoIme,
+	            contentType: 'text/plain',
+				success: function(korisnici) {
+					if (korisnici !== undefined) {
+						$('#tabela tbody').empty();
+						ucitajTabelu(korisnici);
+					}
+				}
+			});
+		});
+		
+		$('#tabela').undelegate('.odblokiraj', 'click').delegate('.odblokiraj', 'click', function() {
+			var self = this;
+			var tdHref = $(self).parent();
+			var row = $(tdHref).parent();
+			var korisnickoIme = $(row).find("td:first").text();
+			
+			$.ajax({
+				url: 'rest/administratori/odblokirajKorisnika',
+				type: 'PUT',
+				data: korisnickoIme,
+	            contentType: 'text/plain',
+				success: function(korisnici) {
+					if (korisnici !== undefined) {
+						$('#tabela tbody').empty();
+						ucitajTabelu(korisnici);
+					}
+				}
+			});
+		});
+	}
 });

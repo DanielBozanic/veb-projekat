@@ -3,10 +3,7 @@ $(document).ready(function(){
     $.get({
 		url: 'rest/komentari/getKomentari',
 		success: function(komentari) {
-			for (let k of komentari) {
-				 dodajKomentarRed(k);
-			}
-			promenaStatusa();
+			ucitajKomentare(komentari);
 		}
 	});
 	
@@ -31,9 +28,12 @@ $(document).ready(function(){
 		$('#komentari tbody').append(tr);
 	};
 	
-	function promenaStatusa(){
+	function ucitajKomentare(komentari) {
+		for (let k of komentari) {
+			dodajKomentarRed(k);
+		}
 		
-		$(".odobri").on("click", function() {
+		$('#komentari').undelegate('.odobri', 'click').delegate('.odobri', 'click', function() {
 			var self = this;
 			var tdHref = $(self).parent();
 			var row = $(tdHref).parent();
@@ -46,10 +46,7 @@ $(document).ready(function(){
 	            contentType: 'text/plain',
 				success: function(komentari) {
 					$('#komentari tbody').empty();
-					for (let k of komentari) {
-						dodajKomentarRed(k);
-					}
-					promenaStatusa();
+					ucitajKomentare(komentari);
 				}
 			});
 		});
