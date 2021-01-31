@@ -20,7 +20,8 @@ public class LoginDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		Korisnik korisnik = null;
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme) && k.getLozinka().equals(lozinka)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && 
+					k.getLozinka().equals(lozinka) && !k.isObrisan()) {
 				korisnik = k;
 				break;
 			}

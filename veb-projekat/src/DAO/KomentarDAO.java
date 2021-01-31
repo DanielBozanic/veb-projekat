@@ -23,7 +23,9 @@ public class KomentarDAO {
 				.ucitaj(new File(Konstante.FAJL_KOMENTARI), new TypeReference<ArrayList<Komentar>>(){});
 		boolean valid = true;
 		for (Komentar k : komentari) {
-			if (k.getKupacKarte().equals(komentar.getKupacKarte())) {
+			if (k.getKupacKarte().equals(komentar.getKupacKarte()) && 
+					k.getManifestacija().getNaziv().equals(komentar.getManifestacija().getNaziv()) && 
+					!k.isObrisan()) {
 				valid = false;
 				break;
 			}

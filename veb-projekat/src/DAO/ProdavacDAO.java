@@ -26,7 +26,7 @@ public class ProdavacDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = true;
 		for (Manifestacija m : manifestacije) {
-			if (m.getNaziv().equals(manifestacija.getNaziv()) || 
+			if (m.getNaziv().toLowerCase().equals(manifestacija.getNaziv().toLowerCase()) || 
 					(m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
 					m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj()))) {
 				if (!m.isObrisana()) {
@@ -48,7 +48,7 @@ public class ProdavacDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		boolean valid = false;
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				k.getManifestacije().add(manifestacija);
 				valid = true;
 				break;
@@ -65,15 +65,16 @@ public class ProdavacDAO {
 		boolean valid = true;
 		for (Manifestacija m : manifestacije) {
 			if (!m.getNaziv().equals(manifestacija.getNaziv()) && 
-				m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
-				m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj())) {
+					m.getDatumIVremeOdrzavanja().equals(manifestacija.getDatumIVremeOdrzavanja()) &&
+					m.getLokacija().getUlicaIBroj().equals(manifestacija.getLokacija().getUlicaIBroj()) &&
+					!m.isObrisana()) {
 				valid = false;
 				break;
 			}
 		}
 		if (valid) {
 			for (Manifestacija m : manifestacije) {
-				if (m.getNaziv().equals(manifestacija.getNaziv())) {
+				if (m.getNaziv().equals(manifestacija.getNaziv()) && !m.isObrisana()) {
 					m.setTipManifestacije(manifestacija.getTipManifestacije());
 					m.setBrojMesta(manifestacija.getBrojMesta());
 					m.setCenaRegularKarte(manifestacija.getCenaRegularKarte());
@@ -96,9 +97,9 @@ public class ProdavacDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Manifestacija> manifestacijeProdavac = new ArrayList<Manifestacija>();
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				for (Manifestacija m : k.getManifestacije()) {
-					if (m.getNaziv().equals(manifestacija.getNaziv())) {
+					if (m.getNaziv().equals(manifestacija.getNaziv()) && !m.isObrisana()) {
 						m.setTipManifestacije(manifestacija.getTipManifestacije());
 						m.setBrojMesta(manifestacija.getBrojMesta());
 						m.setCenaRegularKarte(manifestacija.getCenaRegularKarte());

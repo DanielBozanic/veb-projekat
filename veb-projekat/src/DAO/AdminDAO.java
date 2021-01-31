@@ -27,7 +27,8 @@ public class AdminDAO {
 		boolean valid = true;
 		String povratnaPoruka = "";
 		for (Korisnik k : korisnici) {
-    		if (k.getKorisnickoIme().equals(prodavac.getKorisnickoIme())) {
+    		if (k.getKorisnickoIme().toLowerCase().equals(prodavac.getKorisnickoIme().toLowerCase()) && 
+    				!k.isObrisan()) {
     			valid = false;
     			povratnaPoruka = "Prodavac sa ovim korisnickim imenom vec postoji!";
     			break;
@@ -46,7 +47,7 @@ public class AdminDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = false;
 		for (Manifestacija manifestacija : manifestacije) {
-			if (manifestacija.getNaziv().equals(naziv)) {
+			if (manifestacija.getNaziv().equals(naziv) && !manifestacija.isObrisana()) {
 				manifestacija.setAktivan(true);
 				valid = true;
 				azurirajManifestacijeZaProdavca(manifestacija);
@@ -66,7 +67,7 @@ public class AdminDAO {
 		for (Korisnik k : korisnici) {
 			if (!k.getManifestacije().isEmpty()) {
 				for (Manifestacija m : k.getManifestacije()) {
-					if (m.getNaziv().equals(manifestacija.getNaziv())) {
+					if (m.getNaziv().equals(manifestacija.getNaziv()) && !m.isObrisana()) {
 						m.setAktivan(manifestacija.isAktivan());
 						PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 						return;
@@ -102,7 +103,7 @@ public class AdminDAO {
 		ArrayList<Korisnik> korisnici = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_KORISNICI),
                 new TypeReference<ArrayList<Korisnik>>(){});
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				k.setBlokiran(blokiraj);
 				PomocneFunkcije.upisi(korisnici, Konstante.FAJL_KORISNICI);
 				break;
@@ -123,7 +124,7 @@ public class AdminDAO {
 		ArrayList<Korisnik> sumnjiviKupci = getSumnjiviKupci();
 		blokirajOdblokiraj(korisnickoIme, blokiraj);
 		for (Korisnik kupac : sumnjiviKupci) {
-			if (kupac.getKorisnickoIme().equals(korisnickoIme)) {
+			if (kupac.getKorisnickoIme().equals(korisnickoIme) && !kupac.isObrisan()) {
 				kupac.setBlokiran(blokiraj);
 				break;
 			}
@@ -136,10 +137,10 @@ public class AdminDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Korisnik> sumnjiviKupci = new ArrayList<Korisnik>();
 		for (Korisnik kupac : korisnici) {
-			if (kupac.getUloga().equals(Uloga.KUPAC)) {
+			if (kupac.getUloga().equals(Uloga.KUPAC) && !kupac.isObrisan()) {
 				ArrayList<Karta> otkazaneKarte = new ArrayList<Karta>();
 				for (Karta karta : kupac.getSveKarte()) {
-					if (karta.getStatusKarte().equals(StatusKarte.ODUSTANAK)) {
+					if (karta.getStatusKarte().equals(StatusKarte.ODUSTANAK) && !karta.isObrisana()) {
 						otkazaneKarte.add(karta);
 					}
 				}

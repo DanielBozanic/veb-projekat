@@ -41,6 +41,7 @@ $(document).ready(function() {
 		$("input[name=ulicaIBroj]").val(manifestacija.lokacija.ulicaIBroj);
 		$("input[name=mesto]").val(manifestacija.lokacija.mesto);
 		$("input[name=postanskiBroj]").val(manifestacija.lokacija.postanskiBroj);
+		posterManifestacije = manifestacija.posterManifestacije;
 	}
 	
 	$('#btnIzmeni').on('click', function() {

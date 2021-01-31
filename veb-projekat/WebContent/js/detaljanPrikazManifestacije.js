@@ -57,22 +57,24 @@ $(document).ready(function() {
 					barJednaKarta = true;
 					trenutniKorisnik = korisnik;
 					break;
-				} else {
-					if (trenutnaManifestacija.posterManifestacije === null) {
-						$('#slikaIObjava').hide();
-						if ($('#listaKomentara').hasClass("col-md-5")) {
-							$('#listaKomentara').removeClass("col-md-5");
-						}
-						if (!$('#listaKomentara').hasClass("col-md-9")) {
-							$('#listaKomentara').addClass("col-md-9");
-						}
-					} else {
-						$('#objava').hide();
-					}
 				}
 		}
-		if (!barJednaKarta) {
-			$('#objava').hide();
+		if (trenutnaManifestacija.posterManifestacije === null) {
+			if (!barJednaKarta) {
+				$('#slikaIObjava').hide();
+				if ($('#listaKomentara').hasClass("col-md-5")) {
+					$('#listaKomentara').removeClass("col-md-5");
+				}
+				if (!$('#listaKomentara').hasClass("col-md-9")) {
+					$('#listaKomentara').addClass("col-md-9");
+				}
+			} else {
+				$('#poster').hide();
+			}
+		} else {
+			if (!barJednaKarta) {
+				$('#objava').hide();
+			}
 		}
 	}
 	

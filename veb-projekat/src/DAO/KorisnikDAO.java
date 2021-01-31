@@ -126,7 +126,7 @@ public class KorisnikDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		Korisnik korisnik = null;
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				korisnik = k;
 				break;
 			}
@@ -139,7 +139,7 @@ public class KorisnikDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		Korisnik izmenjenKorisnik = null;
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnik.getKorisnickoIme())) {
+			if (k.getKorisnickoIme().equals(korisnik.getKorisnickoIme()) && !k.isObrisan()) {
 				k.setLozinka(korisnik.getLozinka());
 				k.setIme(korisnik.getIme());
 				k.setPrezime(korisnik.getPrezime());

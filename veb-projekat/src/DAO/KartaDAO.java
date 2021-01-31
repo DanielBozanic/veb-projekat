@@ -44,7 +44,7 @@ public class KartaDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Karta> karteKupca = new ArrayList<Karta>();
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				for (Karta karta : k.getSveKarte()) {
 					if (!karta.isObrisana()) {
 						karteKupca.add(karta);
@@ -62,7 +62,7 @@ public class KartaDAO {
 		ArrayList<Karta> kupciKarte = new ArrayList<Karta>();
 		HashMap<String, Korisnik> kupci = new HashMap<String, Korisnik>();
 		for (Korisnik prodavac : korisnici) {
-			if (prodavac.getKorisnickoIme().equals(prodavacKorisnickoIme)) {
+			if (prodavac.getKorisnickoIme().equals(prodavacKorisnickoIme) && !prodavac.isObrisan()) {
 				manifestacijeProdavac = prodavac.getManifestacije();
 				break;
 			}
@@ -86,7 +86,7 @@ public class KartaDAO {
 	private Korisnik getKupacPoKorisnickomImenu(String korisnickoIme, ArrayList<Korisnik> korisnici) {
 		Korisnik kupac = null;
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				kupac = k;
 				break;
 			}

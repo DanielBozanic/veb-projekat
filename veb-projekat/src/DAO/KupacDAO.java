@@ -30,7 +30,7 @@ public class KupacDAO {
 				.ucitaj(new File(Konstante.FAJL_KORISNICI), new TypeReference<ArrayList<Korisnik>>(){});
 		boolean valid = true;
 		for (Korisnik k : korisnici) {
-    		if (k.getKorisnickoIme().equals(kupac.getKorisnickoIme())) {
+    		if (k.getKorisnickoIme().toLowerCase().equals(kupac.getKorisnickoIme().toLowerCase()) && !k.isObrisan()) {
     			valid = false;
     			break;
     		}
@@ -50,7 +50,7 @@ public class KupacDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<String> ids = generisiIDKarte(karta.getBrojKarata());
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				if (!azurirajManifestaciju(karta)) {
 					break;
 				}
@@ -123,7 +123,7 @@ public class KupacDAO {
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		boolean valid = false;
 		for (Manifestacija m : manifestacije) {
-			if (karta.getManifestacija().getNaziv().equals(m.getNaziv())) {
+			if (karta.getManifestacija().getNaziv().equals(m.getNaziv()) && !m.isObrisana()) {
 				if (karta.getStatusKarte().equals(StatusKarte.REZERVISANA)) {
 					if (karta.getBrojKarata() < m.getBrojMesta()) {
 						m.setBrojMesta(m.getBrojMesta() - karta.getBrojKarata());
@@ -162,7 +162,7 @@ public class KupacDAO {
 		ArrayList<Karta> karteKupca = new ArrayList<Karta>();
 		ArrayList<Karta> validneZaOdustanak = new ArrayList<Karta>();
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				karteKupca = k.getSveKarte();
 				break;
 			}
@@ -192,7 +192,7 @@ public class KupacDAO {
 			}
 		}
 		for (Korisnik korisnik : korisnici) {
-			if (korisnik.getKorisnickoIme().equals(korisnickoIme)) {
+			if (korisnik.getKorisnickoIme().equals(korisnickoIme) && !korisnik.isObrisan()) {
 				for (Karta kartaKorisnika : korisnik.getSveKarte()) {
 					if (kartaKorisnika.getIdentifikatorKarte().equals(idKarte)) {
 						kartaKorisnika.setStatusKarte(StatusKarte.ODUSTANAK);

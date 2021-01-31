@@ -30,7 +30,7 @@ public class ManifestacijaDAO {
                 new TypeReference<ArrayList<Korisnik>>(){});
 		ArrayList<Manifestacija> manifestacijeProdavac = new ArrayList<Manifestacija>();
 		for (Korisnik k : korisnici) {
-			if (k.getKorisnickoIme().equals(korisnickoIme)) {
+			if (k.getKorisnickoIme().equals(korisnickoIme) && !k.isObrisan()) {
 				for (Manifestacija m : k.getManifestacije()) {
 					if (!m.isObrisana()) {
 						manifestacijeProdavac.add(m);
@@ -72,7 +72,7 @@ public class ManifestacijaDAO {
 		ArrayList<Manifestacija> manifestacije = PomocneFunkcije.ucitaj(new File(Konstante.FAJL_MANIFESTACIJE),
                 new TypeReference<ArrayList<Manifestacija>>(){});
 		for (Manifestacija m : manifestacije) {
-			if (m.getNaziv().equals(nazivManifestacije)) {
+			if (m.getNaziv().equals(nazivManifestacije) && !m.isObrisana()) {
 				return m;
 			}
 		}
